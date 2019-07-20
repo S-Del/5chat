@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+
+<html lang="ja">
+
+
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./css/base.css">
+    <meta name="author" content="drrr-py">
+    <title>nodejs_chat</title>
+  </head>
+
+
+  <body>
+    <noscript>
+      <strong>
+        JavaScriptが有効にしてこのページをご利用ください。<br>
+        We're sorry but nodejs_chat doesn't work properly without JavaScript enabled.<wbr>
+        Please enable it to continue.
+      </strong>
+    </noscript>
+
+    <div id="wrapper">
+      <form id="message_form">
+        <label>メッセージ：<input id="input_msg" autocomplete="off"></label>
+        <button>&ensp;送&emsp;信&ensp;</button>
+      </form>
+
+      <hr>
+
+      <ul id="messages">
+      </ul>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/chat.js"></script>
+  <body>
+
+
+</html>
