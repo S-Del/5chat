@@ -1,9 +1,9 @@
 let crypto = require("crypto");
-
 let express = require("express");
 let app = express();
 let server = require("http").Server(app);
 let io = require("socket.io")(server, { cookie: false });
+let users = {};
 const PORT = process.env.PORT || 8080;
 
 server.listen(PORT, () => {
@@ -16,8 +16,6 @@ app.use(express.static("public"));
 app.use((req, res) => {
   res.sendStatus(404);
 });
-
-let users = {};
 
 io.on("connection", (socket) => {
   console.log("---------- " + socket.id + " Connected ----------");
@@ -36,6 +34,9 @@ io.on("connection", (socket) => {
     put_users();
   });
 
+  socket.on("send_to_lounge", (message) => {
+    io.emit("message_lounge", message);
+  });
 });
 
 
@@ -78,7 +79,7 @@ function init_user_info(socket) {
 
 /**
  * ユーザー名変更用
- * トリップが存在する場合は名前に付加する
+ * トリップが入力されている場合は名前に付加する
  */
 function change_name(name, trip) {
   if (!name) {
@@ -117,8 +118,6 @@ function put_users() {
  */
 function kick_duplicate_ip(socket) {
   for (let key in users) {
-    console.log(users[key].ip);
-    console.log(socket.handshake.address);
     if (users[key].ip == socket.handshake.address) {
       socket.emit("ip_alert", "既に同じipが存在するので切断します");
       socket.disconnect(true);
