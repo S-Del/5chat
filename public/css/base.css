@@ -1,4 +1,40 @@
 body {
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(40, 40, 40);
   color: rgb(192, 192, 192);
+}
+
+header {
+  border-bottom: solid 1px rgb(192, 192, 192);
+  margin-bottom: 0.25em;
+
+  background-color: rgb(32, 32, 32);
+}
+
+main {
+  display: flex;
+}
+
+main #room_list_wrapper {
+  flex: 1;
+}
+
+main #lounge_chat_wrapper {
+  max-width: 35%;
+}
+
+.box {
+  background-color: rgb(32, 32, 32);
+  margin: 0.25em;
+  padding: 1em;
+  border: solid 1px rgb(192, 192, 192);
+  border-radius: 1em;
+}
+
+.list_box {
+  list-style: none;
+  background-color: rgb(48, 48, 48);
+  margin: 0.25em;
+  padding: 0.5em;
+  border: solid 1px rgb(192, 192, 192);
+  border-radius: 0.5em;
 }
