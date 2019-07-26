@@ -43,6 +43,7 @@ CentOSやGitなどの操作なども覚えたい
 - [Express での静的ファイルの提供](https://expressjs.com/ja/starter/static-files.html)
 - [Socket.IO  —  Server API | Socket.IO](https://socket.io/docs/server-api/)
 - [Socket.IO  —  Client API | Socket.IO](https://socket.io/docs/client-api/)
+- [Socket.IO  —  Rooms and Namespaces | Socket.IO](https://socket.io/docs/rooms-and-namespaces/)
 - [Node.js + Express + Socket.ioで簡易チャットを作ってみる - Qiita](https://qiita.com/riku-shiru/items/ffba3448f3aff152b6c1)
 - [Crypto | Node.js v12.7.0 Documentation](https://nodejs.org/api/crypto.html)
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
