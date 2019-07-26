@@ -1,8 +1,8 @@
 # nodejs_chat
 Node.jsで簡単なsocket.ioチャットを作りながら勉強中  
 つくりかけごはん  
-__
-CentOSやGitなどの操作なども覚えたい
+  
+並行してCentOSやGitなどの操作なども覚えたい
 
 ## Requirement
 - [express](https://expressjs.com/ja/)
@@ -63,6 +63,7 @@ CentOSやGitなどの操作なども覚えたい
 ### CSS
 - [破綻しにくいCSS設計の法則 15 - Qiita](https://qiita.com/BYODKM/items/b8f545453f656270212a)
 - [HTML5 Reset Stylesheet | HTML5 Doctor](http://html5doctor.com/html-5-reset-stylesheet/)
+- [floatより辛くない「flexbox」でざっくりレイアウト - Qiita](https://qiita.com/hashrock/items/939684b9207dbab1d59e)
 ### Git / Markdown
 - [README.mdファイル。マークダウン記法まとめ | codechord](https://codechord.com/2012/01/readme-markdown/)
 - [READMEの良さそうな書き方・テンプレート【GitHub/Bitbucket】 - karaage. \[からあげ\]](https://karaage.hatenadiary.jp/entry/2018/01/19/073000)
