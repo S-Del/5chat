@@ -20,9 +20,12 @@
  *
  *     <ul id="lounge_chat_list">
  *       <li>
- *         <span>No</span>
- *         <span>名前：</span>
- *         <span>コメント</span>
+ *         <ul class="message_box">
+ *           <li>
+ *             <span>798</span> 名前: <span>名無しさん</span> ID: <span>sdf9879a8</span>
+ *           </li>
+ *           <li>test</li>
+ *         </ul>
  *       </li>
  *     </ul>
  *   </div>
@@ -42,6 +45,12 @@ window.addEventListener("load", () => {
   let room_list_label = document.createElement("h2");
   room_list_label.textContent = "部屋一覧";
   room_list_wrapper.appendChild(room_list_label);
+
+  let add_room_button = document.createElement("button");
+  add_room_button.type = "button";
+  add_room_button.id = "add_room_button";
+  add_room_button.textContent = "部屋を作る";
+  room_list_wrapper.appendChild(add_room_button);
 
   let room_list_hr = document.createElement("hr");
   room_list_wrapper.appendChild(room_list_hr);
@@ -96,8 +105,8 @@ window.addEventListener("load", () => {
   document.getElementById("input_lounge").addEventListener("keyup", (event) => {
     if (event.keyCode === 13) {
       let input_lounge = document.getElementById("input_lounge");
-      let message = input_lounge.value;
-      socket.emit("send_to_lounge", message);
+      let message_text = input_lounge.value;
+      socket.emit("send_to_lounge", message_text);
       input_lounge.value = "";
     }
   });
@@ -105,9 +114,22 @@ window.addEventListener("load", () => {
   // コメントボタンでラウンジチャットにメッセージを送信
   document.getElementById("send_to_lounge_button").addEventListener("click", () => {
     let input_lounge = document.getElementById("input_lounge");
-    let message = input_lounge.value;
-    socket.emit("send_to_lounge", message);
+    let message_text = input_lounge.value;
+    socket.emit("send_to_lounge", message_text);
     input_lounge.value = "";
+  });
+
+  // 部屋を作るボタンが押されたときのイベント
+  document.getElementById("add_room_button").addEventListener("click", () => {
+    const jsFrame = new JSFrame();
+    const frame = jsFrame.create({
+      title: "新規部屋作成",
+      left: 20, top: 20, width: 320, height: 220,
+      movable: true,
+      resizable: true,
+      html: "<div>test</div>"
+    });
+    frame.show();
   });
 
   // ラウンジにメッセージが送られた場合に呼び出されるsocketイベント
@@ -115,7 +137,36 @@ window.addEventListener("load", () => {
     let lounge_chat_list = document.getElementById("lounge_chat_list");
     let new_message = document.createElement("li");
     new_message.className = "list_box";
-    new_message.textContent = message;
     lounge_chat_list.insertBefore(new_message, lounge_chat_list.firstChild)
+
+    let message_box = document.createElement("ul");
+    message_box.className = "message_box";
+    new_message.appendChild(message_box);
+
+    let message_box_content = document.createElement("li");
+    message_box.appendChild(message_box_content);
+
+    let resp_no = document.createElement("span");
+    resp_no.textContent = message.no + " ";
+    message_box_content.appendChild(resp_no);
+
+    let name_label = document.createTextNode("名前：");
+    message_box_content.appendChild(name_label);
+
+    let name = document.createElement("span");
+    name.textContent = message.name + " ";
+    message_box_content.appendChild(name);
+
+    let id_label = document.createTextNode("ID:");
+    message_box_content.appendChild(id_label);
+
+    let id = document.createElement("span");
+    id.textContent = message.id;
+    message_box_content.appendChild(id);
+
+    let content = document.createElement("li");
+    content.className = "message";
+    content.textContent = message.content;
+    message_box_content.appendChild(content);
   });
 });
