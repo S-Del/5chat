@@ -46,11 +46,11 @@ window.addEventListener("load", () => {
   room_list_label.textContent = "部屋一覧";
   room_list_wrapper.appendChild(room_list_label);
 
-  let add_room_button = document.createElement("button");
-  add_room_button.type = "button";
-  add_room_button.id = "add_room_button";
-  add_room_button.textContent = "部屋を作る";
-  room_list_wrapper.appendChild(add_room_button);
+  let create_room_button = document.createElement("button");
+  create_room_button.type = "button";
+  create_room_button.id = "create_room_button";
+  create_room_button.textContent = "部屋を作る";
+  room_list_wrapper.appendChild(create_room_button);
 
   let room_list_hr = document.createElement("hr");
   room_list_wrapper.appendChild(room_list_hr);
@@ -120,14 +120,20 @@ window.addEventListener("load", () => {
   });
 
   // 部屋を作るボタンが押されたときのイベント
-  document.getElementById("add_room_button").addEventListener("click", () => {
+  document.getElementById("create_room_button").addEventListener("click", () => {
     const jsFrame = new JSFrame();
     const frame = jsFrame.create({
       title: "新規部屋作成",
-      left: 20, top: 20, width: 320, height: 220,
+      width: 320, height: 220,
       movable: true,
       resizable: true,
-      html: "<div>test</div>"
+      html: "<label>部屋名<input id='input_room_name'></label>"
+          + "<label>説明<input id='input_room_description'></label>"
+          + "<hr>"
+          + "<button type='button' id='add_room_button'>決定</button>"
+    });
+    frame.on("#add_room_button", "click", (_frame, evt) => {
+      alert("test");
     });
     frame.show();
   });
