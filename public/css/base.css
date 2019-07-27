@@ -1,32 +1,58 @@
 body {
-  background-color: rgb(40, 40, 40);
+  background-color: rgb(64, 64, 64);
   color: rgb(192, 192, 192);
 }
 
-header {
-  border-bottom: solid 1px rgb(192, 192, 192);
-  margin-bottom: 0.25em;
-
+header, footer {
+  padding: 0.5em;
   background-color: rgb(32, 32, 32);
+}
+
+header {
+  margin-bottom: 0.25em;
+}
+
+footer {
+  margin-top: 0.25em;
 }
 
 main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 65vw 1fr;
+  grid-template-rows: 100vh;
 }
 
 main #room_list_wrapper {
-  flex: 1;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
 }
 
 main #lounge_chat_wrapper {
-  max-width: 35%;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+input {
+  background-color: rgb(96, 96, 96);
+  color: rgb(192, 192, 192);
+  border: none;
+  border-radius: 0.25em;
+  margin: 0.25em;
+}
+
+button {
+  background-color: rgb(32, 32, 32);
+  color: rgb(192, 192, 192);
+  border: solid 2px rgb(192, 192, 192);
+  border-radius: 0.25em;
+  margin: 0.25em;
 }
 
 .box {
+  overflow: hidden;
   background-color: rgb(32, 32, 32);
   margin: 0.25em;
   padding: 1em;
-  border: solid 1px rgb(192, 192, 192);
   border-radius: 1em;
 }
 
@@ -35,6 +61,13 @@ main #lounge_chat_wrapper {
   background-color: rgb(48, 48, 48);
   margin: 0.25em;
   padding: 0.5em;
-  border: solid 1px rgb(192, 192, 192);
   border-radius: 0.5em;
+}
+
+.message_box {
+  list-style: none;
+}
+
+.message {
+  margin-left: 0.5em;
 }
