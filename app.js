@@ -3,8 +3,14 @@ let express = require("express");
 let app = express();
 let server = require("http").Server(app);
 let io = require("socket.io")(server, { cookie: false });
-let users = {};
 const PORT = process.env.PORT || 8080;
+
+let users = {};
+let rooms = {};
+let lounge = {
+  part: 1,
+  res_no: 0
+};
 
 server.listen(PORT, () => {
   console.log("Server is Listening. Port: " + PORT);
@@ -34,21 +40,47 @@ io.on("connection", (socket) => {
     put_users();
   });
 
-  socket.on("send_to_lounge", (message) => {
+  socket.on("send_to_lounge", (message_text) => {
+    message_text = message_text.slice(0, 60);
+    if (!validate_message(message_text)) {
+      return;
+    }
+
+    lounge.res_no++;
+    if (lounge.res_no > 1000) {
+      lounge.res_no = 1;
+      lounge.part++;
+    }
+
+    let message = {
+      no: lounge.res_no,
+      name: users[socket.id].name,
+      id: users[socket.id].id,
+      content: message_text
+    };
+
     io.emit("message_lounge", message);
   });
 });
 
 
 /**
- * header等に表示されるユーザー情報を送信して更新する
- * 今のところはユーザー名とIDのみ
+ * ユーザーが入力した文字列を検証する
+ *
+ * 入力に問題が無ければtrue、
+ * 空文字列・空白の連続などであった場合はfalseを返す。
  */
-function update_user_info(socket) {
-  socket.emit("update_user_info", {
-    name: users[socket.id].name,
-    id: users[socket.id].id
-  });
+function validate_message(message_text) {
+  if (!message_text) {
+    return false;
+  }
+
+  let regex = /^[\s\n\r\t]+$/;
+  if (regex.test(message_text)) {
+    return false;
+  }
+
+  return true;
 }
 
 
@@ -78,6 +110,18 @@ function init_user_info(socket) {
 
 
 /**
+ * header等に表示されるユーザー情報を送信して更新する
+ * 今のところはユーザー名とIDのみ
+ */
+function update_user_info(socket) {
+  socket.emit("update_user_info", {
+    name: users[socket.id].name,
+    id: users[socket.id].id
+  });
+}
+
+
+/**
  * ユーザー名変更用
  * トリップが入力されている場合は名前に付加する
  */
@@ -101,7 +145,8 @@ function change_name(name, trip) {
 
 /**
  * 現在接続しているユーザーの情報を表示する
- * id, ip, name等全て表示される
+ * 接続者数が増えるほど重くなる機能（のはず）
+ * name, id, ip等全て表示される
  */
 function put_users() {
   console.log("users:");
