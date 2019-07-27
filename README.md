@@ -48,6 +48,7 @@ Node.jsで簡単なsocket.ioチャットを作りながら勉強中
 - [Crypto | Node.js v12.7.0 Documentation](https://nodejs.org/api/crypto.html)
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
 ### JavaScript
+- [フローティング・ウィンドウ ライブラリ JSFrame.js の紹介 - Qiita](https://qiita.com/riversun/items/1adffa5674bc5123b16d)
 - [document.writeとは？ - Qiita](https://qiita.com/a12345/items/0f9f7df07d0d2cb4f668)
 - [document.writeでscriptを読み込んではいけない - Qiita](https://qiita.com/aya_taka/items/1255909b3db622272cee)
 - [生JSとjQueryの基本操作比較 - Qiita](https://qiita.com/shshimamo/items/ba3a57a81d9780030969)
