@@ -1,6 +1,6 @@
 # nodejs_chat
 Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
-のシンプルなチャットを作りながら勉強中  
+のシンプルなチャットを作成中  
 つくりかけごはん  
   
 並行してCentOSやGitなどの操作なども覚えたい
