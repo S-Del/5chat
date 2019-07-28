@@ -1,13 +1,21 @@
+"use strict";
+
 /**
  * 要素生成
  *
  * <main>
  *   <div id="room_list_wrapper">
  *     <h2>部屋一覧</h2>
+ *     <button type="button">一覧更新</button>
+ *     <button type="button">部屋を作る</button>
  *     <hr>
  *
  *     <ul id="room_list">
- *       <li></li>
+ *       <li>
+ *         <h3>部屋名</h3>
+ *         <hr>
+ *         <span>部屋の説明</span>
+ *       </li>
  *     </ul>
  *   </div>
  *
@@ -46,6 +54,12 @@ window.addEventListener("load", () => {
   room_list_label.textContent = "部屋一覧";
   room_list_wrapper.appendChild(room_list_label);
 
+  let relord_list_button = document.createElement("button");
+  relord_list_button.type = "button";
+  relord_list_button.id = "relord_list_button";
+  relord_list_button.textContent = "一覧を更新";
+  room_list_wrapper.appendChild(relord_list_button);
+
   let create_room_button = document.createElement("button");
   create_room_button.type = "button";
   create_room_button.id = "create_room_button";
@@ -58,13 +72,6 @@ window.addEventListener("load", () => {
   let room_list = document.createElement("ul");
   room_list.id = "room_list";
   room_list_wrapper.appendChild(room_list);
-
-/* ↓TEST↓ */
-  let test_room = document.createElement("li");
-  test_room.className = "list_box";
-  test_room.textContent = "test_room";
-  room_list.appendChild(test_room);
-/* ↑TEST↑ */
 
   // ラウンジチャット部
   let lounge_chat_wrapper = document.createElement("div");
@@ -101,6 +108,66 @@ window.addEventListener("load", () => {
  * 要素やsocketのイベントを設定
  */
 window.addEventListener("load", () => {
+  // 部屋を作るボタンが押されたときのイベント
+  document.getElementById("create_room_button").addEventListener("click", () => {
+    const jsFrame = new JSFrame();
+    const frame = jsFrame.create({
+      title: "新規部屋作成",
+      width: 320, height: 220,
+      movable: true,
+      resizable: true,
+      html: "<label>部屋名<input id='input_room_name'></label>"
+          + "<label>説明<input id='input_room_description'></label>"
+          + "<hr>"
+          + "<button type='button' id='add_room_button'>決定</button>"
+    });
+    frame.on("#add_room_button", "click", (_frame, evt) => {
+      let new_room_info = {
+        input_room_name: document.getElementById("input_room_name").value,
+        input_room_description: document.getElementById("input_room_description").value
+      };
+
+      socket.emit("create_new_room", new_room_info);
+      socket.emit("relord_list");
+      frame.closeFrame();
+    });
+    frame.show();
+  });
+
+  // 一覧を更新ボタンが押されたときのイベント
+  document.getElementById("relord_list_button").addEventListener("click", () => {
+    socket.emit("relord_list");
+  });
+
+  // 部屋一覧表示を更新するソケットイベント
+  socket.on("update_room_list", (rooms) => {
+    let room_list = document.getElementById("room_list");
+    while (room_list.firstChild) {
+      room_list.removeChild(room_list.firstChild);
+    }
+
+    for (let r in rooms) {
+      let room = document.createElement("li");
+      room.id = r;
+      room.className = "list_box"
+      room.addEventListener("click", () => {
+        socket.emit("join_room", r);
+      });
+      room_list.appendChild(room);
+
+      let room_name = document.createElement("h3");
+      room_name.textContent = rooms[r].name;
+      room.appendChild(room_name);
+
+      let hr = document.createElement("hr");
+      room.appendChild(hr);
+
+      let room_desc = document.createElement("span");
+      room_desc.textContent = rooms[r].desc;
+      room.appendChild(room_desc);
+    }
+  });
+
   // ラウンジチャット欄でのエンターキーで入力でメッセージを送信
   document.getElementById("input_lounge").addEventListener("keyup", (event) => {
     if (event.keyCode === 13) {
@@ -117,25 +184,6 @@ window.addEventListener("load", () => {
     let message_text = input_lounge.value;
     socket.emit("send_to_lounge", message_text);
     input_lounge.value = "";
-  });
-
-  // 部屋を作るボタンが押されたときのイベント
-  document.getElementById("create_room_button").addEventListener("click", () => {
-    const jsFrame = new JSFrame();
-    const frame = jsFrame.create({
-      title: "新規部屋作成",
-      width: 320, height: 220,
-      movable: true,
-      resizable: true,
-      html: "<label>部屋名<input id='input_room_name'></label>"
-          + "<label>説明<input id='input_room_description'></label>"
-          + "<hr>"
-          + "<button type='button' id='add_room_button'>決定</button>"
-    });
-    frame.on("#add_room_button", "click", (_frame, evt) => {
-      alert("test");
-    });
-    frame.show();
   });
 
   // ラウンジにメッセージが送られた場合に呼び出されるsocketイベント
