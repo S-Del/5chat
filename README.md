@@ -1,5 +1,6 @@
 # nodejs_chat
-Node.jsで簡単なsocket.ioチャットを作りながら勉強中  
+Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
+のシンプルなチャットを作りながら勉強中  
 つくりかけごはん  
   
 並行してCentOSやGitなどの操作なども覚えたい
@@ -35,6 +36,9 @@ Node.jsで簡単なsocket.ioチャットを作りながら勉強中
 `$ node app.js`  
 
 ## References
+参考にしたサイト等を列挙しています  
+これら以外に色々と読んでいますが、自分の疑問にクリティカルな解答を得られたものだったり、
+"個人的"に役に立ったと感じた記事等を列挙しています。
 ### CentOS7
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
@@ -49,14 +53,14 @@ Node.jsで簡単なsocket.ioチャットを作りながら勉強中
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
 ### JavaScript
 - [フローティング・ウィンドウ ライブラリ JSFrame.js の紹介 - Qiita](https://qiita.com/riversun/items/1adffa5674bc5123b16d)
-- [document.writeとは？ - Qiita](https://qiita.com/a12345/items/0f9f7df07d0d2cb4f668)
-- [document.writeでscriptを読み込んではいけない - Qiita](https://qiita.com/aya_taka/items/1255909b3db622272cee)
 - [生JSとjQueryの基本操作比較 - Qiita](https://qiita.com/shshimamo/items/ba3a57a81d9780030969)
 - [ライブラリを使わない素のJavaScriptでDOM操作 - Qiita](https://qiita.com/kouh/items/dfc14d25ccb4e50afe89)
+- [document.writeとは？ - Qiita](https://qiita.com/a12345/items/0f9f7df07d0d2cb4f668)
+- [document.writeでscriptを読み込んではいけない - Qiita](https://qiita.com/aya_taka/items/1255909b3db622272cee)
 - [【JavaScript入門】addEventListener()によるイベント処理の使い方！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/57625)
 - [【JavaScript入門】onloadイベントの使い方とハマりやすい注意点とは | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/19754)
+- [\[JavaScript\] null とか undefined とか 0 とか 空文字('') とか false とかの判定について - Qiita](https://qiita.com/phi/items/723aa59851b0716a87e3)
 - [JavaScript 正規表現まとめ - Qiita](https://qiita.com/iLLviA/items/b6bf680cd2408edd050f)
-- [\[JavaScript\]null または空文字判定 - Qiita](https://qiita.com/_Hammer0724/items/3d21ef84813ee82e8252)
 - [【JavaScript】 文字列切り出し（slice, substr, substring）の違い - のんびり猫プログラマの日常](http://catprogram.hatenablog.com/entry/2013/05/13/231457)
 - [【JavaScript入門】replaceの文字列置換・正規表現の使い方まとめ！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/21107)
 ### HTML
@@ -65,8 +69,8 @@ Node.jsで簡単なsocket.ioチャットを作りながら勉強中
 ### CSS
 - [破綻しにくいCSS設計の法則 15 - Qiita](https://qiita.com/BYODKM/items/b8f545453f656270212a)
 - [HTML5 Reset Stylesheet | HTML5 Doctor](http://html5doctor.com/html-5-reset-stylesheet/)
-- [floatより辛くない「flexbox」でざっくりレイアウト - Qiita](https://qiita.com/hashrock/items/939684b9207dbab1d59e)
 - [CSS Grid Layout を極める！（基礎編） - Qiita](https://qiita.com/kura07/items/e633b35e33e43240d363)
+- [floatより辛くない「flexbox」でざっくりレイアウト - Qiita](https://qiita.com/hashrock/items/939684b9207dbab1d59e)
 ### Git / Markdown
 - [README.mdファイル。マークダウン記法まとめ | codechord](https://codechord.com/2012/01/readme-markdown/)
 - [READMEの良さそうな書き方・テンプレート【GitHub/Bitbucket】 - karaage. \[からあげ\]](https://karaage.hatenadiary.jp/entry/2018/01/19/073000)
