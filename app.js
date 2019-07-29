@@ -29,25 +29,36 @@ io.on("connection", (socket) => {
   console.log("---------- " + socket.id + " Connected ----------");
   init_user_info(socket);
   socket.emit("update_room_list", rooms);
-  put_users();
 
+  // 切断
   socket.on("disconnect", (reason) => {
     delete users[socket.id];
     console.log("---------- " + socket.id + " Disconnected: " + reason + " ----------");
-    put_users();
   });
 
+  // 名前変更要求
   socket.on("change_name", (name, trip) => {
+    if (is_interval_short(socket)) {
+      return;
+    }
     users[socket.id].name = change_name(name, trip);
     update_user_info(socket);
-    put_users();
   });
 
+  // 部屋一覧更新要求
   socket.on("relord_list", () => {
+    if (is_interval_short(socket)) {
+      return;
+    }
     socket.emit("update_room_list", rooms);
   });
 
+  // 部屋新規作成要求
   socket.on("create_new_room", (new_room_info) => {
+    if (is_interval_short(socket)) {
+      return;
+    }
+
     if (is_blank(new_room_info.input_room_name)) {
       return;
     }
@@ -71,22 +82,43 @@ io.on("connection", (socket) => {
     };
 
     let sha512 = crypto.createHash("sha512");
-    // 要変更(ipと部屋名だけではだめ)
-    sha512.update(users[socket.id].ip + new_room.name);
+    sha512.update(socket.id + new_room.name + Date.now());
     let room_id = sha512.digest("hex");
 
     rooms[room_id] = new_room;
 
     socket.join(room_id);
-//    console.log(rooms[room_id].users);
+    socket.emit("update_room_list", rooms);
   });
 
+  // 部屋参加要求
   socket.on("join_room", (room_id) => {
-    // roomが存在するかを確認
-    console.log(rooms[room_id]);
+    if (!rooms[room_id]) {
+      socket.emit("update_room_list", rooms);
+      return;
+    }
+
+    socket.join(room_id);
+    rooms[room_id].users[socket.id] = {
+      name: users[socket.id].name,
+      id: users[socket.id].id,
+      power: users[socket.id].power
+    }
+    socket.emit("accept_entry_room", rooms[room_id]);
+
+// ↓test↓
+//    console.log(socket.adapter.rooms);
+//    console.log(rooms[room_id].users);
+    put_room_users(room_id);
+// ↑test↑
   });
 
+  // ラウンジチャット発言要求
   socket.on("send_to_lounge", (message_text) => {
+    if (is_interval_short(socket)) {
+      return;
+    }
+
     message_text = message_text.slice(0, 60);
     if (is_blank(message_text)) {
       return;
@@ -133,6 +165,7 @@ function init_user_info(socket) {
     name: name,
     ip: ip,
     id: id,
+    last_input: 0,
     power: 0
   };
 
@@ -150,6 +183,26 @@ function update_user_info(socket) {
     name: users[socket.id].name,
     id: users[socket.id].id
   });
+}
+
+
+/**
+ * ユーザーの送信間隔を検証する
+ *
+ * 連投等の防止用
+ * とりあえず1.5秒としている
+ *
+ * @param {socket} socket : ユーザーを識別するためのソケットオブジェクト
+ * @return {boolean} : 間隔が短い場合はtrue、問題が無ければfalse。
+ */
+function is_interval_short(socket) {
+  let diff = Date.now() - users[socket.id].last_input;
+  if (diff < 1500) {
+    return true;
+  }
+
+  users[socket.id].last_input = Date.now();
+  return false;
 }
 
 
@@ -204,7 +257,9 @@ function change_name(name, trip) {
 
 
 /**
- * 現在接続しているユーザーの情報を表示する
+ * 現在接続しているユーザーの情報を出力する
+ *
+ * 主にテスト用
  * 接続者数が増えるほど重くなる機能（のはず）
  * name, id, ip等全て表示される
  */
@@ -212,6 +267,22 @@ function put_users() {
   console.log("users:");
   console.log(users);
   console.log("-------------------------------------------------------------------------------");
+}
+
+
+/**
+ * 部屋内のユーザーを出力する
+ *
+ * 主にテスト用
+ * @param {string} room_id: 部屋を識別するためのID文字列
+ */
+function put_room_users(room_id) {
+  if (!rooms[room_id]) {
+    console.log("その部屋は存在しません");
+    return;
+  }
+
+  console.log(rooms[room_id].users);
 }
 
 
