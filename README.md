@@ -50,6 +50,7 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [Express での静的ファイルの提供](https://expressjs.com/ja/starter/static-files.html)
 - [実稼働環境における Express のセキュリティーに関するベスト・プラクティス](https://expressjs.com/ja/advanced/best-practice-security.html)
 - [Node.js(Express.js)でセキュリティを設定する(http脆弱性対策はhelmetを使えばOK) - Node.jsで暗号資産アービトラージ](https://www.kennejs.com/entry/2019/01/12/002142)
+- [Socket.IO: the cross-browser WebSocket for realtime apps.](https://jxck.github.io/socket.io/)
 - [Socket.IO  —  Server API | Socket.IO](https://socket.io/docs/server-api/)
 - [Socket.IO  —  Client API | Socket.IO](https://socket.io/docs/client-api/)
 - [Socket.IO  —  Rooms and Namespaces | Socket.IO](https://socket.io/docs/rooms-and-namespaces/)
@@ -84,3 +85,4 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [GitHub での執筆 - GitHub ヘルプ](https://help.github.com/ja/categories/writing-on-github)
 - [Gitでディレクトリ名やファイル名変更 - ゆずめも](https://yuzu441.hateblo.jp/entry/2013/12/27/151233)
 - [Gitのコミットメッセージの書き方 - Qiita](https://qiita.com/itosho/items/9565c6ad2ffc24c09364)
+- [fetch と pullの違い - Qiita](https://qiita.com/ota42y/items/e082d64f3f8b424e9b7d)
