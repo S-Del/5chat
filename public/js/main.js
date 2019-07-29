@@ -117,10 +117,12 @@ window.addEventListener("load", () => {
       movable: true,
       resizable: true,
       html: "<label>部屋名<input id='input_room_name'></label>"
-          + "<label>説明<input id='input_room_description'></label>"
-          + "<hr>"
-          + "<button type='button' id='add_room_button'>決定</button>"
+            + "<label>説明<input id='input_room_description'></label>"
+            + "<hr>"
+            + "<button type='button' id='add_room_button'>決定</button>"
     });
+    frame.show();
+
     frame.on("#add_room_button", "click", (_frame, evt) => {
       let new_room_info = {
         input_room_name: document.getElementById("input_room_name").value,
@@ -131,7 +133,6 @@ window.addEventListener("load", () => {
       socket.emit("relord_list");
       frame.closeFrame();
     });
-    frame.show();
   });
 
   // 一覧を更新ボタンが押されたときのイベント
@@ -166,6 +167,24 @@ window.addEventListener("load", () => {
       room_desc.textContent = rooms[r].desc;
       room.appendChild(room_desc);
     }
+  });
+
+  // 入室した際のウィンドウを表示するソケットイベント
+  socket.on("accept_entry_room", (room) => {
+    const jsFrame = new JSFrame();
+    const frame = jsFrame.create({
+      title: room.name,
+      width: 320, height: 220,
+      movable: true,
+      resizable: true,
+      html: "<input id='input_room'>"
+            + "<button type=button>書き込む</button>"
+            + "<hr>"
+            + "<ul id='room_chat_list'></ul>"
+    });
+    frame.show();
+
+    // つくりかけごはん
   });
 
   // ラウンジチャット欄でのエンターキーで入力でメッセージを送信
