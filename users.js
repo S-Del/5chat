@@ -5,9 +5,15 @@ let crypto = require("crypto");
 
 /**
  * ユーザー情報が格納されるオブジェクト
+ * サーバー(app.js)からは直接アクセスしない(exportsしない)
+ *
+ * name: ユーザーが設定した名前。トリップがある場合は末尾に付加される。
+ * id: IPアドレスから作成されたID
+ * power: ユーザーの勢い
+ * ip: ユーザーのIPアドレス
+ * last_input: 最後にメッセージ等を入力した時刻(ミリ秒)
  */
 let users = {};
-exports.map = users;
 
 
 /**
@@ -38,43 +44,61 @@ let init_user_info = (socket) => {
   };
 
   users[socket.id] = new_user;
-  update_user_info(socket);
 }
 exports.init_user_info = init_user_info;
 
 
 /**
- * header等に表示されるユーザー情報を送信して更新する
- * 今のところはユーザー名とIDのみ
+ * ユーザー情報取得用
  */
-let update_user_info = (socket) => {
-  socket.emit("update_user_info", {
-    name: users[socket.id].name,
-    id: users[socket.id].id
-  });
+let get = (socket_id) => {
+  if (!users[socket_id]) {
+    return;
+  }
+
+  return {
+    name: users[socket_id].name,
+    id: users[socket_id].id,
+    power: users[socket_id].power
+  };
 }
-exports.update_user_info = update_user_info;
+exports.get = get;
+
+
+/**
+ * ユーザー情報削除用
+ * users{}から指定されたsocket.idのユーザーを削除する
+ */
+let delete_user = (socket_id) => {
+  if (!users[socket_id]) {
+    return;
+  }
+
+  delete users[socket_id];
+}
+exports.delete_user = delete_user;
 
 
 /**
  * ユーザー名変更用
  * トリップが入力されている場合は名前に付加する
  */
-let change_name = (name, trip) => {
-  if (is_blank(name)) {
-    name = "名無しさん";
+let change_name = (socket_id, new_name) => {
+  if (is_blank(new_name.name)) {
+    new_name.name = "名無しさん";
   }
-  name = name.slice(0, 16).replace(/◆/g, "■");
+  new_name.name = new_name.name.slice(0, 16).replace(/◆/g, "■");
 
-  if (trip.length >= 3) {
-    let salt = trip.slice(1, 3);
-    let key = crypto.createCipher("des", trip);
-    key.update(trip, "utf-8", "base64");
-    trip = "◆" + key.final("base64").slice(0, 10);
-    name += trip;
+  if (new_name.trip.length >= 3) {
+    let salt = new_name.trip.slice(1, 3);
+    let key = crypto.createCipher("des", salt);
+    key.update(new_name.trip, "utf-8", "base64");
+
+    new_name.trip = "◆" + key.final("base64").slice(0, 10);
+    new_name.name += new_name.trip;
   }
 
-  return name;
+  users[socket_id].name = new_name.name;
 }
 exports.change_name = change_name;
 
@@ -85,16 +109,16 @@ exports.change_name = change_name;
  * 連投等の防止用
  * とりあえず1.5秒としている
  *
- * @param {socket} socket : ユーザーを識別するためのソケットオブジェクト
+ * @param {string} socket_id : ユーザーを識別するためのソケットオブジェクト
  * @return {boolean} : 間隔が短い場合はtrue、問題が無ければfalse。
  */
-let is_interval_short = (socket) => {
-  let diff = Date.now() - users[socket.id].last_input;
+let is_interval_short = (socket_id) => {
+  let diff = Date.now() - users[socket_id].last_input;
   if (diff < 1500) {
     return true;
   }
 
-  users[socket.id].last_input = Date.now();
+  users[socket_id].last_input = Date.now();
   return false;
 }
 exports.is_interval_short = is_interval_short;
@@ -150,13 +174,13 @@ exports.put_all = put_all;
  * 有効、無効を切り替える場合はheader.jsの"ip_alert"イベントも切り替えること
  * ※現在使用していない
  */
-let kick_duplicate_ip = (socket) => {
-  for (let key in users) {
-    if (users[key].ip == socket.handshake.address) {
-      socket.emit("ip_alert", "既に同じipが存在するので切断します");
-      socket.disconnect(true);
-      return;
+let is_duplicate_ip = (ip) => {
+  for (let socket_id in users) {
+    if (users[socket_id].ip == ip) {
+      return true;
     }
   }
+
+  return false;
 }
-exports.kick_duplicate_ip = kick_duplicate_ip;
+exports.is_duplicate_ip = is_duplicate_ip;
