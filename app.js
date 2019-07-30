@@ -3,7 +3,6 @@
 let users = require("./users.js");
 let rooms = require("./rooms.js");
 
-let crypto = require("crypto");
 let express = require("express");
 let helmet = require("helmet");
 let app = express();
@@ -72,23 +71,9 @@ io.on("connection", (socket) => {
       new_room_info.input_room_description = "説明なし";
     }
 
-    let new_room = {
-      name: new_room_info.input_room_name,
-      desc: new_room_info.input_room_description.slice(0, 60),
-      owner: socket.id,
-      res_no: 0,
-      power: 0,
-      users: {}
-    };
-    new_room.users[socket.id] = users.get(socket.id);
-
-    let sha512 = crypto.createHash("sha512");
-    sha512.update(socket.id + new_room.name + Date.now());
-    let room_id = sha512.digest("hex");
-
-    rooms.map[room_id] = new_room;
-
+    let room_id = rooms.create_new_room(new_room_info, socket.id, users.get(socket.id));
     socket.join(room_id);
+    socket.emit("accept_entry_room", rooms.map[room_id]);
     socket.emit("update_room_list", rooms.map);
   });
 
@@ -101,7 +86,7 @@ io.on("connection", (socket) => {
 
     socket.join(room_id);
     rooms.map[room_id].users[socket.id] = users.get(socket.id);
-    socket.emit("accept_entry_room", rooms[room_id]);
+    socket.emit("accept_entry_room", rooms.map[room_id]);
 
     rooms.put_all_users(room_id);
   });
