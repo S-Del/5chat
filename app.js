@@ -1,5 +1,8 @@
 "use strict";
 
+let users = require("./users.js");
+let rooms = require("./rooms.js");
+
 let crypto = require("crypto");
 let express = require("express");
 let helmet = require("helmet");
@@ -18,32 +21,38 @@ server.listen(PORT, () => {
   console.log("Server is Listening. Port: " + PORT);
 });
 
-let users = require("./users.js");
-let rooms = require("./rooms.js");
-
 io.on("connection", (socket) => {
-  console.log("---------- " + socket.id + " Connected ----------");
+//  // 同一IPからの接続を切断
+//  if (is_duplicate_ip(socket.handshake.address)) {
+//    socket.emit("ip_alert", "既に同じipが存在するので切断します");
+//    socket.disconnect(true);
+//  }
+
+  // 接続時の初期処理(ユーザ情報・部屋一覧の更新)
   users.init_user_info(socket);
+  socket.emit("update_header_info", users.get(socket.id));
   socket.emit("update_room_list", rooms.map);
+  console.log("---------- " + socket.id + " Connected ----------");
 
   // 切断
   socket.on("disconnect", (reason) => {
-    delete users.map[socket.id];
+    rooms.delete_user(socket.id);
+    users.delete_user(socket.id);
     console.log("---------- " + socket.id + " Disconnected: " + reason + " ----------");
   });
 
   // 名前変更要求
-  socket.on("change_name", (name, trip) => {
-    if (users.is_interval_short(socket)) {
+  socket.on("change_name", (new_name) => {
+    if (users.is_interval_short(socket.id)) {
       return;
     }
-    users.map[socket.id].name = users.change_name(name, trip);
-    users.update_user_info(socket);
+    users.change_name(socket.id, new_name);
+    socket.emit("update_header_info", users.get(socket.id));
   });
 
   // 部屋一覧更新要求
   socket.on("relord_list", () => {
-    if (users.is_interval_short(socket)) {
+    if (users.is_interval_short(socket.id)) {
       return;
     }
     socket.emit("update_room_list", rooms.map);
@@ -51,7 +60,7 @@ io.on("connection", (socket) => {
 
   // 部屋新規作成要求
   socket.on("create_new_room", (new_room_info) => {
-    if (users.is_interval_short(socket)) {
+    if (users.is_interval_short(socket.id)) {
       return;
     }
 
@@ -71,11 +80,7 @@ io.on("connection", (socket) => {
       power: 0,
       users: {}
     };
-    new_room.users[socket.id] = {
-      name: users.map[socket.id].name,
-      id: users.map[socket.id].id,
-      power: users.map[socket.id].power
-    };
+    new_room.users[socket.id] = users.get(socket.id);
 
     let sha512 = crypto.createHash("sha512");
     sha512.update(socket.id + new_room.name + Date.now());
@@ -95,11 +100,7 @@ io.on("connection", (socket) => {
     }
 
     socket.join(room_id);
-    rooms.map[room_id].users[socket.id] = {
-      name: users.map[socket.id].name,
-      id: users.map[socket.id].id,
-      power: users.map[socket.id].power
-    }
+    rooms.map[room_id].users[socket.id] = users.get(socket.id);
     socket.emit("accept_entry_room", rooms[room_id]);
 
     rooms.put_all_users(room_id);
@@ -107,7 +108,7 @@ io.on("connection", (socket) => {
 
   // ラウンジチャット発言要求
   socket.on("send_to_lounge", (message_text) => {
-    if (users.is_interval_short(socket)) {
+    if (users.is_interval_short(socket.id)) {
       return;
     }
 
@@ -116,19 +117,12 @@ io.on("connection", (socket) => {
       return;
     }
 
-    rooms.lounge.res_no++;
-    if (rooms.lounge.res_no > 1000) {
-      rooms.lounge.res_no = 1;
-      rooms.lounge.part++;
-    }
+    let user_info = users.get(socket.id);
+    user_info.content = message_text;
 
-    let message = {
-      no: rooms.lounge.res_no,
-      name: users.map[socket.id].name,
-      id: users.map[socket.id].id,
-      content: message_text
-    };
+    rooms.update_lounge(user_info);
 
-    io.emit("message_lounge", message);
+    user_info.no = rooms.lounge.messages.length;
+    io.emit("message_lounge", user_info);
   });
 });
