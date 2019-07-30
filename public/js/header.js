@@ -73,30 +73,39 @@ window.addEventListener("load", () => {
   // 名前入力欄でのエンターキー入力で決定する
   document.getElementById("input_name").addEventListener("keyup", (event) => {
     if (event.keyCode === 13) {
-      let name = document.getElementById("input_name").value;
-      let trip = document.getElementById("input_trip").value;
-      socket.emit("change_name", name, trip);
+      let new_name = {
+        name: document.getElementById("input_name").value,
+        trip: document.getElementById("input_trip").value
+      };
+
+      socket.emit("change_name", new_name);
     }
   });
 
   // トリップ入力欄でのエンターキー入力で決定する
   document.getElementById("input_trip").addEventListener("keyup", (event) => {
     if (event.keyCode === 13) {
-      let name = document.getElementById("input_name").value;
-      let trip = document.getElementById("input_trip").value;
-      socket.emit("change_name", name, trip);
+      let new_name = {
+        name: document.getElementById("input_name").value,
+        trip: document.getElementById("input_trip").value
+      };
+
+      socket.emit("change_name", new_name);
     }
   });
 
   // 名前決定ボタン
   document.getElementById("name_send_button").addEventListener("click", () => {
-    let name = document.getElementById("input_name").value;
-    let trip = document.getElementById("input_trip").value;
-    socket.emit("change_name", name, trip);
+    let new_name = {
+      name: document.getElementById("input_name").value,
+      trip: document.getElementById("input_trip").value
+    };
+
+    socket.emit("change_name", new_name);
   });
 
   // 名前やIDが変更された場合に呼び出されるsocketイベント
-  socket.on("update_user_info", (user_info) => {
+  socket.on("update_header_info", (user_info) => {
     document.getElementById("crnt_name").textContent = user_info.name;
     document.getElementById("crnt_id").textContent = user_info.id;
   });
