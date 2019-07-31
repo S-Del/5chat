@@ -72,8 +72,11 @@ io.on("connection", (socket) => {
     }
 
     let room_id = rooms.create_new_room(new_room_info, socket.id, users.get(socket.id));
+
     socket.join(room_id);
-    socket.emit("accept_entry_room", rooms.map[room_id]);
+    console.log("---------- " + socket.id + " Join Room: " + rooms.map[room_id].name + " ----------");
+
+    socket.emit("accept_entry_room", room_id, rooms.map[room_id]);
     socket.emit("update_room_list", rooms.map);
   });
 
@@ -85,10 +88,30 @@ io.on("connection", (socket) => {
     }
 
     socket.join(room_id);
+    console.log("---------- " + socket.id + " Join Room: " + rooms.map[room_id].name + " ----------");
+
     rooms.map[room_id].users[socket.id] = users.get(socket.id);
-    socket.emit("accept_entry_room", rooms.map[room_id]);
+    socket.emit("accept_entry_room", room_id, rooms.map[room_id]);
 
     rooms.put_all_users(room_id);
+  });
+
+  // 部屋発言要求
+  socket.on("send_to_room", (room_message) => {
+    if (users.is_interval_short(socket.id)) {
+      return;
+    }
+
+    room_message.input_room = room_message.input_room.slice(0, 60);
+    if (users.is_blank(room_message.input_room)) {
+      return;
+    }
+
+    room_message.user = users.get(socket.id);
+    rooms.update_room(room_message);
+    room_message.no = rooms.map[room_message.room_id].messages.length;
+
+    io.to(room_message.room_id).emit("message_room", room_message);
   });
 
   // ラウンジチャット発言要求
