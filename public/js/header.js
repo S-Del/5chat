@@ -45,6 +45,8 @@ window.addEventListener("load", () => {
   button.id = "name_send_button";
   button.textContent = "決 定"
   header.appendChild(button);
+  let wbr = document.createElement("wbr");
+  header.appendChild(wbr);
 
   // 状態表示部
   let crnt_status = document.createElement("span");
