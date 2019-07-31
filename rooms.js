@@ -58,7 +58,7 @@ exports.create_new_room = create_new_room;
 
 /**
  * socket.idで指定されたユーザーを全ての部屋から削除する
- * 急な切断等でのdisconnectedの際などに利用する
+ * 急なdisconnected(ブラウザを閉じる等)の際などに利用する
  *
  * @param {string} socket_id: ユーザーを識別するためのsocket.id
  */
@@ -74,7 +74,26 @@ exports.delete_user = delete_user;
 
 
 /**
- * ラウンジチャットにて発言があった時に呼び出される関数
+ * 部屋内で発言があった際に呼び出される関数
+ * 部屋内の情報を更新する
+ *
+ * @param {object} room_message:
+ *   room_id: 部屋を識別するためのID
+ *   user: 発言したユーザーの情報
+ *   input_room: ユーザーが入力したメッセージ文字列
+ */
+let update_room = (room_message) => {
+  let info = {
+    user: room_message.user,
+    message: room_message.input_room
+  };
+  rooms[room_message.room_id].messages.push(info);
+}
+exports.update_room = update_room;
+
+
+/**
+ * ラウンジチャットにて発言があった際に呼び出される関数
  * ユーザ情報、メッセージを保存し、ラウンジ情報を更新する。
  *
  * @param {object} user_info: ラウンジで発言を行ったユーザーとその情報
