@@ -1,4 +1,5 @@
 # nodejs_chat
+![nodejs_chat](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)
 Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
 のシンプルなチャットを作成中  
 つくりかけごはん:rice:  
