@@ -78,6 +78,10 @@ io.on("connection", (socket) => {
 
     socket.emit("accept_entry_room", room_id, rooms.map[room_id]);
     socket.emit("update_room_list", rooms.map);
+
+    // ↓てすと↓
+    rooms.put_all_users(room_id);
+    // ↑てすと↑
   });
 
   // 部屋参加要求
@@ -93,7 +97,9 @@ io.on("connection", (socket) => {
     rooms.map[room_id].users[socket.id] = users.get(socket.id);
     socket.emit("accept_entry_room", room_id, rooms.map[room_id]);
 
+    // ↓てすと↓
     rooms.put_all_users(room_id);
+    // ↑てすと↑
   });
 
   // 部屋発言要求
@@ -112,6 +118,24 @@ io.on("connection", (socket) => {
     room_message.no = rooms.map[room_message.room_id].messages.length;
 
     io.to(room_message.room_id).emit("message_room", room_message);
+  });
+
+  // 退室要求
+  socket.on("leave_room", (room_id) => {
+    if (!rooms.map[room_id]) {
+      console.log("returnしちゃっています！");
+      return;
+    }
+
+    delete rooms.map[room_id].users[socket.id];
+    socket.leave(room_id);
+    console.log("---------- " + socket.id + " Leave Room: " + rooms.map[room_id].name + " ----------");
+    // ここで部屋に誰も居ないか確認が必要
+
+
+    // ↓てすと↓
+    rooms.put_all_users(room_id);
+    // ↑てすと↑
   });
 
   // ラウンジチャット発言要求
