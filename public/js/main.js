@@ -125,7 +125,7 @@ window.addEventListener("load", () => {
       room.id = room_id;
       room.className = "list_box room_list_box"
 
-      // 部屋がクリックされたときのイベント
+      // 部屋がクリックされたときのイベントを各部屋に設定
       room.addEventListener("click", () => {
         socket.emit("join_room", room_id);
       });
@@ -201,6 +201,12 @@ window.addEventListener("load", () => {
             input_room: frame.$("#input_room").value
           }
           socket.emit("send_to_room", room_message);
+        });
+
+        // 閉じるボタンが押された場合のソケットイベント
+        frame.on("closeButton", "click", (_frame, evt) => {
+          socket.emit("leave_room", room_id);
+          frame.closeFrame();
         });
 
         // 部屋当てのメッセージを受け取った時のソケットイベント
