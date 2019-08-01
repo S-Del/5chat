@@ -123,7 +123,7 @@ window.addEventListener("load", () => {
     for (let room_id in rooms) {
       let room = document.createElement("li");
       room.id = room_id;
-      room.className = "list_box"
+      room.className = "list_box room_list_box"
 
       // 部屋がクリックされたときのイベント
       room.addEventListener("click", () => {
