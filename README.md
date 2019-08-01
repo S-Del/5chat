@@ -81,9 +81,11 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [HTML5 Reset Stylesheet | HTML5 Doctor](http://html5doctor.com/html-5-reset-stylesheet/)
 - [CSS Grid Layout を極める！（基礎編） - Qiita](https://qiita.com/kura07/items/e633b35e33e43240d363)
 - [floatより辛くない「flexbox」でざっくりレイアウト - Qiita](https://qiita.com/hashrock/items/939684b9207dbab1d59e)
-### Git / Markdown
+### Git / README / Markdown
 - [README.mdファイル。マークダウン記法まとめ | codechord](https://codechord.com/2012/01/readme-markdown/)
 - [READMEの良さそうな書き方・テンプレート【GitHub/Bitbucket】 - karaage. \[からあげ\]](https://karaage.hatenadiary.jp/entry/2018/01/19/073000)
+- [Markdownで画像を表示する](https://gist.github.com/Tatzyr/3847141)
+- [ffmpegでとにかく綺麗なGIFを作りたい - Qiita](https://qiita.com/yusuga/items/ba7b5c2cac3f2928f040)
 - [GitHub での執筆 - GitHub ヘルプ](https://help.github.com/ja/categories/writing-on-github)
 - [Gitでディレクトリ名やファイル名変更 - ゆずめも](https://yuzu441.hateblo.jp/entry/2013/12/27/151233)
 - [Gitのコミットメッセージの書き方 - Qiita](https://qiita.com/itosho/items/9565c6ad2ffc24c09364)
