@@ -1,13 +1,12 @@
 /**
  * 要素生成
+ *
  * <footer>
  *   <small>
  *     (C) 2019 
- *     <address>
- *       <a href="https://github.com/S-Del" target="_blank">
- *         S-Del
- *       </a>
- *     </address>
+ *     <a href="https://github.com/S-Del" target="_blank">
+ *       S-Del
+ *     </a>
  *   </small>
  * </footer>
  */
