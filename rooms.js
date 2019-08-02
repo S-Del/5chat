@@ -74,7 +74,9 @@ exports.delete_user = delete_user;
 
 
 /**
+ * ユーザーが1名も存在しない部屋であれば削除する
  *
+ * @param {string} room_id: 部屋を識別するための固有ID
  */
 let delete_empty_room = (room_id) => {
   if (!Object.keys(rooms[room_id].users).length) {
