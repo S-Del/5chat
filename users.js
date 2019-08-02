@@ -81,7 +81,12 @@ exports.delete_user = delete_user;
 
 /**
  * ユーザー名変更用
- * トリップが入力されている場合は名前に付加する
+ *
+ * 名前が空欄(又は初期値)の場合は「名無しさん」とする
+ * トリップが入力されている場合は生成して名前に付加する
+ *
+ * @param {string} socket_id ユーザーを識別するための個別ID
+ * @param {object} ユーザーが入力したnameとtripを格納するオブジェクト
  */
 let change_name = (socket_id, new_name) => {
   if (is_blank(new_name.name)) {
@@ -170,9 +175,13 @@ exports.put_all = put_all;
 
 /**
  * 同一IPからの接続を切断する
+ *
  * 接続者数が増えるほど重くなる機能（のはず）
  * 有効、無効を切り替える場合はheader.jsの"ip_alert"イベントも切り替えること
  * ※現在使用していない
+ *
+ * @param {string} ip: ユーザーのIPアドレス。socket.handshake.addressから取得
+ * @return 重複したipが存在する場合はtrue、存在しなければfalse
  */
 let is_duplicate_ip = (ip) => {
   for (let socket_id in users) {
