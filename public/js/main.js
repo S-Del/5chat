@@ -66,6 +66,14 @@ window.addEventListener("load", () => {
   create_room_button.textContent = "部屋を作る";
   room_list_wrapper.appendChild(create_room_button);
 
+  let room_count_label = document.createElement("span");
+  room_count_label.textContent = "現在の部屋数: ";
+  room_list_wrapper.appendChild(room_count_label);
+
+  let room_count = document.createElement("span");
+  room_count.id = "room_count";
+  room_list_wrapper.appendChild(room_count);
+
   let room_list_hr = document.createElement("hr");
   room_list_wrapper.appendChild(room_list_hr);
 
@@ -95,7 +103,7 @@ window.addEventListener("load", () => {
   let send_to_lounge_button = document.createElement("button");
   send_to_lounge_button.type = "button";
   send_to_lounge_button.id = "send_to_lounge_button";
-  send_to_lounge_button.textContent = "コメント";
+  send_to_lounge_button.textContent = "書き込む";
   lounge_chat_wrapper.appendChild(send_to_lounge_button);
 
   let lounge_chat_list = document.createElement("ul");
@@ -115,11 +123,17 @@ window.addEventListener("load", () => {
 
   // 部屋一覧表示を更新するソケットイベント
   socket.on("update_room_list", (rooms) => {
+    // 現在の部屋数表示を更新
+    let room_count = document.getElementById("room_count");
+    room_count.textContent = Object.keys(rooms).length;
+
+    // 既に表示されている部屋を一旦すべて消去
     let room_list = document.getElementById("room_list");
     while (room_list.firstChild) {
       room_list.removeChild(room_list.firstChild);
     }
 
+    // 新しく得た部屋一覧を全て表示
     for (let room_id in rooms) {
       let room = document.createElement("li");
       room.id = room_id;
@@ -252,10 +266,8 @@ window.addEventListener("load", () => {
         });
       }
     });
+
     frame.show();
-
-    // ウィンドウを閉じた際の退出処理はつくりかけごはん
-
   });
 
   // ラウンジチャット欄でのエンターキーで入力でメッセージを送信
