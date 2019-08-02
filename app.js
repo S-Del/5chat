@@ -123,19 +123,15 @@ io.on("connection", (socket) => {
   // 退室要求
   socket.on("leave_room", (room_id) => {
     if (!rooms.map[room_id]) {
-      console.log("returnしちゃっています！");
       return;
     }
 
     delete rooms.map[room_id].users[socket.id];
     socket.leave(room_id);
     console.log("---------- " + socket.id + " Leave Room: " + rooms.map[room_id].name + " ----------");
-    // ここで部屋に誰も居ないか確認が必要
 
-
-    // ↓てすと↓
-    rooms.put_all_users(room_id);
-    // ↑てすと↑
+    rooms.delete_empty_room(room_id);
+    socket.emit("update_room_list", rooms.map);
   });
 
   // ラウンジチャット発言要求

@@ -10,8 +10,8 @@ let crypto = require("crypto");
  * desc: 部屋の説明
  * owner: 部屋の作成者
  * power: 部屋の勢い
- * users: 部屋内のユーザー
- * messages: 部屋内のメッセージ
+ * users{}: 部屋内のユーザー
+ * messages[]: 部屋内のメッセージ
  */
 let rooms = {};
 exports.map = rooms;
@@ -71,6 +71,18 @@ let delete_user = (socket_id) => {
   }
 }
 exports.delete_user = delete_user;
+
+
+/**
+ *
+ */
+let delete_empty_room = (room_id) => {
+  if (!Object.keys(rooms[room_id].users).length) {
+    console.log("---------- Delete room: " + rooms[room_id].name + " is Empty ----------");
+    delete rooms[room_id];
+  }
+}
+exports.delete_empty_room = delete_empty_room;
 
 
 /**
