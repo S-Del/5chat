@@ -57,6 +57,7 @@ let create_new_room = (new_room_info, socket_id, owner_info) => {
   let room_id = sha512.digest("hex");
 
   rooms[room_id] = new_room;
+  console.log("---------- Create Room: " + rooms[room_id].name + " ----------");
 
   return room_id;
 };

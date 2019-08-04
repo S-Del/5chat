@@ -72,16 +72,10 @@ io.on("connection", (socket) => {
     }
 
     let room_id = rooms.create_new_room(new_room_info, socket.id, users.get(socket.id));
-
     socket.join(room_id);
-    console.log("---------- " + socket.id + " Join Room: " + rooms.map[room_id].name + " ----------");
 
     socket.emit("accept_entry_room", room_id, rooms.map[room_id]);
     socket.emit("update_room_list", rooms.map);
-
-    // ↓てすと↓
-    rooms.put_all_users(room_id);
-    // ↑てすと↑
   });
 
   // 部屋参加要求
