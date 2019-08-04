@@ -145,8 +145,16 @@ window.addEventListener("load", () => {
       room.appendChild(room_name);
 
       let num_of_people = document.createElement("span");
-      num_of_people.textContent = "人数：" + Object.keys(rooms[room_id].users).length;
+      num_of_people.textContent = "人数: " + Object.keys(rooms[room_id].users).length + " ";
       room.appendChild(num_of_people);
+
+      // コメント数
+      let num_of_comment = document.createElement("span");
+      num_of_comment.textContent = "書き込み数: " + rooms[room_id].messages.length + " ";
+      room.appendChild(num_of_comment);
+
+      // 勢い
+
 
       let hr = document.createElement("hr");
       room.appendChild(hr);
