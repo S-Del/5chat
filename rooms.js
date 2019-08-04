@@ -31,7 +31,14 @@ exports.lounge = lounge;
  * 新しい部屋が作成されたときの処理
  * その部屋のオーナー情報と共にrooms{}に格納される
  *
- * @param {object} new_room_info: 部屋作成ユーザーが入力した部屋名等
+ * @param {object} new_room_info:
+ *   {string} input_room_name: ユーザーが入力した部屋名
+ *   {string} input_room_description: ユーザが入力した部屋の説明
+ * @param {string} socket_id: オーナーのsocket.id
+ * @param {object} owner_info:
+ *   {string} name: ユーザー名
+ *   {string} id: ユーザーID
+ *   {string} power: ユーザーの勢い
  * @return {string} room_id: 新しく作成した部屋のID
  */
 let create_new_room = (new_room_info, socket_id, owner_info) => {
