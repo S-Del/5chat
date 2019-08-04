@@ -138,16 +138,15 @@ window.addEventListener("load", () => {
       let room = document.createElement("li");
       room.id = room_id;
       room.className = "list_box room_list_box"
-
-      // 部屋がクリックされたときのイベントを各部屋に設定
-      room.addEventListener("click", () => {
-        socket.emit("join_room", room_id);
-      });
       room_list.appendChild(room);
 
       let room_name = document.createElement("h3");
       room_name.textContent = rooms[room_id].name;
       room.appendChild(room_name);
+
+      let num_of_people = document.createElement("span");
+      num_of_people.textContent = "人数：" + Object.keys(rooms[room_id].users).length;
+      room.appendChild(num_of_people);
 
       let hr = document.createElement("hr");
       room.appendChild(hr);
@@ -155,6 +154,11 @@ window.addEventListener("load", () => {
       let room_desc = document.createElement("span");
       room_desc.textContent = rooms[room_id].desc;
       room.appendChild(room_desc);
+
+      // 部屋がクリックされたときのイベントを各部屋に設定
+      room.addEventListener("click", () => {
+        socket.emit("join_room", room_id);
+      });
     }
   });
 
