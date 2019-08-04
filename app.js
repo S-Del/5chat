@@ -91,6 +91,10 @@ io.on("connection", (socket) => {
       return;
     }
 
+    if (rooms.map[room_id].users[socket.id]) {
+      return;
+    }
+
     socket.join(room_id);
     console.log("---------- " + socket.id + " Join Room: " + rooms.map[room_id].name + " ----------");
 
