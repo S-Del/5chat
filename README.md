@@ -7,9 +7,9 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 並行してCentOSやGitなどの操作なども覚えたい
 
 ## Requirement
-- [express](https://expressjs.com/ja/)([リポジトリ](https://github.com/expressjs/expressjs.com))
-- [Helmet](https://helmetjs.github.io/)([リポジトリ](https://github.com/helmetjs/helmet))
-- [socket.io](https://socket.io/)([リポジトリ](https://github.com/socketio/socket.io))
+- [express ](https://expressjs.com/ja/)([リポジトリ](https://github.com/expressjs/expressjs.com))
+- [Helmet ](https://helmetjs.github.io/)([リポジトリ](https://github.com/helmetjs/helmet))
+- [socket.io ](https://socket.io/)([リポジトリ](https://github.com/socketio/socket.io))
 
 ## Setup
 - [Node.js](https://nodejs.org/ja/)
