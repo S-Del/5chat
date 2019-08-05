@@ -13,9 +13,8 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 
 ## Setup
 - [Node.js](https://nodejs.org/ja/)
-- [npm](https://www.npmjs.com/)
-- [npmリポジトリ](https://github.com/npm/cli)
-- [nvmリポジトリ](https://github.com/nvm-sh/nvm)
+- [npm ](https://www.npmjs.com/)([リポジトリ](https://github.com/npm/cli))
+- [nvm (リポジトリ)](https://github.com/nvm-sh/nvm)
 1. `$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/vx.x.x/install.sh | bash` <- vx.x.xはnvmのページにて確認
 2. `$ source ~/.bashrc`
 3. `$ nvm --version`
