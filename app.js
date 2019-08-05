@@ -94,10 +94,7 @@ io.on("connection", (socket) => {
 
     rooms.map[room_id].users[socket.id] = users.get(socket.id);
     socket.emit("accept_entry_room", room_id, rooms.map[room_id]);
-
-    // ↓てすと↓
-    rooms.put_all_users(room_id);
-    // ↑てすと↑
+    io.to(room_id).emit("update_nop", Object.keys(rooms.map[room_id].users).length);
   });
 
   // 部屋発言要求
@@ -127,6 +124,7 @@ io.on("connection", (socket) => {
     delete rooms.map[room_id].users[socket.id];
     socket.leave(room_id);
     console.log("---------- " + socket.id + " Leave Room: " + rooms.map[room_id].name + " ----------");
+    io.to(room_id).emit("update_nop", Object.keys(rooms.map[room_id].users).length);
 
     rooms.delete_empty_room(room_id);
     socket.emit("update_room_list", rooms.map);

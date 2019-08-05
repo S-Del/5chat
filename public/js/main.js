@@ -220,7 +220,10 @@ window.addEventListener("load", () => {
       resizable: true,
       url: "/html/room.html",
       urlLoaded: (_frame) => {
-        // ウィンドウ内の書き込むボタンが押された際のソケットイベント
+        // 人数表示
+        frame.$("#num_of_people").textContent = Object.keys(room.users).length;
+
+        // ウィンドウ内の書き込むボタンが押された際のイベント
         frame.on("#send_to_room_button", "click", (_frame, evt) => {
           let room_message = {
             room_id: room_id,
@@ -229,11 +232,16 @@ window.addEventListener("load", () => {
           socket.emit("send_to_room", room_message);
         });
 
-        // 閉じるボタンが押された場合のソケットイベント
+        // 閉じるボタンが押された場合のイベント
         frame.on("closeButton", "click", (_frame, evt) => {
           socket.emit("leave_room", room_id);
           frame.closeFrame();
         });
+
+        // 入退室者があった場合の人数更新のソケットイベント
+        socket.on("update_nop", (num_of_people) => {
+          frame.$("#num_of_people").textContent = num_of_people;
+        })
 
         // 部屋当てのメッセージを受け取った時のソケットイベント
         socket.on("message_room", (room_message) => {
