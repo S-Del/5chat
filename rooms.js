@@ -9,6 +9,7 @@ let crypto = require("crypto");
  * name: 部屋名
  * desc: 部屋の説明
  * owner: 部屋の作成者
+ * created: 部屋が作られた時間(ミリ秒)
  * power: 部屋の勢い
  * users{}: 部屋内のユーザー
  * messages[]: 部屋内のメッセージ
@@ -46,6 +47,7 @@ let create_new_room = (new_room_info, socket_id, owner_info) => {
     name: new_room_info.input_room_name,
     desc: new_room_info.input_room_description.slice(0, 60),
     owner: socket_id,
+    created: Date.now(),
     power: 0,
     users: {},
     messages: []
@@ -112,6 +114,16 @@ let update_room = (room_message) => {
   rooms[room_message.room_id].messages.push(info);
 }
 exports.update_room = update_room;
+
+
+/**
+ * 部屋の勢いの値を更新する
+ */
+let update_power = (room_id) => {
+  let diff = (Date.now() - rooms[room_id].created) / 1000 / 60;
+  rooms[room_id].power = rooms[room_id].messages.length / diff;
+}
+exports.update_power = update_power;
 
 
 /**

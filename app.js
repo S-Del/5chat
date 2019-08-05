@@ -111,6 +111,8 @@ io.on("connection", (socket) => {
     room_message.user = users.get(socket.id);
     rooms.update_room(room_message);
     room_message.no = rooms.map[room_message.room_id].messages.length;
+    rooms.update_power(room_message.room_id);
+    room_message.power = rooms.map[room_message.room_id].power;
 
     io.to(room_message.room_id).emit("message_room", room_message);
   });

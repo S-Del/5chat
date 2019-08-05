@@ -148,13 +148,13 @@ window.addEventListener("load", () => {
       num_of_people.textContent = "人数: " + Object.keys(rooms[room_id].users).length + " ";
       room.appendChild(num_of_people);
 
-      // コメント数
       let num_of_comment = document.createElement("span");
       num_of_comment.textContent = "書き込み数: " + rooms[room_id].messages.length + " ";
       room.appendChild(num_of_comment);
 
-      // 勢い
-
+      let room_power = document.createElement("span");
+      room_power.textContent = "勢い: " + rooms[room_id].power.toFixed(1) + " ";
+      room.appendChild(room_power);
 
       let hr = document.createElement("hr");
       room.appendChild(hr);
@@ -223,6 +223,9 @@ window.addEventListener("load", () => {
         // 人数表示
         frame.$("#num_of_people").textContent = Object.keys(room.users).length;
 
+        // 勢い表示
+        frame.$("#room_power").textContent = room.power.toFixed(1);
+
         // ウィンドウ内の書き込むボタンが押された際のイベント
         frame.on("#send_to_room_button", "click", (_frame, evt) => {
           let room_message = {
@@ -248,6 +251,8 @@ window.addEventListener("load", () => {
           if (room_id != room_message.room_id) {
             return;
           }
+
+          frame.$("#room_power").textContent = room_message.power.toFixed(1);
 
           let room_chat_list = frame.$("#room_chat_list");
           let new_message = document.createElement("li");
