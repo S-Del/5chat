@@ -188,6 +188,34 @@ window.addEventListener("load", () => {
       resizable: true,
       url: "/html/create_room.html",
       urlLoaded: (_frame) => {
+        // 書き込み欄でのエンターキーで部屋を作成
+        frame.on("#input_room_name", "keyup", (_frame, evt) => {
+          if (evt.keyCode != 13) {
+            return;
+          }
+
+          let new_room_info = {
+            input_room_name: frame.$("#input_room_name").value,
+            input_room_description: frame.$("#input_room_description").value
+          };
+          socket.emit("create_new_room", new_room_info);
+          frame.closeFrame();
+        });
+
+        // 説明入力欄でのエンターキー入力で部屋を作成
+        frame.on("#input_room_description", "keyup", (_frame, evt) => {
+          if (evt.keyCode != 13) {
+            return;
+          }
+
+          let new_room_info = {
+            input_room_name: frame.$("#input_room_name").value,
+            input_room_description: frame.$("#input_room_description").value
+          };
+          socket.emit("create_new_room", new_room_info);
+          frame.closeFrame();
+        });
+
         // ウィンドウ内の作るボタンが押されたときのソケットイベント
         frame.on("#add_room_button", "click", (_frame, evt) => {
           let new_room_info = {
@@ -225,6 +253,19 @@ window.addEventListener("load", () => {
 
         // 勢い表示
         frame.$("#room_power").textContent = room.power.toFixed(1);
+
+        // 書き込み欄でのエンターキーで入力メッセージを送信
+        frame.on("#input_room", "keyup", (_frame, evt) => {
+          if (evt.keyCode != 13) {
+            return;
+          }
+
+          let room_message = {
+            room_id: room_id,
+            input_room: frame.$("#input_room").value
+          }
+          socket.emit("send_to_room", room_message);
+        });
 
         // ウィンドウ内の書き込むボタンが押された際のイベント
         frame.on("#send_to_room_button", "click", (_frame, evt) => {
@@ -295,14 +336,16 @@ window.addEventListener("load", () => {
     frame.show();
   });
 
-  // ラウンジチャット欄でのエンターキーで入力でメッセージを送信
+  // ラウンジチャット欄でのエンターキーで入力メッセージを送信
   document.getElementById("input_lounge").addEventListener("keyup", (event) => {
-    if (event.keyCode === 13) {
-      let input_lounge = document.getElementById("input_lounge");
-      let message_text = input_lounge.value;
-      socket.emit("send_to_lounge", message_text);
-      input_lounge.value = "";
+    if (event.keyCode != 13) {
+      return;
     }
+
+    let input_lounge = document.getElementById("input_lounge");
+    let message_text = input_lounge.value;
+    socket.emit("send_to_lounge", message_text);
+    input_lounge.value = "";
   });
 
   // コメントボタンでラウンジチャットにメッセージを送信
