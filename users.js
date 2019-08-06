@@ -53,6 +53,10 @@ exports.init_user_info = init_user_info;
 
 /**
  * ユーザー情報取得用
+ *
+ * headerの表示や発言の表示などに必要な情報のみ返却する(ipアドレスなどは返却しない)
+ *
+ * @params {string} socket_id: ユーザーを指定するためのsocket.id
  */
 let get = (socket_id) => {
   if (!users[socket_id]) {
@@ -71,12 +75,23 @@ exports.get = get;
 /**
  * ユーザー情報削除用
  * users{}から指定されたsocket.idのユーザーを削除する
+ *
+ * @params {string} socket_id: ユーザを識別するsocket.id
+ * @params {string} reason: 切断理由
  */
-let delete_user = (socket_id) => {
+let delete_user = (socket_id, reason) => {
   if (!users[socket_id]) {
     return;
   }
 
+  console.log("---------- "
+              + users[socket_id].ip
+              + "("
+              + socket_id
+              + ")"
+              + " Delete: "
+              + reason
+              + " ----------");
   delete users[socket_id];
 }
 exports.delete_user = delete_user;

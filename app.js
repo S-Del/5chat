@@ -35,8 +35,7 @@ io.on("connection", (socket) => {
   // 切断
   socket.on("disconnect", (reason) => {
     rooms.delete_user(socket.id);
-    users.delete_user(socket.id);
-    console.log("---------- " + socket.id + " Disconnected: " + reason + " ----------");
+    users.delete_user(socket.id, reason);
   });
 
   // 名前変更要求
