@@ -43,9 +43,17 @@ exports.lounge = lounge;
  * @return {string} room_id: 新しく作成した部屋のID
  */
 let create_new_room = (new_room_info, socket_id, owner_info) => {
+  if (new_room_info.input_room_name.length > 30) {
+    new_room_info.input_room_name = new_room_info.input_room_name.slice(0, 29) + "…";
+  }
+
+  if (new_room_info.input_room_description.length > 60) {
+    new_room_info.input_room_description = new_room_info.input_room_description.slice(0, 59) + "…";
+  }
+
   let new_room = {
     name: new_room_info.input_room_name,
-    desc: new_room_info.input_room_description.slice(0, 60),
+    desc: new_room_info.input_room_description,
     owner: socket_id,
     created: Date.now(),
     power: 0,
