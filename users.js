@@ -19,36 +19,34 @@ let users = {};
 
 
 /**
- * 接続が確立した時のユーザー情報初期化用
- * ユーザー名とIDを設定してクライアントに送信する
- * 設定したユーザー情報はmap{}に保存される
+ * 接続が確立したユーザー情報初期と保存を行う
+ * 初期デフォルトユーザー名とIDを設定してusers{}に保存する
+ * IDはipアドレスに日付を付加したものをハッシュ化した文字列の一部を設定する
+ *
+ * @params {string} socket_id: socket.idから得られる1コネクションを表す文字列
+ * @params {string} ip: socket.handshake.addressから得られるユーザーのIPアドレス
  */
-let init_user_info = (socket) => {
-  let name = "名無しさん";
-
-  // 取得したipアドレスが "Pv4射影IPv6アドレス" 形式の場合はIPv6部分を取り除く
-  let ip = socket.handshake.address;
+let init_user_info = (socket_id, ip) => {
+  // 渡されたipアドレスが "Pv4射影IPv6アドレス" 形式の場合はIPv6部分を取り除く
   let idx = ip.lastIndexOf(":");
   if (idx != -1) {
     ip = ip.slice(idx + 1);
   }
 
-  let day = new Date().getDate();
-  ip += day;
-
   let sha512 = crypto.createHash("sha512");
-  sha512.update(ip);
+  sha512.update(ip + new Date().getDate);
   let id = sha512.digest("base64").slice(0, 10);
 
   let new_user = {
-    name: name,
+    name:  "名無しさん",
     ip: ip,
     id: id,
     last_input: 0,
     power: 0
   };
 
-  users[socket.id] = new_user;
+  users[socket_id] = new_user;
+  console.log("---------- "+ ip + "(" + socket_id + ")" + " Connected ----------");
 }
 exports.init_user_info = init_user_info;
 
