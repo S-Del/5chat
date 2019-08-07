@@ -187,6 +187,14 @@ window.addEventListener("load", () => {
         'custom-maximize',
         'custom-close'
       ],
+      contentSize: {
+        width: () => {
+          return window.innerWidth / 3;
+        },
+        height: () => {
+          return window.innerHeight / 3;
+        }
+      },
       borderRadius: "0.5em",
       headerTitle: "新規部屋作成",
       headerControls: {
@@ -248,6 +256,14 @@ window.addEventListener("load", () => {
         'custom-maximize',
         'custom-close'
       ],
+      contentSize: {
+        width: () => {
+          return window.innerWidth / 3;
+        },
+        height: () => {
+          return window.innerHeight / 3;
+        }
+      },
       borderRadius: "0.5em",
       headerTitle: room.name,
       headerControls: {
