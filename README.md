@@ -56,7 +56,7 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
 - [【Node.js入門】requireの使い方とモジュールの作り方まとめ！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/77966)
 ### JavaScript
-- [フローティング・ウィンドウ ライブラリ JSFrame.js の紹介 - Qiita](https://qiita.com/riversun/items/1adffa5674bc5123b16d)
+- [overview | options | API jsPanel](https://jspanel.de/api.html)
 - [ライブラリを使わない素のJavaScriptでDOM操作 - Qiita](https://qiita.com/kouh/items/dfc14d25ccb4e50afe89)
 - [生JSとjQueryの基本操作比較 - Qiita](https://qiita.com/shshimamo/items/ba3a57a81d9780030969)
 - [document.writeとは？ - Qiita](https://qiita.com/a12345/items/0f9f7df07d0d2cb4f668)
