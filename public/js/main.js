@@ -94,11 +94,15 @@ window.addEventListener("load", () => {
   let lounge_hr_1 = document.createElement("hr");
   lounge_chat_wrapper.appendChild(lounge_hr_1);
 
+  let input_lounge_label = document.createElement("label");
+  input_lounge_label.textContent = "メッセージ:";
+  lounge_chat_wrapper.appendChild(input_lounge_label);
+
   let input_lounge = document.createElement("input");
   input_lounge.id = "input_lounge";
   input_lounge.maxlength = "60";
   input_lounge.autocomplete = false;
-  lounge_chat_wrapper.appendChild(input_lounge);
+  input_lounge_label.appendChild(input_lounge);
 
   let send_to_lounge_button = document.createElement("button");
   send_to_lounge_button.type = "button";
@@ -173,7 +177,16 @@ window.addEventListener("load", () => {
   // 部屋を作るボタンが押されたときのウィンドウ生成イベント
   document.getElementById("create_room_button").addEventListener("click", () => {
     let create_room_panel = jsPanel.create({
+      animateIn: "jsPanelFadeIn",
       theme: "dark filleddark",
+      iconfont: [
+        'custom-smallify',
+        'custom-smallifyrev',
+        'custom-minimize',
+        'custom-normalize',
+        'custom-maximize',
+        'custom-close'
+      ],
       borderRadius: "0.5em",
       headerTitle: "新規部屋作成",
       headerControls: {
@@ -225,7 +238,16 @@ window.addEventListener("load", () => {
   // 入室許可のソケットイベントにて部屋ウィンドウを表示
   socket.on("accept_entry_room", (room_id, room) => {
     let room_panel = jsPanel.create({
+      animateIn: "jsPanelFadeIn",
       theme: "dark filleddark",
+      iconfont: [
+        'custom-smallify',
+        'custom-smallifyrev',
+        'custom-minimize',
+        'custom-normalize',
+        'custom-maximize',
+        'custom-close'
+      ],
       borderRadius: "0.5em",
       headerTitle: room.name,
       headerControls: {
