@@ -170,170 +170,172 @@ window.addEventListener("load", () => {
     }
   });
 
-  // 部屋を作るボタンが押されたときのイベント
+  // 部屋を作るボタンが押されたときのウィンドウ生成イベント
   document.getElementById("create_room_button").addEventListener("click", () => {
-    let vw = window.innerWidth;
-    let vh = window.innerHeight;
-    let width = vw / 3;
-    let height = vh / 3;
+    let create_room_panel = jsPanel.create({
+      theme: "dark filleddark",
+      borderRadius: "0.5em",
+      headerTitle: "新規部屋作成",
+      headerControls: {
+        size: "xs"
+      },
+      contentFetch: {
+        resource: "/html/create_room.html",
+        done: (panel, response) => {
+          panel.content.innerHTML = response;
 
-    const jsFrame = new JSFrame();
-    const frame = jsFrame.create({
-      title: "新規部屋作成",
-      left: (vw / 2) - (width / 2),
-      top: (vh / 2) - (height / 2),
-      width: width,
-      height: height,
-      movable: true,
-      resizable: true,
-      url: "/html/create_room.html",
-      urlLoaded: (_frame) => {
-        // 書き込み欄でのエンターキーで部屋を作成
-        frame.on("#input_room_name", "keyup", (_frame, evt) => {
-          if (evt.keyCode != 13) {
-            return;
+          function create_new_room() {
+            let new_room_info = {
+              input_room_name: document.getElementById("input_room_name").value,
+              input_room_description: document.getElementById("input_room_description").value
+            };
+
+            socket.emit("create_new_room", new_room_info);
+            create_room_panel.close();
           }
 
-          let new_room_info = {
-            input_room_name: frame.$("#input_room_name").value,
-            input_room_description: frame.$("#input_room_description").value
-          };
-          socket.emit("create_new_room", new_room_info);
-          frame.closeFrame();
-        });
+          // 部屋作成ウィンドウ内の「作る」ボタンが押されたときに部屋作成を要求
+          document.getElementById("add_room_button").addEventListener("click", () => {
+            create_new_room();
+          });
 
-        // 説明入力欄でのエンターキー入力で部屋を作成
-        frame.on("#input_room_description", "keyup", (_frame, evt) => {
-          if (evt.keyCode != 13) {
-            return;
-          }
+          // 部屋名入力欄でのエンターキーで部屋作成を要求
+          document.getElementById("input_room_name").addEventListener("keyup", (event) => {
+            if (event.keyCode != 13) {
+              return;
+            }
 
-          let new_room_info = {
-            input_room_name: frame.$("#input_room_name").value,
-            input_room_description: frame.$("#input_room_description").value
-          };
-          socket.emit("create_new_room", new_room_info);
-          frame.closeFrame();
-        });
+            create_new_room();
+          });
 
-        // ウィンドウ内の作るボタンが押されたときのソケットイベント
-        frame.on("#add_room_button", "click", (_frame, evt) => {
-          let new_room_info = {
-            input_room_name: frame.$("#input_room_name").value,
-            input_room_description: frame.$("#input_room_description").value
-          };
-          socket.emit("create_new_room", new_room_info);
-          frame.closeFrame();
-        });
-      }
+          // 説明入力欄でのエンターキーで部屋作成を要求
+          document.getElementById("input_room_description").addEventListener("keyup", (event) => {
+            if (event.keyCode != 13) {
+              return;
+            }
+
+            create_new_room();
+          });
+        }
+      },
+      position: "center 50 50"
     });
-    frame.show();
   });
 
-  // 入室許可された際のウィンドウを表示するソケットイベント
+  // 入室許可のソケットイベントにて部屋ウィンドウを表示
   socket.on("accept_entry_room", (room_id, room) => {
-    let vw = window.innerWidth;
-    let vh = window.innerHeight;
-    let width = vw / 3;
-    let height = vh / 3;
+    let room_panel = jsPanel.create({
+      theme: "dark filleddark",
+      borderRadius: "0.5em",
+      headerTitle: room.name,
+      headerControls: {
+        size: "xs"
+      },
+      contentFetch: {
+        resource: "/html/room.html",
+        done: (panel, response) => {
+          panel.content.innerHTML = response;
 
-    const jsFrame = new JSFrame();
-    const frame = jsFrame.create({
-      title: room.name,
-      left: (vw / 2) - (width / 2),
-      top: (vh / 2) - (height / 2),
-      width: width,
-      height: height,
-      movable: true,
-      resizable: true,
-      url: "/html/room.html",
-      urlLoaded: (_frame) => {
-        // 人数表示
-        frame.$("#num_of_people").textContent = Object.keys(room.users).length;
+          // 人数表示
+          document.getElementById("num_of_people").textContent = Object.keys(room.users).length;
 
-        // 勢い表示
-        frame.$("#room_power").textContent = room.power.toFixed(1);
+          // 人数更新
+          socket.on("update_nop", (num_of_people) => {
+            document.getElementById("num_of_people").textContent = num_of_people;
+          })
 
-        // 書き込み欄でのエンターキーで入力メッセージを送信
-        frame.on("#input_room", "keyup", (_frame, evt) => {
-          if (evt.keyCode != 13) {
-            return;
+          // 勢い表示
+          document.getElementById("room_power").textContent = room.power.toFixed(1);
+
+          // 部屋の書き込み受信時に部屋の書き込み一覧と勢いの表示を更新
+          socket.on("message_room", (room_message) => {
+            if (room_id != room_message.room_id) {
+              return;
+            }
+
+            document.getElementById("room_power").textContent = room_message.power.toFixed(1);
+
+            let room_chat_list = document.getElementById("room_chat_list");
+            let new_message = document.createElement("li");
+            new_message.className = "list_box";
+            room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
+
+            let message_box = document.createElement("ul");
+            message_box.className = "message_box";
+            new_message.appendChild(message_box);
+
+            let message_box_content = document.createElement("li");
+            message_box.appendChild(message_box_content);
+
+            let resp_no = document.createElement("span");
+            resp_no.textContent = room_message.no + " ";
+            message_box_content.appendChild(resp_no);
+
+            let name_label = document.createTextNode("名前：");
+            message_box_content.appendChild(name_label);
+
+            let name = document.createElement("span");
+            name.textContent = room_message.user.name + " ";
+            message_box_content.appendChild(name);
+
+            let id_label = document.createTextNode("ID:");
+            message_box_content.appendChild(id_label);
+
+            let id = document.createElement("span");
+            id.textContent = room_message.user.id;
+            message_box_content.appendChild(id);
+
+            let content = document.createElement("li");
+            content.className = "message";
+            content.textContent = room_message.input_room;
+            message_box_content.appendChild(content);
+          });
+
+          // 書き込み送信用
+          function send_to_room() {
+            let room_message = {
+              room_id: room_id,
+              input_room: document.getElementById("input_room").value
+            }
+            document.getElementById("input_room").value = "";
+
+            socket.emit("send_to_room", room_message);
           }
 
-          let room_message = {
-            room_id: room_id,
-            input_room: frame.$("#input_room").value
-          }
-          socket.emit("send_to_room", room_message);
-        });
+          // 部屋ウィンドウ内の「書き込む」ボタンが押された時に部屋内発言を要求
+          document.getElementById("send_to_room_button").addEventListener("click", () => {
+            send_to_room();
+          });
 
-        // ウィンドウ内の書き込むボタンが押された際のイベント
-        frame.on("#send_to_room_button", "click", (_frame, evt) => {
-          let room_message = {
-            room_id: room_id,
-            input_room: frame.$("#input_room").value
-          }
-          socket.emit("send_to_room", room_message);
-        });
+          // 書き込み欄でのエンターキーで部屋内発言を要求
+          document.getElementById("input_room").addEventListener("keyup", (event) => {
+            if (event.keyCode != 13) {
+              return;
+            }
 
-        // 閉じるボタンが押された場合のイベント
-        frame.on("closeButton", "click", (_frame, evt) => {
-          socket.emit("leave_room", room_id);
-          frame.closeFrame();
-        });
-
-        // 入退室者があった場合の人数更新のソケットイベント
-        socket.on("update_nop", (num_of_people) => {
-          frame.$("#num_of_people").textContent = num_of_people;
-        })
-
-        // 部屋当てのメッセージを受け取った時のソケットイベント
-        socket.on("message_room", (room_message) => {
-          if (room_id != room_message.room_id) {
-            return;
-          }
-
-          frame.$("#room_power").textContent = room_message.power.toFixed(1);
-
-          let room_chat_list = frame.$("#room_chat_list");
-          let new_message = document.createElement("li");
-          new_message.className = "list_box";
-          room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
-
-          let message_box = document.createElement("ul");
-          message_box.className = "message_box";
-          new_message.appendChild(message_box);
-
-          let message_box_content = document.createElement("li");
-          message_box.appendChild(message_box_content);
-
-          let resp_no = document.createElement("span");
-          resp_no.textContent = room_message.no + " ";
-          message_box_content.appendChild(resp_no);
-
-          let name_label = document.createTextNode("名前：");
-          message_box_content.appendChild(name_label);
-
-          let name = document.createElement("span");
-          name.textContent = room_message.user.name + " ";
-          message_box_content.appendChild(name);
-
-          let id_label = document.createTextNode("ID:");
-          message_box_content.appendChild(id_label);
-
-          let id = document.createElement("span");
-          id.textContent = room_message.user.id;
-          message_box_content.appendChild(id);
-
-          let content = document.createElement("li");
-          content.className = "message";
-          content.textContent = room_message.input_room;
-          message_box_content.appendChild(content);
-        });
-      }
+            send_to_room();
+          });
+        }
+      },
+      onclosed: () => {
+        // 部屋ウィンドウの閉じるボタンが押された時の退室要求
+        socket.emit("leave_room", room_id);
+      },
+      position: "center 50 50"
     });
+  });
 
-    frame.show();
+  // ラウンジチャット送信用
+  function send_to_lounge() {
+    let input_lounge = document.getElementById("input_lounge");
+    let message_text = input_lounge.value;
+    socket.emit("send_to_lounge", message_text);
+    input_lounge.value = "";
+  }
+
+  // コメントボタンでラウンジチャットにメッセージを送信
+  document.getElementById("send_to_lounge_button").addEventListener("click", () => {
+    send_to_lounge();
   });
 
   // ラウンジチャット欄でのエンターキーで入力メッセージを送信
@@ -342,21 +344,10 @@ window.addEventListener("load", () => {
       return;
     }
 
-    let input_lounge = document.getElementById("input_lounge");
-    let message_text = input_lounge.value;
-    socket.emit("send_to_lounge", message_text);
-    input_lounge.value = "";
+    send_to_lounge();
   });
 
-  // コメントボタンでラウンジチャットにメッセージを送信
-  document.getElementById("send_to_lounge_button").addEventListener("click", () => {
-    let input_lounge = document.getElementById("input_lounge");
-    let message_text = input_lounge.value;
-    socket.emit("send_to_lounge", message_text);
-    input_lounge.value = "";
-  });
-
-  // ラウンジにメッセージが送られた場合に呼び出されるsocketイベント
+  // ラウンジに送られたメッセージを反映
   socket.on("message_lounge", (message) => {
     let lounge_chat_list = document.getElementById("lounge_chat_list");
     let new_message = document.createElement("li");
