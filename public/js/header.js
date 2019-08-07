@@ -1,6 +1,10 @@
 /**
  * 要素生成
  *
+ * サイト上部に表示されるヘッダー部の生成
+ * ユーザー名やトリップの変更、それらの表示を行う。
+ * ページの主要素が含まれる、空の<main>タグの作成までを行う。
+ *
  * <header>
  *   <label>
  *     名前：<input id="input_name">
@@ -16,6 +20,9 @@
  *     ID: <span id="crnt_id"></span>
  *   </span>
  * </header>
+ *
+ * <main id="main">
+ * </main>
  */
 window.addEventListener("load", () => {
   let wrapper = document.getElementById("wrapper");
@@ -65,6 +72,11 @@ window.addEventListener("load", () => {
   crnt_id.id = "crnt_id";
   crnt_id.textContent = "";
   crnt_status.appendChild(crnt_id);
+
+  // 空のmain部の作成
+  let main = document.createElement("main");
+  main.id = "main";
+  wrapper.appendChild(main);
 });
 
 
@@ -111,10 +123,4 @@ window.addEventListener("load", () => {
     document.getElementById("crnt_name").textContent = user_info.name;
     document.getElementById("crnt_id").textContent = user_info.id;
   });
-
-//  // 同一ipで切断された場合
-//  // 同一ip切断を無効化しているためこちらも無効
-//  socket.on("ip_alert", (msg) => {
-//    alert(msg);
-//  });
 });
