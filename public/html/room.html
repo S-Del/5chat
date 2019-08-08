@@ -8,12 +8,18 @@
   </head>
 
   <body>
-    <label>メッセージ:<input id='input_room' maxlength="60"></label>
-    <button type=button id="send_to_room_button">書き込む</button>
-    <span>人数: </span><span id="num_of_people"></span>
-    <span>勢い: </span><span id="room_power"></span>
+    <label>メッセージ:
+      <input class='input_room' maxlength="60">
+    </label>
+    <button type="button" class="send_to_room_button">書き込む</button>
+
+    <span>人数: </span>
+    <span class="num_of_people"></span>
+    <span>勢い: </span>
+    <span class="room_power"></span>
     <hr>
-    <ul id='room_chat_list'></ul>
+
+    <ul class='room_chat_list'></ul>
   </body>
 
 </html>

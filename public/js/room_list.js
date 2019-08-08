@@ -154,21 +154,21 @@ window.addEventListener("load", () => {
 
           function create_new_room() {
             let new_room_info = {
-              input_room_name: document.getElementById("input_room_name").value,
-              input_room_description: document.getElementById("input_room_description").value
+              input_room_name: panel.content.getElementsByClassName("input_room_name")[0].value,
+              input_room_description: panel.content.getElementsByClassName("input_room_description")[0].value
             };
 
             socket.emit("create_new_room", new_room_info);
-            create_room_panel.close();
+            panel.close();
           }
 
           // 部屋作成ウィンドウ内の「作る」ボタンが押されたときに部屋作成を要求
-          document.getElementById("add_room_button").addEventListener("click", () => {
+          panel.content.getElementsByClassName("add_room_button")[0].addEventListener("click", () => {
             create_new_room();
           });
 
           // 部屋名入力欄でのエンターキーで部屋作成を要求
-          document.getElementById("input_room_name").addEventListener("keyup", (event) => {
+          panel.content.getElementsByClassName("input_room_name")[0].addEventListener("keyup", (event) => {
             if (event.keyCode != 13) {
               return;
             }
@@ -177,7 +177,7 @@ window.addEventListener("load", () => {
           });
 
           // 説明入力欄でのエンターキーで部屋作成を要求
-          document.getElementById("input_room_description").addEventListener("keyup", (event) => {
+          panel.content.getElementsByClassName("input_room_description")[0].addEventListener("keyup", (event) => {
             if (event.keyCode != 13) {
               return;
             }
@@ -222,15 +222,15 @@ window.addEventListener("load", () => {
           panel.content.innerHTML = response;
 
           // 人数表示
-          document.getElementById("num_of_people").textContent = Object.keys(room.users).length;
+          panel.content.getElementsByClassName("num_of_people")[0].textContent = Object.keys(room.users).length;
 
           // 人数更新
           socket.on("update_nop", (num_of_people) => {
-            document.getElementById("num_of_people").textContent = num_of_people;
+            panel.content.getElementsByClassName("num_of_people")[0].textContent = num_of_people;
           })
 
           // 勢い表示
-          document.getElementById("room_power").textContent = room.power.toFixed(1);
+          panel.content.getElementsByClassName("room_power")[0].textContent = room.power.toFixed(1);
 
           // 部屋の書き込み受信時に部屋の書き込み一覧と勢いの表示を更新
           socket.on("message_room", (room_message) => {
@@ -238,9 +238,9 @@ window.addEventListener("load", () => {
               return;
             }
 
-            document.getElementById("room_power").textContent = room_message.power.toFixed(1);
+            panel.content.getElementsByClassName("room_power")[0].textContent = room_message.power.toFixed(1);
 
-            let room_chat_list = document.getElementById("room_chat_list");
+            let room_chat_list = panel.content.getElementsByClassName("room_chat_list")[0];
             let new_message = document.createElement("li");
             new_message.className = "list_box";
             room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
@@ -280,20 +280,20 @@ window.addEventListener("load", () => {
           function send_to_room() {
             let room_message = {
               room_id: room_id,
-              input_room: document.getElementById("input_room").value
+              input_room: panel.content.getElementsByClassName("input_room")[0].value
             }
-            document.getElementById("input_room").value = "";
+            panel.content.getElementsByClassName("input_room")[0].value = "";
 
             socket.emit("send_to_room", room_message);
           }
 
           // 部屋ウィンドウ内の「書き込む」ボタンが押された時に部屋内発言を要求
-          document.getElementById("send_to_room_button").addEventListener("click", () => {
+          panel.content.getElementsByClassName("send_to_room_button")[0].addEventListener("click", () => {
             send_to_room();
           });
 
           // 書き込み欄でのエンターキーで部屋内発言を要求
-          document.getElementById("input_room").addEventListener("keyup", (event) => {
+          panel.content.getElementsByClassName("input_room")[0].addEventListener("keyup", (event) => {
             if (event.keyCode != 13) {
               return;
             }
