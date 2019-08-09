@@ -11,9 +11,9 @@
  * </footer>
  */
 window.addEventListener("load", () => {
-  let wrapper = document.getElementById("wrapper");
+  let main = document.getElementById("main");
   let footer = document.createElement("footer");
-  wrapper.appendChild(footer);
+  main.parentNode.insertBefore(footer, main.nextSibling);
 
   let small = document.createElement("small");
   small.textContent = "(C) 2019 ";

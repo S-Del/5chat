@@ -1,10 +1,7 @@
-.wrapper {
+body {
   height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
-}
-
-body {
   background-color: rgb(64, 64, 64);
   color: rgb(192, 192, 192);
 }

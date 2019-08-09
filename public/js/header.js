@@ -25,9 +25,9 @@
  * </main>
  */
 window.addEventListener("load", () => {
-  let wrapper = document.getElementById("wrapper");
+  let body = document.body;
   let header = document.createElement("header");
-  wrapper.appendChild(header);
+  body.insertBefore(header, body.firstChild);
 
   // 名前入力部
   let name_label = document.createElement("label");
@@ -76,7 +76,7 @@ window.addEventListener("load", () => {
   // 空のmain部の作成
   let main = document.createElement("main");
   main.id = "main";
-  wrapper.appendChild(main);
+  header.parentNode.insertBefore(main, header.nextSibling);
 });
 
 
