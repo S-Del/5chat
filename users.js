@@ -195,7 +195,8 @@ exports.put_all = put_all;
  * 同一IPからの接続を切断する
  *
  * 接続者数が増えるほど重くなる機能（のはず）
- * 有効、無効を切り替える場合はheader.jsの"ip_alert"イベントも切り替えること
+ * 有効・無効を切り替える場合は、
+ * フロント側のスクリプトに"ip_alert"のソケットイベントを追加する。
  * ※現在使用していない
  *
  * @param {string} ip: ユーザーのIPアドレス。socket.handshake.addressから取得

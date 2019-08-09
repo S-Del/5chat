@@ -22,7 +22,7 @@ server.listen(PORT, () => {
 
 io.on("connection", (socket) => {
 //  // 同一IPからの接続を切断
-//  if (is_duplicate_ip(socket.handshake.address)) {
+//  if (users.is_duplicate_ip(socket.handshake.address)) {
 //    socket.emit("ip_alert", "既に同じipが存在するので切断します");
 //    socket.disconnect(true);
 //  }
