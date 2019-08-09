@@ -93,6 +93,14 @@ button:hover {
   background-color: rgb(96, 96, 96);
 }
 
+.room_message_box {
+  max-width: 100%;
+  background-color: rgb(32, 32, 32);
+  margin: 0.25em;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
 .message_box {
   list-style: none;
 }
