@@ -7,7 +7,7 @@
  * 部屋の作成、部屋の参加、部屋一覧の更新や並び替え等を行う。
  *
  * ---------- HTML構成 ----------
- * <div id="room_list_wrapper">
+ * <section id="room_list_wrapper">
  *   <h2>部屋一覧</h2>
  *   <button type="button">一覧更新</button>
  *   <button type="button">部屋を作る</button>
@@ -20,12 +20,12 @@
  *       <span>部屋の説明</span>
  *     </li>
  *   </ul>
- * </div>
+ * </section>
  */
 window.addEventListener("load", () => {
   let main = document.getElementById("main");
 
-  let room_list_wrapper = document.createElement("div");
+  let room_list_wrapper = document.createElement("section");
   room_list_wrapper.id = "room_list_wrapper";
   room_list_wrapper.className = "box";
   main.appendChild(room_list_wrapper);
@@ -125,7 +125,12 @@ window.addEventListener("load", () => {
   document.getElementById("create_room_button").addEventListener("click", () => {
     let create_room_panel = jsPanel.create({
       animateIn: "jsPanelFadeIn",
-      theme: "dark filleddark",
+      theme: {
+        bgPanel: "rgb(192, 192, 192)",
+        colorHeader: "rgb(32, 32, 32)",
+        bgContent: "rgb(48, 48, 48)",
+        colorContent: "rgb(192, 192, 192)"
+      },
       iconfont: [
         'custom-smallify',
         'custom-smallifyrev',
@@ -145,7 +150,7 @@ window.addEventListener("load", () => {
       borderRadius: "0.5em",
       headerTitle: "新規部屋作成",
       headerControls: {
-        size: "xs"
+        size: "sm"
       },
       contentFetch: {
         resource: "/html/create_room.html",
@@ -194,7 +199,12 @@ window.addEventListener("load", () => {
   socket.on("accept_entry_room", (room_id, room) => {
     let room_panel = jsPanel.create({
       animateIn: "jsPanelFadeIn",
-      theme: "dark filleddark",
+      theme: {
+        bgPanel: "rgb(192, 192, 192)",
+        colorHeader: "rgb(32, 32, 32)",
+        bgContent: "rgb(48, 48, 48)",
+        colorContent: "rgb(192, 192, 192)"
+      },
       iconfont: [
         'custom-smallify',
         'custom-smallifyrev',
@@ -242,7 +252,7 @@ window.addEventListener("load", () => {
 
             let room_chat_list = panel.content.getElementsByClassName("room_chat_list")[0];
             let new_message = document.createElement("li");
-            new_message.className = "list_box";
+            new_message.className = "room_message_box";
             room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
 
             let message_box = document.createElement("ul");

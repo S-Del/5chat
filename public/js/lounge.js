@@ -7,7 +7,7 @@
  * ラウンジチャットを受信した場合の反映、ラウンジチャットへの発言を行う。
  *
  * ---------- HTML構成 ----------
- * <div id="lounge_chat_wrapper">
+ * <section id="lounge_chat_wrapper">
  *   <h2>ラウンジチャット<h2>
  *   <hr>
  *   <input id="input_lounge" maxlength="60" autocomplete="false">
@@ -24,12 +24,12 @@
  *       </ul>
  *     </li>
  *   </ul>
- * </div>
+ * </section>
  */
 window.addEventListener("load", () => {
   let main = document.getElementById("main");
 
-  let lounge_chat_wrapper = document.createElement("div");
+  let lounge_chat_wrapper = document.createElement("section");
   lounge_chat_wrapper.id = "lounge_chat_wrapper";
   lounge_chat_wrapper.className = "box";
   main.appendChild(lounge_chat_wrapper);
