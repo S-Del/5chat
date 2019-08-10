@@ -28,30 +28,8 @@ main {
   grid-row: 2 / 3;
 }
 
-#room_list_wrapper {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-}
-
-#lounge_chat_wrapper {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
-}
-
-footer {
-  grid-column: 1 / 3;
-  grid-row: 3 / 4;
-  margin-top: 0.25em;
-  text-align: center;
-}
-
-footer a {
-  color: rgb(192, 192, 192);
-  text-decoration: none;
-}
-
 input, textarea {
-  background-color: rgb(192, 192, 192);
+  background-color: rgb(235, 235, 235);
   color: rgb(32, 32, 32);
   border: none;
   border-radius: 0.25em;
@@ -71,7 +49,6 @@ button:hover {
 }
 
 .box {
-  overflow: hidden;
   background-color: rgb(32, 32, 32);
   margin: 0.25em;
   padding: 1em;
@@ -86,8 +63,36 @@ button:hover {
   border-radius: 0.5em;
 }
 
+#room_list_wrapper {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
 .room_list_box:hover {
   background-color: rgb(96, 96, 96);
+}
+
+#lounge_chat_wrapper {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+#lounge_chat_list {
+  overflow-y: scroll;
+}
+
+#lounge_chat_list::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+#lounge_chat_list::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background: blue;
+}
+
+#lounge_chat_list::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background: red;
 }
 
 .room_message_box {
@@ -104,6 +109,18 @@ button:hover {
 
 .message {
   margin-left: 0.5em;
+}
+
+footer {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+  margin-top: 0.25em;
+  text-align: center;
+}
+
+footer a {
+  color: rgb(192, 192, 192);
+  text-decoration: none;
 }
 
 .custom-control-icon.custom-smallify::before {
