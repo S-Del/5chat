@@ -38,7 +38,8 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 ## References
 参考にしたサイト等を列挙しています  
 これら以外に色々と読んでいますが、自分の疑問にクリティカルな解答を得られたものだったり、
-"個人的"に役に立ったと感じた記事等を列挙しています。
+"個人的"に役に立ったと感じた記事等を列挙しています。  
+※記事のタイトルやURLは変更されている可能性があります
 ### CentOS7
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
@@ -77,6 +78,7 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [HTML5 Reset Stylesheet | HTML5 Doctor](http://html5doctor.com/html-5-reset-stylesheet/)
 - [CSS Grid Layout を極める！（基礎編） - Qiita](https://qiita.com/kura07/items/e633b35e33e43240d363)
 - [floatより辛くない「flexbox」でざっくりレイアウト - Qiita](https://qiita.com/hashrock/items/939684b9207dbab1d59e)
+- [CSS3のremとemの違いについて - Qiita](https://qiita.com/masarufuruya/items/bb40d7e39f56e6c25f0d)
 ### Git / README / Markdown
 - [README.mdファイル。マークダウン記法まとめ | codechord](https://codechord.com/2012/01/readme-markdown/)
 - [READMEの良さそうな書き方・テンプレート【GitHub/Bitbucket】 - karaage. \[からあげ\]](https://karaage.hatenadiary.jp/entry/2018/01/19/073000)
