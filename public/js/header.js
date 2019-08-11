@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * 要素生成
  *
@@ -5,14 +7,14 @@
  * ユーザー名やトリップの変更、それらの表示を行う。
  * ページの主要素が含まれる、空の<main>タグの作成までを行う。
  *
- * <header>
+ * <header class="body__header">
  *   <label>
- *     名前：<input id="input_name">
+ *     名前：<input id="input_name" class="header__name-input">
  *   </label>
  *   <label>
- *     トリップ:<input id="input_trip">
+ *     トリップ:<input id="input_trip" class="header__trip-input">
  *   </label>
- *   <button type="button" id="name_send_button">決 定</button>
+ *   <button type="button" id="name_send_button" class="header__name_send_button">決 定</button>
  *
  *   <span>
  *     現在の状態 - 
@@ -21,12 +23,13 @@
  *   </span>
  * </header>
  *
- * <main id="main">
+ * <main id="main" class="body__main">
  * </main>
  */
 window.addEventListener("load", () => {
   let body = document.body;
   let header = document.createElement("header");
+  header.className = "body__header";
   body.insertBefore(header, body.firstChild);
 
   // 名前入力部
@@ -35,6 +38,7 @@ window.addEventListener("load", () => {
   header.appendChild(name_label);
   let input_name = document.createElement("input");
   input_name.id = "input_name";
+  input_name.className = "header__name-input";
   input_name.maxlength = "15";
   name_label.appendChild(input_name);
 
@@ -44,12 +48,14 @@ window.addEventListener("load", () => {
   header.appendChild(trip_label);
   let input_trip = document.createElement("input");
   input_trip.id = "input_trip";
+  input_trip.className = "header__trip-input";
   input_trip.maxlength = "8";
   trip_label.appendChild(input_trip);
 
   let button = document.createElement("button");
   button.type = "button";
   button.id = "name_send_button";
+  button.className = "header__name-send-button";
   button.textContent = "決 定"
   header.appendChild(button);
   let wbr = document.createElement("wbr");
@@ -76,6 +82,7 @@ window.addEventListener("load", () => {
   // 空のmain部の作成
   let main = document.createElement("main");
   main.id = "main";
+  main.className = "body__main";
   header.parentNode.insertBefore(main, header.nextSibling);
 });
 
@@ -84,38 +91,37 @@ window.addEventListener("load", () => {
  * 要素やsocketのイベントを設定
  */
 window.addEventListener("load", () => {
-  // 名前入力欄でのエンターキー入力で決定する
-  document.getElementById("input_name").addEventListener("keyup", (event) => {
-    if (event.keyCode === 13) {
-      let new_name = {
-        name: document.getElementById("input_name").value,
-        trip: document.getElementById("input_trip").value
-      };
-
-      socket.emit("change_name", new_name);
-    }
-  });
-
-  // トリップ入力欄でのエンターキー入力で決定する
-  document.getElementById("input_trip").addEventListener("keyup", (event) => {
-    if (event.keyCode === 13) {
-      let new_name = {
-        name: document.getElementById("input_name").value,
-        trip: document.getElementById("input_trip").value
-      };
-
-      socket.emit("change_name", new_name);
-    }
-  });
-
-  // 名前決定ボタン
-  document.getElementById("name_send_button").addEventListener("click", () => {
+  // 名前とトリップの変更用関数
+  function change_name() {
     let new_name = {
       name: document.getElementById("input_name").value,
       trip: document.getElementById("input_trip").value
     };
 
     socket.emit("change_name", new_name);
+  }
+
+  // 名前入力欄でのエンターキー入力で名前更新
+  document.getElementById("input_name").addEventListener("keyup", (event) => {
+    if (event.keyCode != 13) {
+      return;
+    }
+
+    change_name();
+  });
+
+  // トリップ入力欄でのエンターキー入力で名前更新
+  document.getElementById("input_trip").addEventListener("keyup", (event) => {
+    if (event.keyCode != 13) {
+      return;
+    };
+
+    change_name();
+  });
+
+  // 名前決定ボタンクリックで名前更新
+  document.getElementById("name_send_button").addEventListener("click", () => {
+    change_name();
   });
 
   // 名前やIDが変更された場合に呼び出されるsocketイベント

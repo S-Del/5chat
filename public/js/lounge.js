@@ -7,21 +7,26 @@
  * ラウンジチャットを受信した場合の反映、ラウンジチャットへの発言を行う。
  *
  * ---------- HTML構成 ----------
- * <section id="lounge_chat_wrapper">
+ * <section class="main__lounge-chat">
  *   <h2>ラウンジチャット<h2>
- *   <hr>
- *   <input id="input_lounge" maxlength="60" autocomplete="false">
- *   <button id="send_to_lounge_button" type="button">コメント</button>
+ *   <input id="input_lounge"
+ *          class="lounge-chat__message-input"
+ *          maxlength="60"
+ *          autocomplete="false">
+ *   <button type="button"
+ *           id="send_to_lounge_button"
+ *           class="lounge-chat__send-to-lounge-button">
+ *     コメント
+ *   </button>
  *   <hr>
  *
- *   <ul id="lounge_chat_list">
- *     <li>
- *       <ul class="message_box">
- *         <li>
- *           <span>798</span> 名前: <span>名無しさん</span> ID: <span>sdf9879a8</span>
- *         </li>
- *         <li>test</li>
- *       </ul>
+ *   <ul id="lounge_chat_list" class="lounge-chat-list">
+ *     <li class="lounge-chat-list__item">
+ *       <span>no </span>
+ *       <span>名前：name </span>
+ *       <span>ID：id </span>
+ *       <br>
+ *       <span class="lounge-chat-list__item-message">message<span>
  *     </li>
  *   </ul>
  * </section>
@@ -30,16 +35,12 @@ window.addEventListener("load", () => {
   let main = document.getElementById("main");
 
   let lounge_chat_wrapper = document.createElement("section");
-  lounge_chat_wrapper.id = "lounge_chat_wrapper";
-  lounge_chat_wrapper.className = "box";
+  lounge_chat_wrapper.className = "main__lounge-chat";
   main.appendChild(lounge_chat_wrapper);
 
   let lounge_chat_label = document.createElement("h2");
   lounge_chat_label.textContent = "ラウンジチャット";
   lounge_chat_wrapper.appendChild(lounge_chat_label);
-
-  let lounge_hr_1 = document.createElement("hr");
-  lounge_chat_wrapper.appendChild(lounge_hr_1);
 
   let input_lounge_label = document.createElement("label");
   input_lounge_label.textContent = "メッセージ:";
@@ -47,6 +48,7 @@ window.addEventListener("load", () => {
 
   let input_lounge = document.createElement("input");
   input_lounge.id = "input_lounge";
+  input_lounge.className = "lounge-chat__message-input";
   input_lounge.maxlength = "60";
   input_lounge.autocomplete = false;
   input_lounge_label.appendChild(input_lounge);
@@ -54,11 +56,16 @@ window.addEventListener("load", () => {
   let send_to_lounge_button = document.createElement("button");
   send_to_lounge_button.type = "button";
   send_to_lounge_button.id = "send_to_lounge_button";
+  send_to_lounge_button.className = "lounge-chat__send-to-lounge-button";
   send_to_lounge_button.textContent = "書き込む";
   lounge_chat_wrapper.appendChild(send_to_lounge_button);
 
+  let hr = document.createElement("hr");
+  lounge_chat_wrapper.appendChild(hr);
+
   let lounge_chat_list = document.createElement("ul");
   lounge_chat_list.id = "lounge_chat_list";
+  lounge_chat_list.className = "lounge-chat-list";
   lounge_chat_wrapper.appendChild(lounge_chat_list);
 });
 
@@ -93,37 +100,33 @@ window.addEventListener("load", () => {
   socket.on("message_lounge", (message) => {
     let lounge_chat_list = document.getElementById("lounge_chat_list");
     let new_message = document.createElement("li");
-    new_message.className = "list_box";
+    new_message.className = "lounge-chat-list__item";
+    // 新しいメッセージは先頭(最上部)に追加(末尾に追加すると見にくい為)
     lounge_chat_list.insertBefore(new_message, lounge_chat_list.firstChild)
 
-    let message_box = document.createElement("ul");
-    message_box.className = "message_box";
-    new_message.appendChild(message_box);
-
-    let message_box_content = document.createElement("li");
-    message_box.appendChild(message_box_content);
-
+    // レス番号
     let resp_no = document.createElement("span");
     resp_no.textContent = message.no + " ";
-    message_box_content.appendChild(resp_no);
+    new_message.appendChild(resp_no);
 
-    let name_label = document.createTextNode("名前：");
-    message_box_content.appendChild(name_label);
-
+    // コテハン
     let name = document.createElement("span");
-    name.textContent = message.name + " ";
-    message_box_content.appendChild(name);
+    name.textContent = "名前：" + message.name + " ";
+    new_message.appendChild(name);
 
-    let id_label = document.createTextNode("ID:");
-    message_box_content.appendChild(id_label);
-
+    // ユーザーのID
     let id = document.createElement("span");
-    id.textContent = message.id;
-    message_box_content.appendChild(id);
+    id.textContent = "ID：" + message.id;
+    new_message.appendChild(id);
 
+    // 本文の表示の前に改行
+    let br = document.createElement("br");
+    new_message.appendChild(br);
+
+    // 本文
     let content = document.createElement("li");
-    content.className = "message";
+    content.className = "lounge-chat-list__item-message";
     content.textContent = message.content;
-    message_box_content.appendChild(content);
+    new_message.appendChild(content);
   });
 });

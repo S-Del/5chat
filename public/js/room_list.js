@@ -7,15 +7,30 @@
  * 部屋の作成、部屋の参加、部屋一覧の更新や並び替え等を行う。
  *
  * ---------- HTML構成 ----------
- * <section id="room_list_wrapper">
+ * <section class="main__room-list">
  *   <h2>部屋一覧</h2>
- *   <button type="button">一覧更新</button>
- *   <button type="button">部屋を作る</button>
+ *   <button type="button"
+ *           id="relord_list_button"
+ *           class="room-list__reload-list-button">
+ *     一覧更新
+ *   </button>
+ *   <button type="button"
+ *           id="create_room_button"
+ *           class="room-list__create-room-button">
+ *     部屋を作る
+ *   </button>
+ *   <span>
+ *     現在の部屋数: 
+ *     <span id="room_count"></span>
+ *   </span>
  *   <hr>
  *
- *   <ul id="room_list">
- *     <li>
+ *   <ul id="room_list" class="room-list">
+ *     <li class="room-list__item">
  *       <h3>部屋名</h3>
+ *       <span>人数: </span>
+ *       <span>書き込み数: </span>
+ *       <span>勢い: </span>
  *       <hr>
  *       <span>部屋の説明</span>
  *     </li>
@@ -26,8 +41,7 @@ window.addEventListener("load", () => {
   let main = document.getElementById("main");
 
   let room_list_wrapper = document.createElement("section");
-  room_list_wrapper.id = "room_list_wrapper";
-  room_list_wrapper.className = "box";
+  room_list_wrapper.className = "main__room-list";
   main.appendChild(room_list_wrapper);
 
   let room_list_label = document.createElement("h2");
@@ -37,12 +51,14 @@ window.addEventListener("load", () => {
   let relord_list_button = document.createElement("button");
   relord_list_button.type = "button";
   relord_list_button.id = "relord_list_button";
+  relord_list_button.className = "room-list__reload-list-button";
   relord_list_button.textContent = "一覧を更新";
   room_list_wrapper.appendChild(relord_list_button);
 
   let create_room_button = document.createElement("button");
   create_room_button.type = "button";
   create_room_button.id = "create_room_button";
+  create_room_button.className = "room-list__create-room-button";
   create_room_button.textContent = "部屋を作る";
   room_list_wrapper.appendChild(create_room_button);
 
@@ -59,6 +75,7 @@ window.addEventListener("load", () => {
 
   let room_list = document.createElement("ul");
   room_list.id = "room_list";
+  room_list.className = "room-list";
   room_list_wrapper.appendChild(room_list);
 });
 
@@ -88,7 +105,7 @@ window.addEventListener("load", () => {
     for (let room_id in rooms) {
       let room = document.createElement("li");
       room.id = room_id;
-      room.className = "list_box room_list_box"
+      room.className = "room-list__item";
       room_list.appendChild(room);
 
       let room_name = document.createElement("h3");
@@ -141,17 +158,14 @@ window.addEventListener("load", () => {
       ],
       contentSize: {
         width: () => {
-          return window.innerWidth / 3;
+          return Math.round(window.innerWidth / 3);
         },
         height: () => {
-          return window.innerHeight / 3;
+          return Math.round(window.innerHeight / 3);
         }
       },
       borderRadius: "0.5em",
       headerTitle: "新規部屋作成",
-      headerControls: {
-        size: "sm"
-      },
       contentFetch: {
         resource: "/html/create_room.html",
         done: (panel, response) => {
@@ -215,17 +229,14 @@ window.addEventListener("load", () => {
       ],
       contentSize: {
         width: () => {
-          return window.innerWidth / 3;
+          return Math.round(window.innerWidth / 3);
         },
         height: () => {
-          return window.innerHeight / 3;
+          return Math.round(window.innerHeight / 3);
         }
       },
       borderRadius: "0.5em",
       headerTitle: room.name,
-      headerControls: {
-        size: "xs"
-      },
       contentFetch: {
         resource: "/html/room.html",
         done: (panel, response) => {
@@ -252,38 +263,26 @@ window.addEventListener("load", () => {
 
             let room_chat_list = panel.content.getElementsByClassName("room_chat_list")[0];
             let new_message = document.createElement("li");
-            new_message.className = "room_message_box";
             room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
-
-            let message_box = document.createElement("ul");
-            message_box.className = "message_box";
-            new_message.appendChild(message_box);
-
-            let message_box_content = document.createElement("li");
-            message_box.appendChild(message_box_content);
 
             let resp_no = document.createElement("span");
             resp_no.textContent = room_message.no + " ";
-            message_box_content.appendChild(resp_no);
-
-            let name_label = document.createTextNode("名前：");
-            message_box_content.appendChild(name_label);
+            new_message.appendChild(resp_no);
 
             let name = document.createElement("span");
-            name.textContent = room_message.user.name + " ";
-            message_box_content.appendChild(name);
-
-            let id_label = document.createTextNode("ID:");
-            message_box_content.appendChild(id_label);
+            name.textContent = "名前：" + room_message.user.name + " ";
+            new_message.appendChild(name);
 
             let id = document.createElement("span");
-            id.textContent = room_message.user.id;
-            message_box_content.appendChild(id);
+            id.textContent = "ID：" + room_message.user.id;
+            new_message.appendChild(id);
 
-            let content = document.createElement("li");
-            content.className = "message";
+            let br = document.createElement("br");
+            new_message.appendChild(br);
+
+            let content = document.createElement("span");
             content.textContent = room_message.input_room;
-            message_box_content.appendChild(content);
+            new_message.appendChild(content);
           });
 
           // 書き込み送信用

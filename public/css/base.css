@@ -1,4 +1,12 @@
+html {
+  /* remで.x倍(rem)の指定する為にrootのフォントサイズを一旦10pxに */
+  font-size: 62.5%;
+}
+
 body {
+  /* chromeのバグ対策でbody内のフォントサイズはemで指定 */
+  font-family: sans-serif;
+  font-size: 1.6em;
   height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -6,123 +14,104 @@ body {
   color: rgb(192, 192, 192);
 }
 
-h1, h2, h3 {
-  font-family: sans-serif;
-}
-
-header, footer {
-  padding: 0.5em;
-  background-color: rgb(32, 32, 32);
-}
-
-header {
+.body__header {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
-  margin-bottom: 0.25em;
 }
 
-main {
-  display: grid;
-  grid-template-columns: 70vw 1fr;
-  grid-column: 1 / 3;
-  grid-row: 2 / 3;
-}
-
-input, textarea {
-  background-color: rgb(235, 235, 235);
-  color: rgb(32, 32, 32);
-  border: none;
-  border-radius: 0.25em;
-  margin: 0.25em;
-}
-
-button {
-  background-color: rgb(32, 32, 32);
-  color: rgb(192, 192, 192);
-  border: solid 2px rgb(192, 192, 192);
-  border-radius: 0.25em;
-  margin: 0.25em;
-}
-
-button:hover {
-  background-color: rgb(96, 96, 96);
-}
-
-.box {
-  background-color: rgb(32, 32, 32);
-  margin: 0.25em;
-  padding: 1em;
-  border-radius: 1em;
-}
-
-.list_box {
-  list-style: none;
-  background-color: rgb(48, 48, 48);
-  margin: 0.25em;
-  padding: 0.5em;
-  border-radius: 0.5em;
-}
-
-#room_list_wrapper {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-}
-
-.room_list_box:hover {
-  background-color: rgb(96, 96, 96);
-}
-
-#lounge_chat_wrapper {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
-}
-
-#lounge_chat_list {
-  overflow-y: scroll;
-}
-
-#lounge_chat_list::-webkit-scrollbar {
-  width: 0.5em;
-}
-
-#lounge_chat_list::-webkit-scrollbar-track {
-  border-radius: 1em;
-  background: blue;
-}
-
-#lounge_chat_list::-webkit-scrollbar-thumb {
-  border-radius: 1em;
-  background: red;
-}
-
-.room_message_box {
-  max-width: 100%;
-  background-color: rgb(32, 32, 32);
-  margin: 0.25em;
-  padding: 0.5em;
-  border-radius: 0.5em;
-}
-
-.message_box {
-  list-style: none;
-}
-
-.message {
-  margin-left: 0.5em;
-}
-
-footer {
+.body__footer {
   grid-column: 1 / 3;
   grid-row: 3 / 4;
-  margin-top: 0.25em;
   text-align: center;
 }
 
-footer a {
+.body__main {
+  overflow: hidden;
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+  display: flex;
+}
+
+.main__room-list,
+.main__lounge-chat,
+.room-list__item,
+.lounge-chat-list__item {
+  border-radius: 1.6rem;
+  margin: 0.5rem;
+  padding: 1.4rem;
+}
+
+.main__room-list,
+.main__lounge-chat {
+  overflow: hidden;
+  background-color: rgb(32, 32, 32);
+}
+
+.main__room-list {
+  width: 70%;
+}
+
+.main__lounge-chat {
+  flex: 1;
+}
+
+.room-list,
+.lounge-chat-list {
+  list-style: none;
+}
+
+.room-list__item,
+.lounge-chat-list__item {
+  background-color: rgb(48, 48, 48);
+}
+
+.lounge-chat-list__item-message {
+  margin-left: 1.6rem;
+}
+
+.body__header,
+.body__footer {
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  background-color: rgb(32, 32, 32);
+}
+
+.header__name-input,
+.header__trip-input,
+.lounge-chat__message-input {
+  color: rgb(192, 192, 192);
+  background-color: rgb(64, 64, 64);
+  border: solid 0.1rem rgb(192, 192, 192);
+  border-radius: 0.5rem;
+  margin: 0.2rem;
+}
+
+.header__name-send-button,
+.room-list__reload-list-button,
+.room-list__create-room-button,
+.lounge-chat__send-to-lounge-button {
+  font-family: sans-serif;
+  color: rgb(192, 192, 192);
+  background-color: transparent;
+  border: solid 0.2rem;
+  border-radius: 0.5rem;
+  margin: 0.2rem;
+}
+
+.header__name-send-button:hover,
+.room-list__reload-list-button:hover,
+.room-list__create-room-button:hover,
+.lounge-chat__send-to-lounge-button:hover {
+  background-color: rgba(235, 235, 235, 0.25);
+}
+
+.copyright__link-github {
   color: rgb(192, 192, 192);
   text-decoration: none;
 }
 
+
+/* jsPanelのヘッダーボタンのカスタマイズ */
 .custom-control-icon.custom-smallify::before {
   content: "\025B4";
 }
