@@ -69,6 +69,7 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [【JavaScript】 文字列切り出し（slice, substr, substring）の違い - のんびり猫プログラマの日常](http://catprogram.hatenablog.com/entry/2013/05/13/231457)
 - [【JavaScript入門】replaceの文字列置換・正規表現の使い方まとめ！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/21107)
 - [JavaScriptの配列の使い方まとめ。要素の追加,結合,取得,削除。 - Qiita](https://qiita.com/takeharu/items/d75f96f81ff83680013f)
+- [【JavaScript】桁指定して四捨五入・切り上げ・切り捨て - Qiita](https://qiita.com/nagito25/items/0293bc317067d9e6c560)
 ### HTML
 - [HTML5リファレンス（ABC順）](http://www.htmq.com/html5/indexa.shtml)
 - [HTML5/HTML5要素一覧［ABC順］ - TAG index](https://www.tagindex.com/html5/elements/abc.html)
