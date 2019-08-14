@@ -1,12 +1,13 @@
 html {
   /* remで.x倍(rem)の指定する為にrootのフォントサイズを一旦10pxに */
   font-size: 62.5%;
+  height: 100vh;
 }
 
 body {
   /* chromeのバグ対策でbody内のフォントサイズはemで指定 */
-  font-family: sans-serif;
   font-size: 1.6em;
+  font-family: sans-serif;
   height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -43,7 +44,9 @@ body {
 
 .main__room-list,
 .main__lounge-chat {
-  overflow: hidden;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
   background-color: rgb(32, 32, 32);
 }
 
@@ -53,6 +56,30 @@ body {
 
 .main__lounge-chat {
   flex: 1;
+}
+
+.room_list__list-wrapper,
+.lounge_chat__list-wrapper {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.room_list__list-wrapper::-webkit-scrollbar,
+.lounge_chat__list-wrapper::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+.room_list__list-wrapper::-webkit-scrollbar-track,
+.lounge_chat__list-wrapper::-webkit-scrollbar-track {
+  border-radius: 0.8rem;
+  background: rgb(64, 64, 64);
+}
+
+.room_list__list-wrapper::-webkit-scrollbar-thumb,
+.lounge_chat__list-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 0.8rem;
+  background: rgb(128, 128, 128);
 }
 
 .room-list,
@@ -65,8 +92,12 @@ body {
   background-color: rgb(48, 48, 48);
 }
 
+.lounge-chat-list__item {
+  font-family: serif;
+}
+
 .lounge-chat-list__item-message {
-  margin-left: 1.6rem;
+  margin-left: 1rem;
 }
 
 .body__header,

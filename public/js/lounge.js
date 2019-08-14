@@ -8,43 +8,50 @@
  *
  * ---------- HTML構成 ----------
  * <section class="main__lounge-chat">
- *   <h2>ラウンジチャット<h2>
- *   <input id="input_lounge"
- *          class="lounge-chat__message-input"
- *          maxlength="60"
- *          autocomplete="false">
- *   <button type="button"
- *           id="send_to_lounge_button"
- *           class="lounge-chat__send-to-lounge-button">
- *     コメント
- *   </button>
- *   <hr>
+ *   <div>
+ *     <h2>ラウンジチャット<h2>
+ *     <input id="input_lounge"
+ *            class="lounge-chat__message-input"
+ *            maxlength="60"
+ *            autocomplete="false">
+ *     <button type="button"
+ *             id="send_to_lounge_button"
+ *             class="lounge-chat__send-to-lounge-button">
+ *       コメント
+ *     </button>
+ *     <hr>
+ *   </div>
  *
- *   <ul id="lounge_chat_list" class="lounge-chat-list">
- *     <li class="lounge-chat-list__item">
- *       <span>no </span>
- *       <span>名前：name </span>
- *       <span>ID：id </span>
- *       <br>
- *       <span class="lounge-chat-list__item-message">message<span>
- *     </li>
- *   </ul>
+ *   <div class="lounge-chat__list-wrapper">
+ *     <ul id="lounge_chat_list" class="lounge-chat-list">
+ *       <li class="lounge-chat-list__item">
+ *         <span>no </span>
+ *         <span>名前：name </span>
+ *         <span>ID:id </span>
+ *         <br>
+ *         <span class="lounge-chat-list__item-message">message<span>
+ *       </li>
+ *     </ul>
+ *   </div>
  * </section>
  */
 window.addEventListener("load", () => {
   let main = document.getElementById("main");
 
-  let lounge_chat_wrapper = document.createElement("section");
-  lounge_chat_wrapper.className = "main__lounge-chat";
-  main.appendChild(lounge_chat_wrapper);
+  let lounge_chat_section = document.createElement("section");
+  lounge_chat_section.className = "main__lounge-chat";
+  main.appendChild(lounge_chat_section);
+
+  let div = document.createElement("div");
+  lounge_chat_section.appendChild(div);
 
   let lounge_chat_label = document.createElement("h2");
   lounge_chat_label.textContent = "ラウンジチャット";
-  lounge_chat_wrapper.appendChild(lounge_chat_label);
+  div.appendChild(lounge_chat_label);
 
   let input_lounge_label = document.createElement("label");
   input_lounge_label.textContent = "メッセージ:";
-  lounge_chat_wrapper.appendChild(input_lounge_label);
+  div.appendChild(input_lounge_label);
 
   let input_lounge = document.createElement("input");
   input_lounge.id = "input_lounge";
@@ -58,15 +65,19 @@ window.addEventListener("load", () => {
   send_to_lounge_button.id = "send_to_lounge_button";
   send_to_lounge_button.className = "lounge-chat__send-to-lounge-button";
   send_to_lounge_button.textContent = "書き込む";
-  lounge_chat_wrapper.appendChild(send_to_lounge_button);
+  div.appendChild(send_to_lounge_button);
 
   let hr = document.createElement("hr");
-  lounge_chat_wrapper.appendChild(hr);
+  div.appendChild(hr);
+
+  let lounge_chat_list_wrapper = document.createElement("div");
+  lounge_chat_list_wrapper.className = "lounge_chat__list-wrapper";
+  lounge_chat_section.appendChild(lounge_chat_list_wrapper);
 
   let lounge_chat_list = document.createElement("ul");
   lounge_chat_list.id = "lounge_chat_list";
   lounge_chat_list.className = "lounge-chat-list";
-  lounge_chat_wrapper.appendChild(lounge_chat_list);
+  lounge_chat_list_wrapper.appendChild(lounge_chat_list);
 });
 
 
@@ -116,7 +127,7 @@ window.addEventListener("load", () => {
 
     // ユーザーのID
     let id = document.createElement("span");
-    id.textContent = "ID：" + message.id;
+    id.textContent = "ID:" + message.id;
     new_message.appendChild(id);
 
     // 本文の表示の前に改行

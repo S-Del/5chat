@@ -8,70 +8,81 @@
  *
  * ---------- HTML構成 ----------
  * <section class="main__room-list">
- *   <h2>部屋一覧</h2>
- *   <button type="button"
- *           id="relord_list_button"
- *           class="room-list__reload-list-button">
- *     一覧更新
- *   </button>
- *   <button type="button"
- *           id="create_room_button"
- *           class="room-list__create-room-button">
- *     部屋を作る
- *   </button>
- *   <span>
- *     現在の部屋数: 
- *     <span id="room_count"></span>
- *   </span>
- *   <hr>
+ *   <div>
+ *     <h2>部屋一覧</h2>
+ *     <button type="button"
+ *             id="relord_list_button"
+ *             class="room-list__reload-list-button">
+ *       一覧更新
+ *     </button>
+ *     <button type="button"
+ *             id="create_room_button"
+ *             class="room-list__create-room-button">
+ *       部屋を作る
+ *     </button>
+ *     <span>
+ *       現在の部屋数: 
+ *       <span id="room_count"></span>
+ *     </span>
+ *     <hr>
+ *   </div>
  *
- *   <ul id="room_list" class="room-list">
- *     <li class="room-list__item">
- *       <h3>部屋名</h3>
- *       <span>人数: </span>
- *       <span>書き込み数: </span>
- *       <span>勢い: </span>
- *       <hr>
- *       <span>部屋の説明</span>
- *     </li>
- *   </ul>
+ *   <div class="room_list__list-wrapper">
+ *     <ul id="room_list" class="room-list">
+ *       <li class="room-list__item">
+ *         <h3>部屋名</h3>
+ *         <span>人数: </span>
+ *         <span>書き込み数: </span>
+ *         <span>勢い: </span>
+ *         <hr>
+ *         <span>部屋の説明</span>
+ *       </li>
+ *     </ul>
+ *   </div>
  * </section>
  */
 window.addEventListener("load", () => {
   let main = document.getElementById("main");
 
-  let room_list_wrapper = document.createElement("section");
-  room_list_wrapper.className = "main__room-list";
-  main.appendChild(room_list_wrapper);
+  let room_list_section = document.createElement("section");
+  room_list_section.className = "main__room-list";
+  main.appendChild(room_list_section);
+
+  let div = document.createElement("div");
+  room_list_section.appendChild(div);
 
   let room_list_label = document.createElement("h2");
   room_list_label.textContent = "部屋一覧";
-  room_list_wrapper.appendChild(room_list_label);
+  div.appendChild(room_list_label);
 
   let relord_list_button = document.createElement("button");
   relord_list_button.type = "button";
   relord_list_button.id = "relord_list_button";
   relord_list_button.className = "room-list__reload-list-button";
   relord_list_button.textContent = "一覧を更新";
-  room_list_wrapper.appendChild(relord_list_button);
+  div.appendChild(relord_list_button);
 
   let create_room_button = document.createElement("button");
   create_room_button.type = "button";
   create_room_button.id = "create_room_button";
   create_room_button.className = "room-list__create-room-button";
   create_room_button.textContent = "部屋を作る";
-  room_list_wrapper.appendChild(create_room_button);
+  div.appendChild(create_room_button);
 
   let room_count_label = document.createElement("span");
   room_count_label.textContent = "現在の部屋数: ";
-  room_list_wrapper.appendChild(room_count_label);
+  div.appendChild(room_count_label);
 
   let room_count = document.createElement("span");
   room_count.id = "room_count";
-  room_list_wrapper.appendChild(room_count);
+  div.appendChild(room_count);
 
   let room_list_hr = document.createElement("hr");
-  room_list_wrapper.appendChild(room_list_hr);
+  div.appendChild(room_list_hr);
+
+  let room_list_wrapper = document.createElement("div");
+  room_list_wrapper.className = "room_list__list-wrapper";
+  room_list_section.appendChild(room_list_wrapper);
 
   let room_list = document.createElement("ul");
   room_list.id = "room_list";
@@ -274,7 +285,7 @@ window.addEventListener("load", () => {
             new_message.appendChild(name);
 
             let id = document.createElement("span");
-            id.textContent = "ID：" + room_message.user.id;
+            id.textContent = "ID:" + room_message.user.id;
             new_message.appendChild(id);
 
             let br = document.createElement("br");
