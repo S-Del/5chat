@@ -1,12 +1,26 @@
-<label>メッセージ:
-  <input class='input_room' maxlength="60">
-</label>
-<button type="button" class="send_to_room_button">書き込む</button>
+<!DOCTYPE html>
 
-<span>人数: </span>
-<span class="num_of_people"></span>
-<span>勢い: </span>
-<span class="room_power"></span>
-<hr>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <title>room.html</title>
+  </head>
 
-<ul class='room_chat_list'></ul>
+  <body>
+    <div class="room-window">
+      <label>メッセージ:
+        <input class="room-window__input-room" maxlength="60">
+      </label>
+      <button type="button" class="room-window__send-to-room-button">書き込む</button>
+
+      <span class="room-window__num-of-people"></span>
+      <span class="room-window__room-power"></span>
+      <hr>
+
+      <ul class="room-window__room-chat-list"></ul>
+    </div>
+  </body>
+
+</html>

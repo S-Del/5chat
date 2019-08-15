@@ -184,8 +184,8 @@ window.addEventListener("load", () => {
 
           function create_new_room() {
             let new_room_info = {
-              input_room_name: panel.content.getElementsByClassName("input_room_name")[0].value,
-              input_room_description: panel.content.getElementsByClassName("input_room_description")[0].value
+              input_room_name: panel.content.getElementsByClassName("create-room-window__input-room-name")[0].value,
+              input_room_description: panel.content.getElementsByClassName("create-room-window__input-room-description")[0].value
             };
 
             socket.emit("create_new_room", new_room_info);
@@ -193,12 +193,12 @@ window.addEventListener("load", () => {
           }
 
           // 部屋作成ウィンドウ内の「作る」ボタンが押されたときに部屋作成を要求
-          panel.content.getElementsByClassName("add_room_button")[0].addEventListener("click", () => {
+          panel.content.getElementsByClassName("create-room-window__add-room-button")[0].addEventListener("click", () => {
             create_new_room();
           });
 
           // 部屋名入力欄でのエンターキーで部屋作成を要求
-          panel.content.getElementsByClassName("input_room_name")[0].addEventListener("keyup", (event) => {
+          panel.content.getElementsByClassName("create-room-window__input-room-name")[0].addEventListener("keyup", (event) => {
             if (event.keyCode != 13) {
               return;
             }
@@ -207,7 +207,7 @@ window.addEventListener("load", () => {
           });
 
           // 説明入力欄でのエンターキーで部屋作成を要求
-          panel.content.getElementsByClassName("input_room_description")[0].addEventListener("keyup", (event) => {
+          panel.content.getElementsByClassName("create-room-window__input-room-description")[0].addEventListener("keyup", (event) => {
             if (event.keyCode != 13) {
               return;
             }
@@ -254,15 +254,18 @@ window.addEventListener("load", () => {
           panel.content.innerHTML = response;
 
           // 人数表示
-          panel.content.getElementsByClassName("num_of_people")[0].textContent = Object.keys(room.users).length;
+          panel.content.getElementsByClassName("room-window__num-of-people")[0].textContent =
+              "人数: " + Object.keys(room.users).length;
 
           // 人数更新
           socket.on("update_nop", (num_of_people) => {
-            panel.content.getElementsByClassName("num_of_people")[0].textContent = num_of_people;
+            panel.content.getElementsByClassName("room-window__num-of-people")[0].textContent =
+                "人数: " + num_of_people;
           })
 
           // 勢い表示
-          panel.content.getElementsByClassName("room_power")[0].textContent = room.power.toFixed(1);
+          panel.content.getElementsByClassName("room-window__room-power")[0].textContent =
+              "勢い: " + room.power.toFixed(1);
 
           // 部屋の書き込み受信時に部屋の書き込み一覧と勢いの表示を更新
           socket.on("message_room", (room_message) => {
@@ -270,10 +273,12 @@ window.addEventListener("load", () => {
               return;
             }
 
-            panel.content.getElementsByClassName("room_power")[0].textContent = room_message.power.toFixed(1);
+            panel.content.getElementsByClassName("room-window__room-power")[0].textContent =
+                "勢い: " + room_message.power.toFixed(1);
 
-            let room_chat_list = panel.content.getElementsByClassName("room_chat_list")[0];
+            let room_chat_list = panel.content.getElementsByClassName("room-window__room-chat-list")[0];
             let new_message = document.createElement("li");
+            new_message.className = "room-chat-list__item";
             room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
 
             let resp_no = document.createElement("span");
@@ -292,6 +297,7 @@ window.addEventListener("load", () => {
             new_message.appendChild(br);
 
             let content = document.createElement("span");
+            content.className = "room-chat-list__item-message";
             content.textContent = room_message.input_room;
             new_message.appendChild(content);
           });
@@ -300,20 +306,20 @@ window.addEventListener("load", () => {
           function send_to_room() {
             let room_message = {
               room_id: room_id,
-              input_room: panel.content.getElementsByClassName("input_room")[0].value
+              input_room: panel.content.getElementsByClassName("room-window__input-room")[0].value
             }
-            panel.content.getElementsByClassName("input_room")[0].value = "";
+            panel.content.getElementsByClassName("room-window__input-room")[0].value = "";
 
             socket.emit("send_to_room", room_message);
           }
 
           // 部屋ウィンドウ内の「書き込む」ボタンが押された時に部屋内発言を要求
-          panel.content.getElementsByClassName("send_to_room_button")[0].addEventListener("click", () => {
+          panel.content.getElementsByClassName("room-window__send-to-room-button")[0].addEventListener("click", () => {
             send_to_room();
           });
 
           // 書き込み欄でのエンターキーで部屋内発言を要求
-          panel.content.getElementsByClassName("input_room")[0].addEventListener("keyup", (event) => {
+          panel.content.getElementsByClassName("room-window__input-room")[0].addEventListener("keyup", (event) => {
             if (event.keyCode != 13) {
               return;
             }

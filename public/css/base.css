@@ -15,6 +15,13 @@ body {
   color: rgb(192, 192, 192);
 }
 
+.body__header,
+.body__footer {
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  background-color: rgb(32, 32, 32);
+}
+
 .body__header {
   grid-column: 1 / 3;
   grid-row: 1 / 2;
@@ -36,7 +43,8 @@ body {
 .main__room-list,
 .main__lounge-chat,
 .room-list__item,
-.lounge-chat-list__item {
+.lounge-chat-list__item,
+.room-chat-list__item {
   border-radius: 1.6rem;
   margin: 0.5rem;
   padding: 1.4rem;
@@ -92,24 +100,31 @@ body {
   background-color: rgb(48, 48, 48);
 }
 
-.lounge-chat-list__item {
+.create-room-window,
+.room-window {
+  font-size: 1.6rem;
+}
+
+.lounge-chat-list__item,
+.room-chat-list__item {
   font-family: serif;
 }
 
-.lounge-chat-list__item-message {
-  margin-left: 1rem;
+.room-chat-list__item {
+  background-color: rgb(32, 32, 32);
 }
 
-.body__header,
-.body__footer {
-  padding: 0.5rem;
-  font-size: 1.4rem;
-  background-color: rgb(32, 32, 32);
+.lounge-chat-list__item-message,
+.room-chat-list__item-message {
+  margin-left: 1rem;
 }
 
 .header__name-input,
 .header__trip-input,
-.lounge-chat__message-input {
+.lounge-chat__message-input,
+.create-room-window__input-room-name,
+.create-room-window__input-room-description,
+.room-window__input-room {
   color: rgb(192, 192, 192);
   background-color: rgb(64, 64, 64);
   border: solid 0.1rem rgb(192, 192, 192);
@@ -120,7 +135,9 @@ body {
 .header__name-send-button,
 .room-list__reload-list-button,
 .room-list__create-room-button,
-.lounge-chat__send-to-lounge-button {
+.lounge-chat__send-to-lounge-button,
+.create-room-window__add-room-button,
+.room-window__send-to-room-button {
   font-family: sans-serif;
   color: rgb(192, 192, 192);
   background-color: transparent;
@@ -132,7 +149,9 @@ body {
 .header__name-send-button:hover,
 .room-list__reload-list-button:hover,
 .room-list__create-room-button:hover,
-.lounge-chat__send-to-lounge-button:hover {
+.lounge-chat__send-to-lounge-button:hover,
+.create-room-window__add-room-button:hover,
+.room-window__send-to-room-button:hover {
   background-color: rgba(235, 235, 235, 0.25);
 }
 
