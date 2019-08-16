@@ -135,7 +135,7 @@ window.addEventListener("load", () => {
     new_message.appendChild(br);
 
     // 本文
-    let content = document.createElement("li");
+    let content = document.createElement("span");
     content.className = "lounge-chat-list__item-message";
     content.textContent = message.content;
     new_message.appendChild(content);
