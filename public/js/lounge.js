@@ -112,6 +112,12 @@ window.addEventListener("load", () => {
     let lounge_chat_list = document.getElementById("lounge_chat_list");
     let new_message = document.createElement("li");
     new_message.className = "lounge-chat-list__item";
+    // レスのクリック時にレスアンカーを生成して入力欄にフォーカス
+    new_message.addEventListener("click", () => {
+      let input_lounge = document.getElementById("input_lounge");
+      input_lounge.value += ">>" + message.no + " ";
+      input_lounge.focus();
+    });
     // 新しいメッセージは先頭(最上部)に追加(末尾に追加すると見にくい為)
     lounge_chat_list.insertBefore(new_message, lounge_chat_list.firstChild)
 
@@ -125,7 +131,7 @@ window.addEventListener("load", () => {
     name.textContent = "名前：" + message.name + " ";
     new_message.appendChild(name);
 
-    // ユーザーのID
+    // ユーザーID
     let id = document.createElement("span");
     id.textContent = "ID:" + message.id;
     new_message.appendChild(id);
