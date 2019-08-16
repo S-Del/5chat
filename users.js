@@ -34,7 +34,7 @@ let init_user_info = (socket_id, ip) => {
   }
 
   let sha512 = crypto.createHash("sha512");
-  sha512.update(ip + new Date().getDate);
+  sha512.update(ip + new Date().getDate());
   let id = sha512.digest("base64").slice(0, 10);
 
   let new_user = {
