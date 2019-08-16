@@ -100,6 +100,11 @@ body {
   background-color: rgb(48, 48, 48);
 }
 
+.room-list__item:hover,
+.lounge-chat-list__item:hover {
+  background-color: rgb(96, 96, 96);
+}
+
 .create-room-window,
 .room-window {
   font-size: 1.6rem;
