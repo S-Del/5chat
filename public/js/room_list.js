@@ -279,6 +279,12 @@ window.addEventListener("load", () => {
             let room_chat_list = panel.content.getElementsByClassName("room-window__room-chat-list")[0];
             let new_message = document.createElement("li");
             new_message.className = "room-chat-list__item";
+            // レスのクリック時にレスアンカーを生成して入力欄にフォーカス
+            new_message.addEventListener("click", () => {
+              let input_room = panel.content.getElementsByClassName("room-window__input-room")[0];
+              input_room.value += ">>" + room_message.no + " ";
+              input_room.focus();
+            });
             room_chat_list.insertBefore(new_message, room_chat_list.firstChild);
 
             let resp_no = document.createElement("span");
