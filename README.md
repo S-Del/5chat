@@ -43,6 +43,7 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 ### CentOS7
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
+- [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 ### Node.js / express / helmet / socket.io
 - [Node.js入門](http://www.tohoho-web.com/ex/nodejs.html)
 - [Express での静的ファイルの提供](https://expressjs.com/ja/starter/static-files.html)
