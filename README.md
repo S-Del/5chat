@@ -79,6 +79,7 @@ server {
 5. `$ npm install socket.io --save`
 
 ## Usage
+### Node.jsでチャットサーバを実行、nginxにてリバースプロキシ、静的ファイル提供。
 1. `$ node app.js`
 2. `$ sudo systemctl start nginx`
 
