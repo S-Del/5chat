@@ -1,18 +1,18 @@
 # nodejs_chat
 ![nodejs_chat](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)
-Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
+Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
 のシンプルなチャットを作成中  
 つくりかけごはん:rice:  
   
-並行してCentOSやGitなどの操作なども覚えたい
+並行してCentOSやnginx、GitやGitHubなどの操作なども覚えたい。
 
 ## Requirement
-- [express ](https://expressjs.com/ja/)([リポジトリ](https://github.com/expressjs/expressjs.com))
-- [Helmet ](https://helmetjs.github.io/)([リポジトリ](https://github.com/helmetjs/helmet))
+- [nginx ](https://nginx.org/)([リポジトリ](https://github.com/nginx/nginx))
+- [Node.js](https://nodejs.org/ja/)
 - [socket.io ](https://socket.io/)([リポジトリ](https://github.com/socketio/socket.io))
 
 ## Setup
-- [Node.js](https://nodejs.org/ja/)
+### nvm(バージョンマネージャ)からNode.jsをインストールし、npm(パッケージマネージャ)も導入。
 - [npm ](https://www.npmjs.com/)([リポジトリ](https://github.com/npm/cli))
 - [nvm (リポジトリ)](https://github.com/nvm-sh/nvm)
 1. `$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/vx.x.x/install.sh | bash` <- vx.x.xはnvmのページにて確認
@@ -25,12 +25,59 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 8. `$ npm -v`
 
 ## Install
+### CentOS7にnginx(Webサーバ)をインストールし、ポートフォワード。
+1. `$ sudo vi /etc/yum.repos.d/nginx.repo`
+```nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
+gpgcheck=0
+enabled=1
+```
+2. `$ sudo yum install nginx`
+3. `$ nginx -v`
+4. `$ sudo systemctl enable nginx`
+5. `$ sudo firewall-cmd --add-service=http --zone=public --permanent`
+6. `$ sudo firewall-cmd --add-port=80/tcp --zone=public --permanent`
+7. `$ sudo firewall-cmd --list-all --zone=public`
+8. `$ sudo firewall-cmd --reload`
+9. `$ sudo vi /etc/nginx/conf.d/server.conf`
+```
+upstream chatNode {
+    ip_hash;
+    server localhost:8080;
+}
+
+server {
+    listen      80;
+    server_name localhost;
+
+    location / {
+        root  /usr/share/nginx/public;
+        index index.html;
+    }
+
+    location /socket.io/ {
+        proxy_pass         http://chatNode;
+        proxy_http_version 1.1;
+        proxy_redirect     off;
+        proxy_set_header Upgrade            $http_upgrade;
+        proxy_set_header Connection         "upgrade";
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-Host   $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+    }
+}
+```
+### npmからsocket.ioをインストールし、サーバーを起動。
 `$ git clone https://github.com/drrr-py/nodejs_chat.git`  
 `$ cd nodejs_chat`  
+`$ cp -r public /usr/share/nginx/`
 `$ npm init`  
-`$ npm install express --save`  
-`$ npm install helmet --save`  
 `$ npm install socket.io --save`  
+`$ sudo systemctl start nginx`  
 
 ## Usage
 `$ node app.js`  
@@ -41,14 +88,12 @@ Node.jsとsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 "個人的"に役に立ったと感じた記事等を列挙しています。  
 ※記事のタイトルやURLは変更されている可能性があります
 ### CentOS7
+- [CentOS7 に nginx導入 - Qiita](https://qiita.com/MuuKojima/items/afc0ad8309ba9c5ed5ee)
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
 - [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 ### Node.js / express / helmet / socket.io
 - [Node.js入門](http://www.tohoho-web.com/ex/nodejs.html)
-- [Express での静的ファイルの提供](https://expressjs.com/ja/starter/static-files.html)
-- [実稼働環境における Express のセキュリティーに関するベスト・プラクティス](https://expressjs.com/ja/advanced/best-practice-security.html)
-- [Node.js(Express.js)でセキュリティを設定する(http脆弱性対策はhelmetを使えばOK) - Node.jsで暗号資産アービトラージ](https://www.kennejs.com/entry/2019/01/12/002142)
 - [Socket.IO: the cross-browser WebSocket for realtime apps.](https://jxck.github.io/socket.io/)
 - [Socket.IO  —  Server API | Socket.IO](https://socket.io/docs/server-api/)
 - [Socket.IO  —  Client API | Socket.IO](https://socket.io/docs/client-api/)
