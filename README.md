@@ -1,4 +1,4 @@
-# nodejs_chat
+# nodejs_chat(仮)
 ![nodejs_chat](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)
 Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
 のシンプルなチャットを作成中  
@@ -11,8 +11,8 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - [Node.js](https://nodejs.org/ja/)
 - [socket.io ](https://socket.io/)([リポジトリ](https://github.com/socketio/socket.io))
 
-## Setup
-### nvm(バージョンマネージャ)からNode.jsをインストールし、npm(パッケージマネージャ)も導入。
+## Setup / Install
+### CentOSにnvm(バージョンマネージャ)からNode.jsをインストールし、npm(パッケージマネージャ)も導入。
 - [npm ](https://www.npmjs.com/)([リポジトリ](https://github.com/npm/cli))
 - [nvm (リポジトリ)](https://github.com/nvm-sh/nvm)
 1. `$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/vx.x.x/install.sh | bash` <- vx.x.xはnvmのページにて確認
@@ -23,9 +23,7 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 6. `$ node -v`
 7. `$ npm update -g npm`
 8. `$ npm -v`
-
-## Install
-### CentOS7にnginx(Webサーバ)をインストールし、ポートフォワード。
+### CentOSにnginx(Webサーバ)をインストールし、ポートフォワード。
 1. `$ sudo vi /etc/yum.repos.d/nginx.repo`  
     以下の内容を書き込む  
     ```repo:nginx.repo
@@ -37,17 +35,20 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
     ```
 2. `$ sudo yum install nginx`
 3. `$ nginx -v`
-4. `$ sudo systemctl enable nginx`
+4. `$ sudo systemctl enable nginx` <- nginxを自動起動させない場合は不要
 5. `$ sudo firewall-cmd --add-service=http --zone=public --permanent`
 6. `$ sudo firewall-cmd --list-all --zone=public`
 7. `$ sudo firewall-cmd --reload`
+### リポジトリのクローンとファイルの配置
+1. `$ cd <このアプリケーションを配置するディレクトリ>`
+2. `$ git clone https://github.com/drrr-py/nodejs_chat.git`
+3. `$ cd nodejs_chat`
+4. `$ sudo mkdir /var/www/` <- wwwディレクトリが存在するならば不要
+5. `$ sudo cp -r public/ /var/www/`
+6. `$ sudo cp chat_node.conf /etc/nginx/conf.d/` <- /var/www/以外に配置したならばlocationのrootを編集する
 ### npmからsocket.ioをインストール
-1. `$ git clone https://github.com/drrr-py/nodejs_chat.git`
-2. `$ cd nodejs_chat`
-3. `$ sudo cp chat_node.conf /etc/nginx/conf.d/`
-3. `$ sudo cp -r public/ /usr/share/nginx/`
-4. `$ npm init`
-5. `$ npm install socket.io --save`
+1. `$ npm init`
+2. `$ npm install socket.io --save`
 
 ## Usage
 ### Node.jsとnginxを起動
@@ -67,8 +68,9 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
-### Node.js / express / helmet / socket.io
+### Node.js / socket.io / crypto
 - [Node.js入門](http://www.tohoho-web.com/ex/nodejs.html)
+- [【Node.js入門】requireの使い方とモジュールの作り方まとめ！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/77966)
 - [Socket.IO: the cross-browser WebSocket for realtime apps.](https://jxck.github.io/socket.io/)
 - [Socket.IO  —  Server API | Socket.IO](https://socket.io/docs/server-api/)
 - [Socket.IO  —  Client API | Socket.IO](https://socket.io/docs/client-api/)
@@ -76,7 +78,6 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [Node.js + Express + Socket.ioで簡易チャットを作ってみる - Qiita](https://qiita.com/riku-shiru/items/ffba3448f3aff152b6c1)
 - [Crypto | Node.js v12.7.0 Documentation](https://nodejs.org/api/crypto.html)
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
-- [【Node.js入門】requireの使い方とモジュールの作り方まとめ！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/77966)
 ### JavaScript
 - [overview | options | API jsPanel](https://jspanel.de/api.html)
 - [ライブラリを使わない素のJavaScriptでDOM操作 - Qiita](https://qiita.com/kouh/items/dfc14d25ccb4e50afe89)
