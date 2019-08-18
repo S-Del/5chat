@@ -71,16 +71,16 @@ server {
     }
 }
 ```
-### npmからsocket.ioをインストールし、サーバーを起動。
-`$ git clone https://github.com/drrr-py/nodejs_chat.git`  
-`$ cd nodejs_chat`  
-`$ cp -r public /usr/share/nginx/`
-`$ npm init`  
-`$ npm install socket.io --save`  
-`$ sudo systemctl start nginx`  
+### npmからsocket.ioをインストール
+1. `$ git clone https://github.com/drrr-py/nodejs_chat.git`
+2. `$ cd nodejs_chat`
+3. `$ sudo cp -r public /usr/share/nginx/`
+4. `$ npm init`
+5. `$ npm install socket.io --save`
 
 ## Usage
-`$ node app.js`  
+1. `$ node app.js`
+2. `$ sudo systemctl start nginx`
 
 ## References
 参考にしたサイト等を列挙しています  
