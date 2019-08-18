@@ -89,9 +89,11 @@ server {
 ※記事のタイトルやURLは変更されている可能性があります
 ### CentOS7
 - [CentOS7 に nginx導入 - Qiita](https://qiita.com/MuuKojima/items/afc0ad8309ba9c5ed5ee)
+- [Using NGINX with Node.js and Socket.IO, the WebSocket API](https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/)
+- [nginx - パーミッション(Linux)](https://gakumon.tech/nginx/nginx_permission.html)
+- [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
-- [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 ### Node.js / express / helmet / socket.io
 - [Node.js入門](http://www.tohoho-web.com/ex/nodejs.html)
 - [Socket.IO: the cross-browser WebSocket for realtime apps.](https://jxck.github.io/socket.io/)
