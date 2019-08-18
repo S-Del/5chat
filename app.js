@@ -3,18 +3,13 @@
 let users = require("./users.js");
 let rooms = require("./rooms.js");
 
-let express = require("express");
-let helmet = require("helmet");
-let app = express();
-let server = require("http").Server(app);
-let io = require("socket.io")(server, { cookie: false });
-const PORT = process.env.PORT || 8080;
-
-app.use(helmet());
-app.use(express.static("public"));
-app.use((req, res) => {
-  res.sendStatus(404);
+const server = require("http").createServer((req, res) => {
+  res.writeHead(200);
+  res.end();
 });
+
+const io = require("socket.io")(server, { cookie: false });
+const PORT = process.env.PORT || 8080;
 
 server.listen(PORT, () => {
   console.log("Server is Listening. Port: " + PORT);
