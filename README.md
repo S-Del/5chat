@@ -26,8 +26,8 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 
 ## Install
 ### CentOS7にnginx(Webサーバ)をインストールし、ポートフォワード。
-1. `$ sudo vi /etc/yum.repos.d/nginx.repo`
-    以下の内容を書き込む
+1. `$ sudo vi /etc/yum.repos.d/nginx.repo`  
+    以下の内容を書き込む  
     ```repo:nginx.repo
     [nginx]
     name=nginx repo
@@ -52,7 +52,7 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 ## Usage
 ### Node.jsとnginxを起動
 1. `$ node app.js`
-2. `$ sudo systemctl start nginx`
+2. `$ sudo systemctl start nginx`  
 nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(リバースプロキシ)。
 
 ## References
