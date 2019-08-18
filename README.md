@@ -27,61 +27,33 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 ## Install
 ### CentOS7にnginx(Webサーバ)をインストールし、ポートフォワード。
 1. `$ sudo vi /etc/yum.repos.d/nginx.repo`
-```nginx.repo
-[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
-gpgcheck=0
-enabled=1
-```
+    以下の内容を書き込む
+    ```repo:nginx.repo
+    [nginx]
+    name=nginx repo
+    baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
+    gpgcheck=0
+    enabled=1
+    ```
 2. `$ sudo yum install nginx`
 3. `$ nginx -v`
 4. `$ sudo systemctl enable nginx`
 5. `$ sudo firewall-cmd --add-service=http --zone=public --permanent`
-6. `$ sudo firewall-cmd --add-port=80/tcp --zone=public --permanent`
-7. `$ sudo firewall-cmd --list-all --zone=public`
-8. `$ sudo firewall-cmd --reload`
-9. `$ sudo vi /etc/nginx/conf.d/server.conf`
-```
-upstream chatNode {
-    ip_hash;
-    server localhost:8080;
-}
-
-server {
-    listen      80;
-    server_name localhost;
-
-    location / {
-        root  /usr/share/nginx/public;
-        index index.html;
-    }
-
-    location /socket.io/ {
-        proxy_pass         http://chatNode;
-        proxy_http_version 1.1;
-        proxy_redirect     off;
-        proxy_set_header Upgrade            $http_upgrade;
-        proxy_set_header Connection         "upgrade";
-        proxy_set_header Host               $host;
-        proxy_set_header X-Real-IP          $remote_addr;
-        proxy_set_header X-Forwarded-Host   $host;
-        proxy_set_header X-Forwarded-Server $host;
-        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
-    }
-}
-```
+6. `$ sudo firewall-cmd --list-all --zone=public`
+7. `$ sudo firewall-cmd --reload`
 ### npmからsocket.ioをインストール
 1. `$ git clone https://github.com/drrr-py/nodejs_chat.git`
 2. `$ cd nodejs_chat`
-3. `$ sudo cp -r public /usr/share/nginx/`
+3. `$ sudo cp chat_node.conf /etc/nginx/conf.d/`
+3. `$ sudo cp -r public/ /usr/share/nginx/`
 4. `$ npm init`
 5. `$ npm install socket.io --save`
 
 ## Usage
-### Node.jsでチャットサーバを実行、nginxにてリバースプロキシ、静的ファイル提供。
+### Node.jsとnginxを起動
 1. `$ node app.js`
 2. `$ sudo systemctl start nginx`
+nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(リバースプロキシ)。
 
 ## References
 参考にしたサイト等を列挙しています  
