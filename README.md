@@ -66,6 +66,7 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [Using NGINX with Node.js and Socket.IO, the WebSocket API](https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/)
 - [nginx - パーミッション(Linux)](https://gakumon.tech/nginx/nginx_permission.html)
 - [WEBレスポンススピード高速化委員会〜nginxでgzip圧縮有効化編 - Qiita](https://qiita.com/master-of-sugar/items/71bc7f4c0746b0e04a07)
+- [Nginx設定の肝 - がとらぼ](https://gato.intaa.net/freebsd/memo/nginx_settings)
 - [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
