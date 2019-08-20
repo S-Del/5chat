@@ -96,6 +96,14 @@ io.on("connection", (socket) => {
       return;
     }
 
+    if (!room_message.room_id) {
+      return;
+    }
+
+    if (!room_message.input_room) {
+      return;
+    }
+
     room_message.input_room = room_message.input_room.slice(0, 60);
     if (users.is_blank(room_message.input_room)) {
       return;
