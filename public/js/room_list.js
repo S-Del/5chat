@@ -115,7 +115,6 @@ window.addEventListener("load", () => {
     // 新しく得た部屋一覧を全て表示
     for (let room_id in rooms) {
       let room = document.createElement("li");
-      room.id = room_id;
       room.className = "room-list__item";
       room_list.appendChild(room);
 
