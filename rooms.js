@@ -120,6 +120,7 @@ let update_room = (room_message) => {
     message: room_message.input_room
   };
   rooms[room_message.room_id].messages.push(info);
+//  console.log(rooms[room_message.room_id]);
 }
 exports.update_room = update_room;
 

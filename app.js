@@ -56,6 +56,10 @@ io.on("connection", (socket) => {
       return;
     }
 
+    if (Object.keys(new_room_info).length != 2) {
+      return;
+    }
+
     if (users.is_blank(new_room_info.input_room_name)) {
       return;
     }
@@ -96,11 +100,15 @@ io.on("connection", (socket) => {
       return;
     }
 
-    if (!room_message.room_id) {
+    if (Object.keys(room_message).length != 2) {
       return;
     }
 
-    if (!room_message.input_room) {
+    if (!rooms.map[room_message.room_id]) {
+      return;
+    }
+
+    if (!rooms.map[room_message.room_id].users[socket.id]) {
       return;
     }
 
