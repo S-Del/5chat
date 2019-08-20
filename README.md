@@ -61,7 +61,7 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 これら以外に色々と読んでいますが、自分の疑問にクリティカルな解答を得られたものだったり、
 "個人的"に役に立ったと感じた記事等を列挙しています。  
 ※記事のタイトルやURLは変更されている可能性があります
-### CentOS7
+### CentOS7 / nginx
 - [CentOS7 に nginx導入 - Qiita](https://qiita.com/MuuKojima/items/afc0ad8309ba9c5ed5ee)
 - [Using NGINX with Node.js and Socket.IO, the WebSocket API](https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/)
 - [nginx - パーミッション(Linux)](https://gakumon.tech/nginx/nginx_permission.html)
