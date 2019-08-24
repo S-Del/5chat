@@ -48,7 +48,7 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 6. `$ sudo cp chat_node.conf /etc/nginx/conf.d/` <- /var/www/以外に配置したならばlocationのrootを編集する
 ### npmからsocket.ioをインストール
 1. `$ npm init`
-2. `$ npm install socket.io --save`
+2. `$ npm install socket.io`
 
 ## Usage
 ### Node.jsとnginxを起動
