@@ -19,19 +19,33 @@ let users = {};
 
 
 /**
+ * 引数に渡されたIPアドレスの形式をIPv4形式に変更する
+ *
+ * "::ffff:192.168.0.1"の様な"IPv4射影IPv6アドレス"のIPv6部分を取り除く
+ *
+ * @params {string} ip: どのような形式になっているか分からないIPアドレス
+ * @return {string} IPv4形式に変更されたIPアドレス文字列
+ */
+function format_ip(ip) {
+  let idx = ip.lastIndexOf(":");
+  if (idx != -1) {
+    ip = ip.slice(idx + 1);
+  }
+
+  return ip;
+}
+
+/**
  * 接続が確立したユーザー情報初期と保存を行う
+ *
  * 初期デフォルトユーザー名とIDを設定してusers{}に保存する
  * IDはipアドレスに日付を付加したものをハッシュ化した文字列の一部を設定する
  *
  * @params {string} socket_id: socket.idから得られる1コネクションを表す文字列
  * @params {string} ip: socket.handshake.addressから得られるユーザーのIPアドレス
  */
-let init_user_info = (socket_id, ip) => {
-  // 渡されたipアドレスが "Pv4射影IPv6アドレス" 形式の場合はIPv6部分を取り除く
-  let idx = ip.lastIndexOf(":");
-  if (idx != -1) {
-    ip = ip.slice(idx + 1);
-  }
+function init_user_info(socket_id, ip) {
+  ip = format_ip(ip);
 
   let sha512 = crypto.createHash("sha512");
   sha512.update(ip + new Date().getDate());
