@@ -2,19 +2,19 @@
 
 let crypto = require("crypto");
 
-//let logger = require("./log.js")
-
 /**
  * 接続中のユーザー情報が格納されるオブジェクト
  *
  * サーバー(app.js)からは直接アクセスできない(exportsしない)
  * クライアントに送信するユーザー情報が必要となった場合はget()を使用する
  *
- * name: ユーザーが設定した名前。トリップがある場合は末尾に付加される。
- * id: IPアドレスから作成されたID
- * power: ユーザーの勢い
- * ip: ユーザーのIPアドレス
- * last_input: 最後にメッセージ等を入力した時刻(ミリ秒)
+ * @type {Object} users ユーザーとそのユーザー情報が格納される
+ * @property {String} name       ユーザーが設定した名前。トリップがある場合は末尾に付加される。
+ * @property {String} id         IPアドレスから作成されたID
+ * @property {String} power      ユーザーの勢い
+ * @property {String} ip         ユーザーのIPアドレス
+ * @property {number} last_input 最後にメッセージ等を入力した時刻(ミリ秒)
+ * @property {number} power      ユーザの勢い
  */
 let users = {};
 
@@ -22,9 +22,10 @@ let users = {};
 /**
  * 引数に渡されたIPアドレスの形式をIPv4形式に変更する
  *
- * "::ffff:192.168.0.1"の様な"IPv4射影IPv6アドレス"のIPv6部分を取り除く
+ * 「IPv4射影IPv6アドレス」形式であった場合にIPv6部分を取り除く
+ * ::ffff:192.168.0.1 -> 192.168.0.1
  *
- * @params {string} ip: どのような形式になっているか分からないIPアドレス
+ * @param {string} ip どのような形式になっているか分からないIPアドレス
  * @return {string} IPv4形式に変更されたIPアドレス文字列
  */
 function format_ip(ip) {
@@ -44,8 +45,8 @@ exports.format_ip = format_ip;
  * 初期デフォルトユーザー名とIDを設定してusers{}に保存する
  * IDはipアドレスに日付を付加したものをハッシュ化した文字列の一部を設定する
  *
- * @params {string} socket_id: socket.idから得られる1コネクションを表す文字列
- * @params {string} ip: socket.handshake.addressから得られるユーザーのIPアドレス
+ * @param {string} socket_id socket.idから得られる1コネクションを表す文字列
+ * @param {string} ip        socket.handshake.addressから得られるユーザーのIPアドレス
  */
 function init_user_info(socket_id, ip) {
   ip = format_ip(ip);
@@ -73,7 +74,11 @@ exports.init_user_info = init_user_info;
  *
  * headerの表示や発言の表示などに必要な情報のみ返却する(ipアドレスなどは返却しない)
  *
- * @params {string} socket_id: ユーザーを指定するためのsocket.id
+ * @param {string} socket_id: ユーザーを指定するためのsocket.id
+ * @return {Object} 以下の値が格納されたObjectを返却する
+ *     name  ユーザ名
+ *     id    ユーザーID
+ *     power ユーザの勢い
  */
 function get(socket_id) {
   if (!users[socket_id]) {
@@ -94,7 +99,8 @@ exports.get = get;
  *
  * ログ出力等で使用する
  *
- * @params {string} socket_id: ユーザーを指定するためのsocket.id
+ * @param {string} socket_id ユーザーを指定するためのsocket.id
+ * @return {string} ユーザーのIPアドレス文字列
  */
 function get_ip(socket_id) {
   if (!users[socket_id]) {
@@ -108,10 +114,12 @@ exports.get_ip = get_ip;
 
 /**
  * ユーザー情報削除用
- * users{}から指定されたsocket.idのユーザーを削除する
  *
- * @params {string} socket_id: ユーザを識別するsocket.id
- * @params {string} reason: 切断理由
+ * socket_idで指定されたユーザーをusers{}内から削除する
+ * 切断等によって不要になったユーザー情報の削除に利用
+ *
+ * @param {string} socket_id 情報を削除するユーザーのsocket.id文字列
+ * @param {string} reason    削除理由
  */
 function delete_user(socket_id, reason) {
   if (!users[socket_id]) {
@@ -134,7 +142,7 @@ exports.delete_user = delete_user;
  * トリップが入力されている場合は生成して名前に付加する
  *
  * @param {string} socket_id ユーザーを識別するための個別ID
- * @param {object} ユーザーが入力したnameとtripを格納するオブジェクト
+ * @param {Object} ユーザーが入力したnameとtripを格納するオブジェクト
  */
 function change_name(socket_id, new_name) {
   if (is_blank(new_name.name)) {
@@ -162,8 +170,8 @@ exports.change_name = change_name;
  * 連投等の防止用
  * とりあえず1.5秒としている
  *
- * @param {string} socket_id : ユーザーを識別するためのソケットオブジェクト
- * @return {boolean} : 間隔が短い場合はtrue、問題が無ければfalse。
+ * @param {string} socket_id ユーザーを識別するためのソケットオブジェクト
+ * @return {boolean} 間隔が短い場合はtrue、問題が無ければfalse。
  */
 function is_interval_short(socket_id) {
   let diff = Date.now() - users[socket_id].last_input;
@@ -232,8 +240,8 @@ exports.put_all = put_all;
  * 有効・無効を切り替える場合は、
  * フロント側のスクリプトに"ip_alert"のソケットイベントを追加する。
  *
- * @param {string} ip: ユーザーのIPアドレス。socket.handshake.addressから取得
- * @return 重複したipが存在する場合はtrue、存在しなければfalse
+ * @param {string} ip ユーザーのIPアドレス。socket.handshake.addressから取得
+ * @return {boolean} 重複したipが存在する場合はtrue、存在しなければfalse
  */
 function is_duplicate_ip(ip) {
   ip = format_ip(ip);
