@@ -1,7 +1,7 @@
 "use strict";
 
-let users = require("./users.js");
-let rooms = require("./rooms.js");
+const users = require("./users.js");
+const rooms = require("./rooms.js");
 
 const server = require("http").createServer((req, res) => {
   res.writeHead(200);
