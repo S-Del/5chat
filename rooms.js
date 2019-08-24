@@ -42,7 +42,7 @@ exports.lounge = lounge;
  *   {string} power: ユーザーの勢い
  * @return {string} room_id: 新しく作成した部屋のID
  */
-let create_new_room = (new_room_info, socket_id, owner_info) => {
+function create_new_room(new_room_info, socket_id, owner_info) {
   if (new_room_info.input_room_name.length > 30) {
     new_room_info.input_room_name = new_room_info.input_room_name.slice(0, 29) + "…";
   }
@@ -80,7 +80,7 @@ exports.create_new_room = create_new_room;
  *
  * @param {string} socket_id: ユーザーを識別するためのsocket.id
  */
-let delete_user = (socket_id) => {
+function delete_user(socket_id) {
   for (let room_id in rooms) {
     if (!rooms[room_id].users[socket_id]) {
       continue;
@@ -96,7 +96,7 @@ exports.delete_user = delete_user;
  *
  * @param {string} room_id: 部屋を識別するための固有ID
  */
-let delete_empty_room = (room_id) => {
+function delete_empty_room(room_id) {
   if (!Object.keys(rooms[room_id].users).length) {
     console.log("---------- Delete room: " + rooms[room_id].name + " is Empty ----------");
     delete rooms[room_id];
@@ -114,7 +114,7 @@ exports.delete_empty_room = delete_empty_room;
  *   user: 発言したユーザーの情報
  *   input_room: ユーザーが入力したメッセージ文字列
  */
-let update_room = (room_message) => {
+function update_room(room_message) {
   let info = {
     user: room_message.user,
     message: room_message.input_room
@@ -128,7 +128,7 @@ exports.update_room = update_room;
 /**
  * 部屋の勢いの値を更新する
  */
-let update_power = (room_id) => {
+function update_power(room_id) {
   let diff = (Date.now() - rooms[room_id].created) / 1000 / 60;
   rooms[room_id].power = rooms[room_id].messages.length / diff;
 }
@@ -141,7 +141,7 @@ exports.update_power = update_power;
  *
  * @param {object} user_info: ラウンジで発言を行ったユーザーとその情報
  */
-let update_lounge = (user_info) => {
+function update_lounge(user_info) {
   if (lounge.messages.length > 1000) {
     lounge.messages = [];
     rooms.lounge.part++;
@@ -158,7 +158,7 @@ exports.update_lounge = update_lounge;
  * 主にテスト用
  * @param {string} room_id: 部屋を識別するためのID文字列
  */
-let put_all_users = (room_id) => {
+function put_all_users(room_id) {
   if (!rooms[room_id]) {
     console.log("その部屋は存在しません");
     return;
