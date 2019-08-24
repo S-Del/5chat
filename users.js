@@ -73,6 +73,22 @@ exports.get = get;
 
 
 /**
+ * ユーザーのipアドレス取得用
+ * ログ出力等で使用する
+ *
+ * @params {string} socket_id: ユーザーを指定するためのsocket.id
+ */
+let get_ip = (socket_id) => {
+  if (!users[socket_id]) {
+    return;
+  }
+
+  return users[socket_id].ip;
+}
+exports.get_ip = get_ip;
+
+
+/**
  * ユーザー情報削除用
  * users{}から指定されたsocket.idのユーザーを削除する
  *
