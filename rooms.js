@@ -6,13 +6,14 @@ let crypto = require("crypto");
 /**
  * 部屋情報が格納されるオブジェクト
  *
- * name: 部屋名
- * desc: 部屋の説明
- * owner: 部屋の作成者
- * created: 部屋が作られた時間(ミリ秒)
- * power: 部屋の勢い
- * users{}: 部屋内のユーザー
- * messages[]: 部屋内のメッセージ
+ * @type {Object} rooms 存在している部屋とその情報が格納される
+ * @property {String}   name     部屋名
+ * @property {String}   desc     部屋の説明
+ * @property {String}   owner    部屋の作成者
+ * @property {Number}   created  部屋が作られた時間(ミリ秒)
+ * @property {Number}   power    部屋の勢い
+ * @property {Object}   users    部屋内のユーザー
+ * @property {Object[]} messages 部屋内のメッセージ
  */
 let rooms = {};
 exports.map = rooms;
@@ -20,6 +21,10 @@ exports.map = rooms;
 
 /**
  * ラウンジチャットの情報が格納されるオブジェクト
+ *
+ * @type {Object} lounge
+ * @property {Number}   part     書き込み数が1000を超えると1ずつ加算されるカウンタ
+ * @property {Object[]} messages ラウンジ内での発言
  */
 let lounge = {
   part: 1,
