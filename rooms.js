@@ -84,6 +84,7 @@ exports.create_new_room = create_new_room;
  * 急なdisconnected(ブラウザを閉じる等)の際などに利用する
  *
  * @param {string} socket_id: ユーザーを識別するためのsocket.id
+ * @returns {void}
  */
 function delete_user(socket_id) {
   for (let room_id in rooms) {
@@ -100,6 +101,7 @@ exports.delete_user = delete_user;
  * ユーザーが1名も存在しない部屋であれば削除する
  *
  * @param {string} room_id: 部屋を識別するための固有ID
+ * @returns {void}
  */
 function delete_empty_room(room_id) {
   if (!Object.keys(rooms[room_id].users).length) {
@@ -118,6 +120,7 @@ exports.delete_empty_room = delete_empty_room;
  *   room_id: 部屋を識別するためのID
  *   user: 発言したユーザーの情報
  *   input_room: ユーザーが入力したメッセージ文字列
+ * @returns {void}
  */
 function update_room(room_message) {
   let info = {
@@ -132,6 +135,9 @@ exports.update_room = update_room;
 
 /**
  * 部屋の勢いの値を更新する
+ *
+ * @param {string} room_id 部屋を識別するためのID
+ * @returns {void}
  */
 function update_power(room_id) {
   let diff = (Date.now() - rooms[room_id].created) / 1000 / 60;
@@ -145,6 +151,7 @@ exports.update_power = update_power;
  * ユーザ情報、メッセージを保存し、ラウンジ情報を更新する。
  *
  * @param {object} user_info: ラウンジで発言を行ったユーザーとその情報
+ * @returns {void}
  */
 function update_lounge(user_info) {
   if (lounge.messages.length > 1000) {
@@ -162,6 +169,7 @@ exports.update_lounge = update_lounge;
  *
  * 主にテスト用
  * @param {string} room_id: 部屋を識別するためのID文字列
+ * @returns {void}
  */
 function put_all_users(room_id) {
   if (!rooms[room_id]) {

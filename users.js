@@ -47,6 +47,7 @@ exports.format_ip = format_ip;
  *
  * @param {string} socket_id socket.idから得られる1コネクションを表す文字列
  * @param {string} ip        socket.handshake.addressから得られるユーザーのIPアドレス
+ * @returns {void}
  */
 function init_user_info(socket_id, ip) {
   ip = format_ip(ip);
@@ -120,6 +121,7 @@ exports.get_ip = get_ip;
  *
  * @param {string} socket_id 情報を削除するユーザーのsocket.id文字列
  * @param {string} reason    削除理由
+ * @returns {void}
  */
 function delete_user(socket_id, reason) {
   if (!users[socket_id]) {
@@ -142,7 +144,8 @@ exports.delete_user = delete_user;
  * トリップが入力されている場合は生成して名前に付加する
  *
  * @param {string} socket_id ユーザーを識別するための個別ID
- * @param {Object} ユーザーが入力したnameとtripを格納するオブジェクト
+ * @param {Object} new_name ユーザーが入力したnameとtripを格納するオブジェクト
+ * @returns {void}
  */
 function change_name(socket_id, new_name) {
   if (is_blank(new_name.name)) {
@@ -222,6 +225,8 @@ exports.is_blank = is_blank;
  * 主にテスト用
  * 接続者数が増えるほど重くなる機能（のはず）
  * name, id, ip等全て表示される
+ *
+ * @returns {void}
  */
 function put_all() {
   console.log("users:");
