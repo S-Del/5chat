@@ -75,7 +75,7 @@ function create_new_room(new_room_info, socket_id, owner_info) {
   console.log("---------- Create Room: " + rooms[room_id].name + " ----------");
 
   return room_id;
-};
+}
 exports.create_new_room = create_new_room;
 
 
