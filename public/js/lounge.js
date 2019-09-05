@@ -108,14 +108,14 @@ window.addEventListener("load", () => {
   });
 
   // ラウンジに送られたメッセージを反映
-  socket.on("message_lounge", (message) => {
+  socket.on("update_lounge", (post) => {
     let lounge_chat_list = document.getElementById("lounge_chat_list");
     let new_message = document.createElement("li");
     new_message.className = "lounge-chat-list__item";
     // レスのクリック時にレスアンカーを生成して入力欄にフォーカス
     new_message.addEventListener("click", () => {
       let input_lounge = document.getElementById("input_lounge");
-      input_lounge.value += ">>" + message.no + " ";
+      input_lounge.value += ">>" + post.no + " ";
       input_lounge.focus();
     });
     // 新しいメッセージは先頭(最上部)に追加(末尾に追加すると見にくい為)
@@ -123,17 +123,17 @@ window.addEventListener("load", () => {
 
     // レス番号
     let resp_no = document.createElement("span");
-    resp_no.textContent = message.no + " ";
+    resp_no.textContent = post.no + " ";
     new_message.appendChild(resp_no);
 
     // コテハン
     let name = document.createElement("span");
-    name.textContent = "名前：" + message.name + " ";
+    name.textContent = "名前：" + post.name + " ";
     new_message.appendChild(name);
 
     // ユーザーID
     let id = document.createElement("span");
-    id.textContent = "ID:" + message.id;
+    id.textContent = "ID:" + post.id;
     new_message.appendChild(id);
 
     // 本文の表示の前に改行
@@ -143,7 +143,7 @@ window.addEventListener("load", () => {
     // 本文
     let content = document.createElement("span");
     content.className = "lounge-chat-list__item-message";
-    content.textContent = message.content;
+    content.textContent = post.message;
     new_message.appendChild(content);
   });
 });

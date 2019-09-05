@@ -5,6 +5,9 @@ const users = require("./users.js");
 const rooms = require("./rooms.js");
 const systemLogger = require("./log.js").systemLogger;
 
+const Lounge = require("./Lounge.js");
+const lounge = new Lounge();
+
 const server = require("http").createServer((req, res) => {
   res.writeHead(200);
   res.end();
@@ -159,23 +162,27 @@ io.on("connection", (socket) => {
   });
 
   // ラウンジチャット発言要求
-  socket.on("send_to_lounge", (message_text) => {
+  socket.on("send_to_lounge", (message) => {
     systemLogger.info(utils.formatIp(socket.handshake.address) + ": ラウンジチャット - 発言要求");
     if (users.is_interval_short(socket.id)) {
       return;
     }
 
-    message_text = message_text.slice(0, 60);
-    if (utils.isBlank(message_text)) {
+    message = message.slice(0, 60);
+    if (utils.isBlank(message)) {
       return;
     }
 
-    let user_info = users.get(socket.id);
-    user_info.content = message_text;
+    const userInfo = users.get(socket.id);
+    const post = {
+      name: userInfo.name,
+      id: userInfo.id,
+      power: userInfo.power,
+      message: message
+    };
+    lounge.addPost(post);
+    post.no = lounge.posts.length;
 
-    rooms.update_lounge(user_info);
-
-    user_info.no = rooms.lounge.messages.length;
-    io.emit("message_lounge", user_info);
+    io.emit("update_lounge", post);
   });
 });

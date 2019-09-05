@@ -20,20 +20,6 @@ exports.map = rooms;
 
 
 /**
- * ラウンジチャットの情報が格納されるオブジェクト
- *
- * @type {Object} lounge
- * @property {Number}   part     書き込み数が1000を超えると1ずつ加算されるカウンタ
- * @property {Object[]} messages ラウンジ内での発言
- */
-let lounge = {
-  part: 1,
-  messages: []
-};
-exports.lounge = lounge;
-
-
-/**
  * 新しい部屋が作成されたときの処理
  * その部屋のオーナー情報と共にrooms{}に格納される
  *
@@ -144,24 +130,6 @@ function update_power(room_id) {
   rooms[room_id].power = rooms[room_id].messages.length / diff;
 }
 exports.update_power = update_power;
-
-
-/**
- * ラウンジチャットにて発言があった際に呼び出される関数
- * ユーザ情報、メッセージを保存し、ラウンジ情報を更新する。
- *
- * @param {object} user_info: ラウンジで発言を行ったユーザーとその情報
- * @returns {void}
- */
-function update_lounge(user_info) {
-  if (lounge.messages.length > 1000) {
-    lounge.messages = [];
-    rooms.lounge.part++;
-  }
-
-  lounge.messages.push(user_info);
-}
-exports.update_lounge = update_lounge;
 
 
 /**
