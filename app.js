@@ -1,5 +1,6 @@
 "use strict";
 
+const utils = require("./utils.js");
 const users = require("./users.js");
 const rooms = require("./rooms.js");
 const systemLogger = require("./log.js").systemLogger;
@@ -24,20 +25,21 @@ io.on("connection", (socket) => {
 //  }
 
   // 接続時の初期処理(ユーザ情報・部屋一覧の更新)
-  users.init_user_info(socket.id, users.format_ip(socket.handshake.address));
+  systemLogger.info(utils.formatIp(socket.handshake.address) + ": 接続");
+  users.init_user_info(socket.id, utils.formatIp(socket.handshake.address));
   socket.emit("update_header_info", users.get(socket.id));
   socket.emit("update_room_list", rooms.map);
 
   // 切断
   socket.on("disconnect", (reason) => {
-    systemLogger.info(users.get_ip(socket.id) + ": 切断");
+    systemLogger.info(utils.formatIp(socket.handshake.address) + ": 切断");
     rooms.delete_user(socket.id);
     users.delete_user(socket.id, reason);
   });
 
   // 名前変更要求
   socket.on("change_name", (new_name) => {
-    systemLogger.info(users.get_ip(socket.id)
+    systemLogger.info(utils.formatIp(socket.handshake.address)
                       + ": 名前 - 変更要求 ("
                       + users.get(socket.id).name
                       + " -> "
@@ -53,7 +55,7 @@ io.on("connection", (socket) => {
 
   // 部屋一覧更新要求
   socket.on("relord_list", () => {
-    systemLogger.info(users.get_ip(socket.id) + ": 部屋一覧 - 更新要求");
+    systemLogger.info(utils.formatIp(socket.handshake.address) + ": 部屋一覧 - 更新要求");
     if (users.is_interval_short(socket.id)) {
       return;
     }
@@ -63,7 +65,7 @@ io.on("connection", (socket) => {
 
   // 部屋新規作成要求
   socket.on("create_new_room", (new_room_info) => {
-    systemLogger.info(users.get_ip(socket.id)
+    systemLogger.info(utils.formatIp(socket.handshake.address)
                       + ": 部屋 - 新規作成要求 ("
                       + new_room_info.input_room_name
                       + ")");
@@ -75,11 +77,11 @@ io.on("connection", (socket) => {
       return;
     }
 
-    if (users.is_blank(new_room_info.input_room_name)) {
+    if (utils.isBlank(new_room_info.input_room_name)) {
       return;
     }
 
-    if (users.is_blank(new_room_info.input_room_description)) {
+    if (utils.isBlank(new_room_info.input_room_description)) {
       new_room_info.input_room_description = "説明なし";
     }
 
@@ -92,7 +94,7 @@ io.on("connection", (socket) => {
 
   // 部屋参加要求
   socket.on("join_room", (room_id) => {
-    systemLogger.info(users.get_ip(socket.id) + ": 部屋 - 参加要求 (" + room_id + ")");
+    systemLogger.info(utils.formatIp(socket.handshake.address) + ": 部屋 - 参加要求 (" + room_id + ")");
     if (!rooms.map[room_id]) {
       socket.emit("update_room_list", rooms.map);
       return;
@@ -110,7 +112,7 @@ io.on("connection", (socket) => {
 
   // 部屋発言要求
   socket.on("send_to_room", (room_message) => {
-    systemLogger.info(users.get_ip(socket.id) + ": 部屋 - 発言要求 (" + room_message.room_id + ")");
+    systemLogger.info(utils.formatIp(socket.handshake.address) + ": 部屋 - 発言要求 (" + room_message.room_id + ")");
     if (users.is_interval_short(socket.id)) {
       return;
     }
@@ -128,7 +130,7 @@ io.on("connection", (socket) => {
     }
 
     room_message.input_room = room_message.input_room.slice(0, 60);
-    if (users.is_blank(room_message.input_room)) {
+    if (utils.isBlank(room_message.input_room)) {
       return;
     }
 
@@ -143,7 +145,7 @@ io.on("connection", (socket) => {
 
   // 退室要求
   socket.on("leave_room", (room_id) => {
-    systemLogger.info(users.get_ip(socket.id) + ": 部屋 - 退室要求 (" + room_id + ")");
+    systemLogger.info(utils.formatIp(socket.handshake.address) + ": 部屋 - 退室要求 (" + room_id + ")");
     if (!rooms.map[room_id]) {
       return;
     }
@@ -158,13 +160,13 @@ io.on("connection", (socket) => {
 
   // ラウンジチャット発言要求
   socket.on("send_to_lounge", (message_text) => {
-    systemLogger.info(users.get_ip(socket.id) + ": ラウンジチャット - 発言要求");
+    systemLogger.info(utils.formatIp(socket.handshake.address) + ": ラウンジチャット - 発言要求");
     if (users.is_interval_short(socket.id)) {
       return;
     }
 
     message_text = message_text.slice(0, 60);
-    if (users.is_blank(message_text)) {
+    if (utils.isBlank(message_text)) {
       return;
     }
 
