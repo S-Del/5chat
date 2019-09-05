@@ -247,8 +247,6 @@ exports.put_all = put_all;
  * @return {boolean} 重複したipが存在する場合はtrue、存在しなければfalse
  */
 function is_duplicate_ip(ip) {
-  ip = format_ip(ip);
-
   for (let socket_id in users) {
     if (users[socket_id].ip == ip) {
       return true;
