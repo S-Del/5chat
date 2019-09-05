@@ -2,8 +2,7 @@
 
 const users = require("./users.js");
 const rooms = require("./rooms.js");
-const logger = require("./log.js");
-const systemLogger = logger.systemLogger;
+const systemLogger = require("./log.js").systemLogger;
 
 const server = require("http").createServer((req, res) => {
   res.writeHead(200);
