@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
 //  }
 
   // 接続時の初期処理(ユーザ情報・部屋一覧の更新)
-  users.init_user_info(socket.id, socket.handshake.address);
+  users.init_user_info(socket.id, users.format_ip(socket.handshake.address));
   socket.emit("update_header_info", users.get(socket.id));
   socket.emit("update_room_list", rooms.map);
 
