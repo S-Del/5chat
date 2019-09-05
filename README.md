@@ -82,6 +82,7 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
 ### JavaScript
 - [overview | options | API jsPanel](https://jspanel.de/api.html)
+- [JavaScriptのclass - Qiita](https://qiita.com/jooex/items/981824f9fb494b448a08)
 - [ライブラリを使わない素のJavaScriptでDOM操作 - Qiita](https://qiita.com/kouh/items/dfc14d25ccb4e50afe89)
 - [生JSとjQueryの基本操作比較 - Qiita](https://qiita.com/shshimamo/items/ba3a57a81d9780030969)
 - [document.writeとは？ - Qiita](https://qiita.com/a12345/items/0f9f7df07d0d2cb4f668)
