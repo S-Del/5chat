@@ -56,7 +56,7 @@ window.addEventListener("load", () => {
   button.type = "button";
   button.id = "name_send_button";
   button.className = "header__name-send-button";
-  button.textContent = "決 定"
+  button.textContent = "決 定";
   header.appendChild(button);
   let wbr = document.createElement("wbr");
   header.appendChild(wbr);
@@ -71,7 +71,7 @@ window.addEventListener("load", () => {
   crnt_name.textContent = "";
   crnt_status.appendChild(crnt_name);
 
-  let crnt_id_label = document.createTextNode(" - ID: ")
+  let crnt_id_label = document.createTextNode(" - ID: ");
   crnt_status.appendChild(crnt_id_label);
 
   let crnt_id = document.createElement("span");
@@ -93,12 +93,10 @@ window.addEventListener("load", () => {
 window.addEventListener("load", () => {
   // 名前とトリップの変更用関数
   function change_name() {
-    let new_name = {
-      name: document.getElementById("input_name").value,
-      trip: document.getElementById("input_trip").value
-    };
+    let name = document.getElementById("input_name").value;
+    let trip = document.getElementById("input_trip").value;
 
-    socket.emit("change_name", new_name);
+    socket.emit("change_name", name, trip);
   }
 
   // 名前入力欄でのエンターキー入力で名前更新
@@ -114,7 +112,7 @@ window.addEventListener("load", () => {
   document.getElementById("input_trip").addEventListener("keyup", (event) => {
     if (event.keyCode != 13) {
       return;
-    };
+    }
 
     change_name();
   });

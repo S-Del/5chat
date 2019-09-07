@@ -119,7 +119,7 @@ window.addEventListener("load", () => {
       input_lounge.focus();
     });
     // 新しいメッセージは先頭(最上部)に追加(末尾に追加すると見にくい為)
-    lounge_chat_list.insertBefore(new_message, lounge_chat_list.firstChild)
+    lounge_chat_list.insertBefore(new_message, lounge_chat_list.firstChild);
 
     // レス番号
     let resp_no = document.createElement("span");

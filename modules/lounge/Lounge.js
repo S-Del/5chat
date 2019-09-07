@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+const utils = require('../utils.js');
 
 /**
  * ラウンジチャットの情報が格納されるクラス
@@ -9,6 +11,8 @@ class Lounge {
 
   constructor() {
     this.part = 1;
+    this.created = Date.now();
+    this.power = 0;
     this.posts = [];
   }
 
@@ -23,12 +27,15 @@ class Lounge {
    */
   addPost(post) {
     this.posts.push(post);
+    this.power = utils.updatePower(this.created, this.posts.length);
 
     if (this.posts.length > 1000) {
-      this.part++;
       this.posts = [];
+      this.part++;
+      this.created = Date.now();
     }
   }
+
 }
 
 module.exports = Lounge;

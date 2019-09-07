@@ -5,7 +5,12 @@
     },
     "system": {
       "type": "dateFile",
-      "filename": "./logs/system/system.log",
+      "filename": "../../logs/system/system.log",
+      "pattern": "-yyyy-MM-dd"
+    },
+    "user": {
+      "type": "dateFile",
+      "filename": "../../logs/user/user.log",
       "pattern": "-yyyy-MM-dd"
     }
   },
@@ -15,7 +20,11 @@
       "level": "all"
     },
     "system": {
-      "appenders": ["system"],
+      "appenders": ["console", "system"],
+      "level": "all"
+    },
+    "user": {
+      "appenders": ["user"],
       "level": "all"
     }
   }

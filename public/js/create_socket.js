@@ -1,3 +1,3 @@
 "use strict";
 
-let socket = io();
+const socket = io();

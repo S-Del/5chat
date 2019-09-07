@@ -1,0 +1,40 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly",
+        "socket": false,
+        "jsPanel": false
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "block-scoped-var": "warn",
+        "curly": "warn",
+        "default-case": "warn",
+        "dot-notation": "warn",
+        "no-dupe-keys": "error",
+        "no-duplicate-case": "error",
+        "no-else-return": "warn",
+        "no-empty": "warn",
+        "no-ex-assign": "warn",
+        "no-extra-semi": "warn",
+        "no-fallthrough": "warn",
+        "no-floating-decimal": "warn",
+        "no-func-assign": "error",
+        "no-invalid-this": "warn",
+        "no-loop-func": "warn",
+        "no-multi-spaces": "warn",
+        "no-new": "warn",
+        "no-unreachable": "warn",
+        "semi": [2, "always"],
+        "valid-jsdoc": "warn"
+    }
+}
