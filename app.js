@@ -219,6 +219,7 @@ io.on('connection', (socket) => {
     room.addPost(post);
     post.no = room.posts.length;
     post.roomId = room.id;
+    post.roomPower = room.power;
 
     io.to(roomId).emit('message_room', post);
   });
