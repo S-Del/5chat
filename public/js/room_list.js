@@ -273,7 +273,7 @@ window.addEventListener("load", () => {
             }
 
             panel.content.getElementsByClassName("room-window__room-power")[0].textContent =
-                "勢い: " + room_message.power.toFixed(1);
+                "勢い: " + room_message.roomPower.toFixed(1);
 
             let room_chat_list = panel.content.getElementsByClassName("room-window__room-chat-list")[0];
             let new_message = document.createElement("li");
