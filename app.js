@@ -124,11 +124,11 @@ io.on('connection', (socket) => {
       return;
     }
 
-    if (utils.isBlank(name)) {
+    if (typeof desc != 'string') {
       return;
     }
 
-    if (typeof desc != 'string') {
+    if (utils.isBlank(name)) {
       return;
     }
 
@@ -194,16 +194,16 @@ io.on('connection', (socket) => {
       return;
     }
 
+    if (typeof message != 'string') {
+      return;
+    }
+
     const room = roomMap.rooms[roomId];
     if (!room) {
       return;
     }
 
     if (!room.hasUser(socket.id)) {
-      return;
-    }
-
-    if (typeof message != 'string') {
       return;
     }
 
