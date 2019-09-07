@@ -31,7 +31,9 @@ io.on('connection', (socket) => {
    * 接続イベント
    * ユーザーをマップに追加し、ヘッダーと部屋一覧の表示を更新する。
    */
-  let newUser = new User(utils.formatIp(socket.handshake.address), socket.id);
+  let ip = utils.formatIp(socket.handshake.address);
+  let newUser = new User(ip, socket.id);
+  systemLogger.info(ip + ': 接続');
   userMap.addUser(newUser);
   socket.emit('update_header_info', newUser.getInfo());
   socket.emit('update_room_list', roomMap.getAllRoomsInfo());
@@ -252,6 +254,8 @@ io.on('connection', (socket) => {
    * ユーザー一覧からも削除する。
    */
   socket.on('disconnect', (reason) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 切断 - ' + reason);
     roomMap.deleteUserFromAllRooms(socket.id);
     userMap.deleteUser(socket.id);
     socket.leaveAll();
