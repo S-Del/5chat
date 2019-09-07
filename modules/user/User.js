@@ -7,7 +7,7 @@ const utils = require('../utils.js');
 class User {
 
   /**
-   * @param {string} ip このユーザのIPアドレス
+   * @param {string} ip このユーザのIPv4アドレス
    * @param {string} socketId このユーザのsocket.id
    */
   constructor(ip, socketId) {
