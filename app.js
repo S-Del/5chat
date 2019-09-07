@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
    * トリップを含めて名前を変更し、ヘッダーの表示を更新する。
    */
   socket.on('change_name', (name, trip) => {
-    let user = userMap.users[socket.id];
+    const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
       return;
     }
@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
    *   message: 書き込み内容
    */
   socket.on('send_to_lounge', (message) => {
-    let user = userMap.users[socket.id];
+    const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
       return;
     }
@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
    * 部屋一覧の更新イベント
    */
   socket.on('reload_list', () => {
-    let user = userMap.users[socket.id];
+    const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
       return;
     }
@@ -115,7 +115,7 @@ io.on('connection', (socket) => {
    * 部屋作成イベント
    */
   socket.on('create_new_room', (name, desc) => {
-    let user = userMap.users[socket.id];
+    const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
       return;
     }
@@ -136,7 +136,7 @@ io.on('connection', (socket) => {
       desc = '説明なし';
     }
 
-    let newRoom = new Room(name, desc, user);
+    const newRoom = new Room(name, desc, user);
     roomMap.rooms[newRoom.id] = newRoom;
     socket.join(newRoom.id);
 
@@ -163,7 +163,7 @@ io.on('connection', (socket) => {
       return;
     }
 
-    let user = userMap.users[socket.id];
+    const user = userMap.users[socket.id];
     room.users.push(user);
     socket.join(roomId);
 
@@ -185,7 +185,7 @@ io.on('connection', (socket) => {
    *   message: 書き込み内容
    */
   socket.on('send_to_room', (roomId, message) => {
-    let user = userMap.users[socket.id];
+    const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
       return;
     }
@@ -194,7 +194,7 @@ io.on('connection', (socket) => {
       return;
     }
 
-    let room = roomMap.rooms[roomId];
+    const room = roomMap.rooms[roomId];
     if (!room) {
       return;
     }
@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
       return;
     }
 
-    let room = roomMap.rooms[roomId];
+    const room = roomMap.rooms[roomId];
     if (!room) {
       return;
     }
