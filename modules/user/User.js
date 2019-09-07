@@ -7,8 +7,8 @@ const utils = require('../utils.js');
 class User {
 
   /**
-   * @param {string} ip このユーザのIPv4アドレス
-   * @param {string} socketId このユーザのsocket.id
+   * @param {String} ip このユーザのIPv4アドレス
+   * @param {String} socketId このユーザのsocket.id
    */
   constructor(ip, socketId) {
     this.ip = ip;
@@ -28,7 +28,7 @@ class User {
   /**
    * フロントに送信可能なこのユーザー情報を返却する
    *
-   * @returns {object} 名前やID等のフロント側で表示されるユーザー情報
+   * @returns {Object} 名前やID等のフロント側で表示されるユーザー情報
    */
   getInfo() {
     return {
@@ -41,8 +41,8 @@ class User {
   /**
    * ユーザー名変更用
    *
-   * @param {string} name 新たに設定する名前
-   * @param {string} trip 新たに設定するトリップの原型
+   * @param {String} name 新たに設定する名前
+   * @param {String} trip 新たに設定するトリップの原型
    * @returns {void}
    */
   changeName(name, trip) {
