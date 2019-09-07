@@ -5,22 +5,38 @@
     },
     "system": {
       "type": "dateFile",
-      "filename": "../../logs/system/system.log",
+      "filename": "./logs/system.log",
       "pattern": "-yyyy-MM-dd"
     },
-    "user": {
+    "lounge": {
       "type": "dateFile",
-      "filename": "../../logs/user/user.log",
+      "filename": "./logs/lounge/lounge.log",
       "pattern": "-yyyy-MM-dd"
+    },
+    "room": {
+      "type": "multiFile",
+      "base": "./logs/room/",
+      "property": "room",
+      "extension": ".log"
+    },
+    "user": {
+      "type": "multiFile",
+      "base": "./logs/user/",
+      "property": "user",
+      "extension": ".log"
     }
   },
   "categories": {
     "default": {
-      "appenders": ["console"],
+      "appenders": ["console", "system"],
       "level": "all"
     },
-    "system": {
-      "appenders": ["console", "system"],
+    "lounge": {
+      "appenders": ["lounge"],
+      "level": "all"
+    },
+    "room": {
+      "appenders": ["room"],
       "level": "all"
     },
     "user": {
