@@ -32,6 +32,7 @@
         "no-multi-spaces": "warn",
         "no-new": "warn",
         "no-unreachable": "warn",
+        "quotes": ["warn", "single"],
         "semi": [2, "always"],
         "valid-jsdoc": "warn"
     }
