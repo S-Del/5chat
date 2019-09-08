@@ -2,6 +2,7 @@
 
 const crypto = require('crypto');
 
+const userLogger = require('../logger/logger.js').userLogger;
 const utils = require('../utils.js');
 
 class User {
@@ -60,13 +61,15 @@ class User {
       name += trip;
     }
 
+    userLogger.addContext('user', this.ip);
+    userLogger.info('名前変更: ' + this.name + ' -> ' + name);
+
     this.name = name;
-    this.lastInput = Date.now();
   }
 
   /**
    * このユーザーが書き込みを行った場合に呼び出す。
-   * postsにこのユーザーの投稿を追加し、最終入力時間と勢いの値を更新する。
+   * postsにこのユーザーの投稿を追加する。
    *
    * @param {String} dest    メッセージの送信先
    * @param {String} message メッセージの内容
@@ -74,8 +77,10 @@ class User {
    */
   addPost(dest, message) {
     this.posts.push({ dest, message });
-    this.lastInput = Date.now();
     this.power = utils.updatePower(this.created, this.posts.length);
+
+    userLogger.addContext('user', this.ip);
+    userLogger.info('書き込み: ' + dest + ' -> ' + message);
   }
 
 }
