@@ -12,6 +12,10 @@ class Room {
    * @param {User}   owner 部屋の作成者
    */
   constructor(name, desc, owner) {
+    if (utils.isBlank(desc)) {
+      desc = '説明なし';
+    }
+
     if (name.length > 30) {
       name = name.slice(0, 29) + '…';
     }
