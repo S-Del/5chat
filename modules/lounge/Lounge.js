@@ -1,5 +1,6 @@
 'use strict';
 
+const loungeLogger = require('../logger/logger.js').loungeLogger;
 const utils = require('../utils.js');
 
 /**
@@ -22,11 +23,14 @@ class Lounge {
    * 投稿数(postsの要素数)が1000より大きくなった時は、
    * partを1増加し古い投稿は削除される。
    *
-   * @param {object} post ユーザー情報とメッセージが格納されたオブジェクト
+   * @param {String} ip   ユーザーのIPアドレス
+   * @param {Object} post ユーザー情報とメッセージが格納されたオブジェクト
    * @returns {void}
    */
-  addPost(post) {
+  addPost(ip, post) {
     this.posts.push(post);
+    loungeLogger.info(post.name + '(' + ip + ')' + ': ' + post.message);
+
     this.power = utils.updatePower(this.created, this.posts.length);
 
     if (this.posts.length > 1000) {

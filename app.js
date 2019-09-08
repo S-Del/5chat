@@ -106,9 +106,10 @@ io.on('connection', (socket) => {
     user.lastInput = Date.now();
 
     const post = user.getInfo();
-    post.message = message;
-    lounge.addPost(post);
     post.no = lounge.posts.length;
+    post.message = message;
+
+    lounge.addPost(ip, post);
     user.addPost('ラウンジ', message);
     systemLogger.info(ip + ': 格納 └ ラウンジでの発言を格納');
 
