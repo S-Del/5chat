@@ -1,13 +1,14 @@
 'use strict';
 
 const crypto = require('crypto');
+
 const utils = require('../utils.js');
 
 class Room {
 
   /**
-   * @param {string} name  部屋名
-   * @param {string} desc  部屋の説明
+   * @param {String} name  部屋名
+   * @param {String} desc  部屋の説明
    * @param {User}   owner 部屋の作成者
    */
   constructor(name, desc, owner) {
