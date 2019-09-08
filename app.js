@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
    */
   let ip = utils.formatIp(socket.handshake.address);
   let newUser = new User(ip, socket.id);
-  systemLogger.info(ip + ': 接続');
+  systemLogger.info(ip + ': ─── 接続 ─── ' + socket.id);
   userMap.addUser(newUser);
   socket.emit('update_header_info', newUser.getInfo());
   socket.emit('update_room_list', roomMap.getAllRoomsInfo());
@@ -44,21 +44,30 @@ io.on('connection', (socket) => {
    * トリップを含めて名前を変更し、ヘッダーの表示を更新する。
    */
   socket.on('change_name', (name, trip) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "change_name"');
+
     const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
+      systemLogger.warn(ip + ': 警告 └ 短すぎる要求間隔を拒否: "change_name"');
       return;
     }
 
     if (typeof name != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: name');
       return;
     }
 
     if (typeof trip != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: trip');
       return;
     }
 
+    user.lastInput = Date.now();
+
     user.changeName(name, trip);
     socket.emit('update_header_info', user.getInfo());
+    systemLogger.info(ip + ': 送信 └ "update_header_info"');
   });
 
 
@@ -74,27 +83,37 @@ io.on('connection', (socket) => {
    *   message: 書き込み内容
    */
   socket.on('send_to_lounge', (message) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "send_to_lounge"');
+
     const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
+      systemLogger.warn(ip + ': 警告 └ 短すぎる要求間隔を拒否: "send_to_lounge"');
       return;
     }
 
     if (typeof message != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: message');
       return;
     }
 
     message = message.slice(0, 60);
     if (utils.isBlank(message)) {
+      systemLogger.warn(ip + ': 警告 └ 空のメッセージでの発言要求を拒否');
       return;
     }
+
+    user.lastInput = Date.now();
 
     const post = user.getInfo();
     post.message = message;
     lounge.addPost(post);
     post.no = lounge.posts.length;
     user.addPost('ラウンジ', message);
+    systemLogger.info(ip + ': 格納 └ ラウンジでの発言を格納');
 
     io.emit('update_lounge', post);
+    systemLogger.info('全クライアント: 送信 ─ "update_lounge"');
   });
 
 
@@ -102,46 +121,63 @@ io.on('connection', (socket) => {
    * 部屋一覧の更新イベント
    */
   socket.on('reload_list', () => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "reload_list"');
+
     const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
+      systemLogger.warn(ip + ': 警告 └ 短すぎる要求間隔を拒否: "reload_list"');
       return;
     }
 
+    user.lastInput = Date.now();
+
     socket.emit('update_room_list', roomMap.getAllRoomsInfo());
+    systemLogger.info(ip + ': 送信 └ "update_room_list"');
   });
 
 
   /*
    * 部屋作成イベント
+   * 部屋名と説明の検証後、部屋を作成しマップへ保存、
+   * オーナーを入室させ一覧の更新を行う。
    */
   socket.on('create_new_room', (name, desc) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "create_new_room"');
+
     const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
+      systemLogger.warn(ip + ': 警告 └ 短すぎる要求間隔を拒否: "create_new_room"');
       return;
     }
 
     if (typeof name != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: name');
       return;
     }
 
     if (typeof desc != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: desc');
       return;
     }
 
     if (utils.isBlank(name)) {
+      systemLogger.warn(ip + ': 警告 └ 空の部屋名での部屋作成要求を拒否');
       return;
     }
 
-    if (utils.isBlank(desc)) {
-      desc = '説明なし';
-    }
+    user.lastInput = Date.now();
 
     const newRoom = new Room(name, desc, user);
     roomMap.rooms[newRoom.id] = newRoom;
     socket.join(newRoom.id);
 
     socket.emit('accept_entry_room', newRoom.id, newRoom.getInfo());
+    systemLogger.info(ip + ': 送信 ├ "accept_entry_room"');
+
     socket.emit('update_room_list', roomMap.getAllRoomsInfo());
+    systemLogger.info(ip + ': 送信 └ "update_room_list"');
   });
 
 
@@ -150,25 +186,43 @@ io.on('connection', (socket) => {
    * 部屋の存在の検証後、参加者の情報を保存し参加人数の更新を送信する。
    */
   socket.on('join_room', (roomId) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "join_room"');
+
+    const user = userMap.users[socket.id];
+    if (!utils.validateInputInterval(user.lastInput)) {
+      systemLogger.warn(ip + ': 警告 └ 短すぎる要求間隔を拒否: "join_room"');
+      return;
+    }
+
     if (typeof roomId != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: roomId');
       return;
     }
 
     let room = roomMap.rooms[roomId];
     if (!room) {
+      systemLogger.warn(ip + ': 警告 - 存在しない部屋への入室要求を拒否');
+      socket.emit('update_room_list', roomMap.getAllRoomsInfo());
+      systemLogger.info(ip + ': 送信 └ "update_room_list"');
       return;
     }
 
     if (room.hasUser(socket.id)) {
+      systemLogger.warn(ip + ': 警告 └ 入室済みの部屋への入室要求を拒否');
       return;
     }
 
-    const user = userMap.users[socket.id];
+    user.lastInput = Date.now();
+
     room.users.push(user);
     socket.join(roomId);
 
     socket.emit('accept_entry_room', roomId, room.getInfo());
+    systemLogger.info(ip + ': 送信 ├ "accept_entry_room"');
+
     io.to(roomId).emit('update_nop', room.users.length);
+    systemLogger.info(room.name + ': 送信 ─ "update_nop"');
   });
 
 
@@ -185,32 +239,43 @@ io.on('connection', (socket) => {
    *   message: 書き込み内容
    */
   socket.on('send_to_room', (roomId, message) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "send_to_room"');
+
     const user = userMap.users[socket.id];
     if (!utils.validateInputInterval(user.lastInput)) {
+      systemLogger.warn(ip + ': 警告 └ 短すぎる要求間隔を拒否: "send_to_room"');
       return;
     }
 
     if (typeof roomId != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を拒否: roomId');
       return;
     }
 
     if (typeof message != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を拒否: message');
       return;
     }
 
     const room = roomMap.rooms[roomId];
     if (!room) {
+      systemLogger.warn(ip + ': 警告 └ 存在しない部屋の書き込み要求を拒否');
       return;
     }
 
     if (!room.hasUser(socket.id)) {
+      systemLogger.warn(ip + ': 警告 └ 部屋に存在しないユーザーの書き込み要求を拒否');
       return;
     }
 
     message = message.slice(0, 60);
     if (utils.isBlank(message)) {
+      systemLogger.warn(ip + ': 警告 └ 空のメッセージでの発言要求を拒否');
       return;
     }
+
+    user.lastInput = Date.now();
 
     user.addPost(room.name, message);
 
@@ -220,8 +285,10 @@ io.on('connection', (socket) => {
     post.no = room.posts.length;
     post.roomId = room.id;
     post.roomPower = room.power;
+    systemLogger.info(ip + ': 格納 └ 部屋での発言を格納');
 
     io.to(roomId).emit('message_room', post);
+    systemLogger.info(room.name + ': 送信 ─ "message_room"');
   });
 
 
@@ -231,12 +298,17 @@ io.on('connection', (socket) => {
    * 部屋一覧を更新する。
    */
   socket.on('leave_room', (roomId) => {
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': 受信 ┬ "leave_room"');
+
     if (typeof roomId != 'string') {
+      systemLogger.warn(ip + ': 警告 └ 文字列型ではない引数を受信: roomId');
       return;
     }
 
     const room = roomMap.rooms[roomId];
     if (!room) {
+      systemLogger.warn(ip + ': 警告 └ 存在しない部屋の退室要求を拒否');
       return;
     }
 
@@ -246,6 +318,7 @@ io.on('connection', (socket) => {
 
     socket.leave(roomId);
     socket.emit('update_room_list', roomMap.getAllRoomsInfo());
+    systemLogger.info(ip + ': 送信 └ "update_room_list"');
   });
 
 
@@ -255,10 +328,11 @@ io.on('connection', (socket) => {
    * ユーザー一覧からも削除する。
    */
   socket.on('disconnect', (reason) => {
-    const ip = utils.formatIp(socket.handshake.address);
-    systemLogger.info(ip + ': 切断 - ' + reason);
     roomMap.deleteUserFromAllRooms(socket.id);
     userMap.deleteUser(socket.id);
     socket.leaveAll();
+
+    const ip = utils.formatIp(socket.handshake.address);
+    systemLogger.info(ip + ': ─── 切断 ─── ' + socket.id + ' (' + reason + ')');
   });
 });
