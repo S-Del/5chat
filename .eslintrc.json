@@ -31,7 +31,9 @@
         "no-loop-func": "warn",
         "no-multi-spaces": "warn",
         "no-new": "warn",
+        "no-redeclare": "error",
         "no-unreachable": "warn",
+        "no-unused-vars": "warn",
         "quotes": ["warn", "single"],
         "semi": [2, "always"],
         "valid-jsdoc": "warn"
