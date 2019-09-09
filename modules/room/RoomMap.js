@@ -1,5 +1,7 @@
 'use strict';
 
+const roomLogger = require('../logger/logger.js').roomLogger;
+
 class RoomMap {
 
   constructor() {
@@ -11,6 +13,18 @@ class RoomMap {
   }
 
   /**
+   * 引数のroomIdで指定された部屋をマップから削除する
+   *
+   * @param {String} roomId 削除する部屋のID
+   * @returns {void}
+   */
+  deleteRoom(roomId) {
+    delete this.rooms[roomId];
+    roomLogger.addContext('room', roomId);
+    roomLogger.info('───部屋終了───');
+  }
+
+  /**
    * 引数で指定されたsocketIDのユーザー情報を全ての部屋から削除する
    * ユーザーを削除した部屋が空の部屋だった場合は、部屋も削除する。
    *
@@ -18,11 +32,11 @@ class RoomMap {
    * @returns {void}
    */
   deleteUserFromAllRooms(socketId) {
-    for (let id in this.rooms) {
-      let room = this.rooms[id];
+    for (let roomId in this.rooms) {
+      let room = this.rooms[roomId];
       let userCount = room.deleteUser(socketId);
       if (userCount < 1) {
-        delete this.rooms[id];
+        this.deleteRoom(roomId);
       }
     }
   }
@@ -34,8 +48,8 @@ class RoomMap {
    */
   getAllRoomsInfo() {
     let roomsInfo = [];
-    for (let id in this.rooms) {
-      roomsInfo.push(this.rooms[id].getInfo());
+    for (let roomId in this.rooms) {
+      roomsInfo.push(this.rooms[roomId].getInfo());
     }
 
     return roomsInfo;
