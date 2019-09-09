@@ -62,7 +62,9 @@ class User {
     }
 
     userLogger.addContext('user', this.ip);
-    userLogger.info('名前変更: ' + this.name + ' -> ' + name);
+    userLogger.info('名前変更('
+                    + this.socketId + '): '
+                    + this.name + ' -> ' + name);
 
     this.name = name;
   }
