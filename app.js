@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
    * 接続イベント
    * ユーザーをマップに追加し、ヘッダーと部屋一覧の表示を更新する。
    */
-  let ip = utils.formatIp(socket.handshake.address);
+  let ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
   let newUser = new User(ip, socket.id);
   systemLogger.info(ip + ': ─── 接続 ─── ' + socket.id);
   userMap.addUser(newUser);
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
    * トリップを含めて名前を変更し、ヘッダーの表示を更新する。
    */
   socket.on('change_name', (name, trip) => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "change_name"');
 
     const user = userMap.users[socket.id];
@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
    *   message: 書き込み内容
    */
   socket.on('send_to_lounge', (message) => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "send_to_lounge"');
 
     const user = userMap.users[socket.id];
@@ -122,7 +122,7 @@ io.on('connection', (socket) => {
    * 部屋一覧の更新イベント
    */
   socket.on('reload_list', () => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "reload_list"');
 
     const user = userMap.users[socket.id];
@@ -144,7 +144,7 @@ io.on('connection', (socket) => {
    * オーナーを入室させ一覧の更新を行う。
    */
   socket.on('create_new_room', (name, desc) => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "create_new_room"');
 
     const user = userMap.users[socket.id];
@@ -187,7 +187,7 @@ io.on('connection', (socket) => {
    * 部屋の存在の検証後、参加者の情報を保存し参加人数の更新を送信する。
    */
   socket.on('join_room', (roomId) => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "join_room"');
 
     const user = userMap.users[socket.id];
@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
    *   message: 書き込み内容
    */
   socket.on('send_to_room', (roomId, message) => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "send_to_room"');
 
     const user = userMap.users[socket.id];
@@ -299,7 +299,7 @@ io.on('connection', (socket) => {
    * 部屋一覧を更新する。
    */
   socket.on('leave_room', (roomId) => {
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': 受信 ┬ "leave_room"');
 
     if (typeof roomId != 'string') {
@@ -333,7 +333,7 @@ io.on('connection', (socket) => {
     userMap.deleteUser(socket.id);
     socket.leaveAll();
 
-    const ip = utils.formatIp(socket.handshake.address);
+    const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
     systemLogger.info(ip + ': ─── 切断 ─── ' + socket.id + ' (' + reason + ')');
   });
 });
