@@ -12,7 +12,7 @@ const RoomMap = require('./modules/room/RoomMap.js');
 const roomMap = new RoomMap();
 
 const utils = require('./modules/utils.js');
-const systemLogger = require('./modules/logger/log.js').systemLogger;
+const systemLogger = require('./modules/logger/logger.js').systemLogger;
 
 const server = require('http').createServer();
 const io = require('socket.io')(server, { cookie: false });
