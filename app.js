@@ -282,7 +282,7 @@ io.on('connection', (socket) => {
 
     const post = user.getInfo();
     post.message = message;
-    room.addPost(post);
+    room.addPost(ip, post);
     post.no = room.posts.length;
     post.roomId = room.id;
     post.roomPower = room.power;
