@@ -3,6 +3,8 @@
 const crypto = require('crypto');
 
 const utils = require('../utils.js');
+const roomLogger = require('../logger/logger.js').roomLogger;
+const userLogger = require('../logger/logger.js').userLogger;
 
 class Room {
 
@@ -26,7 +28,9 @@ class Room {
 
     this.name = name;
     this.desc = desc;
-    this.users = [owner];
+
+    this.users = [];
+    this.addUser(owner);
 
     const sha512 = crypto.createHash('sha512');
     sha512.update(owner.socketId + name + Date.now());
@@ -36,6 +40,30 @@ class Room {
     this.part = 1;
     this.posts = [];
     this.power = 0;
+
+    roomLogger.addContext('room', this.id);
+    roomLogger.info('───部屋開始───: 部屋名-' + this.name
+                    + ' 作成者-' + owner.name + '(' + owner.ip + ')');
+  }
+
+  /**
+   * 入室時に利用。引数で渡されたユーザーをusersに追加する。
+   *
+   * @param {User} user この部屋に参加したユーザー
+   * @returns {void}
+   */
+  addUser(user) {
+    this.users.push(user);
+    roomLogger.addContext('room', this.id);
+    roomLogger.info('ユーザー追加: '
+                    + user.ip + ' - '
+                    + user.name + '('
+                    + user.socketId + ')');
+
+    userLogger.addContext('user', user.ip);
+    userLogger.info('部屋参加('
+                    + user.socketId + '): '
+                    + this.name);
   }
 
   /**
@@ -64,7 +92,13 @@ class Room {
   deleteUser(socketId) {
     for (let i = 0; i < this.users.length; i++) {
       if (this.users[i].socketId == socketId) {
+        roomLogger.addContext('room', this.id);
+        roomLogger.info('ユーザー削除: '
+                        + this.users[i].ip + ' - '
+                        + this.users[i].name + '('
+                        + this.users[i].socketId + ')');
         this.users.splice(i, 1);
+
         return this.users.length;
       }
     }
@@ -90,17 +124,20 @@ class Room {
   }
 
   /**
-   * この部屋に書き込みが行われた場合に呼び出す。
    * postsにユーザーの投稿を追加し、勢いの値を更新する。
    *
    * 投稿数(postsの要素数)が1000より大きくなった時は、
    * partを1増加し古い投稿は削除される。
    *
+   * @param {String} ip   書き込みを行ったユーザーのIPアドレス
    * @param {Object} post ユーザー情報とメッセージが格納されたオブジェクト
    * @returns {void}
    */
-  addPost(post) {
+  addPost(ip, post) {
     this.posts.push(post);
+    roomLogger.addContext('room', this.id);
+    roomLogger.info(post.name + '(' + ip + '): ' + post.message);
+
     this.power = utils.updatePower(this.created, this.posts.length);
 
     if (this.posts.length > 1000) {

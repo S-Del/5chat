@@ -216,7 +216,7 @@ io.on('connection', (socket) => {
 
     user.lastInput = Date.now();
 
-    room.users.push(user);
+    room.addUser(user);
     socket.join(roomId);
 
     socket.emit('accept_entry_room', roomId, room.getInfo());
