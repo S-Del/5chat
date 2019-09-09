@@ -70,7 +70,7 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
-### Node.js / socket.io / crypto
+### Node.js / socket.io / crypto / log4js
 - [Node.js入門](http://www.tohoho-web.com/ex/nodejs.html)
 - [【Node.js入門】requireの使い方とモジュールの作り方まとめ！ | 侍エンジニア塾ブログ（Samurai Blog） - プログラミング入門者向けサイト](https://www.sejuku.net/blog/77966)
 - [Socket.IO: the cross-browser WebSocket for realtime apps.](https://jxck.github.io/socket.io/)
@@ -80,6 +80,8 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [Node.js + Express + Socket.ioで簡易チャットを作ってみる - Qiita](https://qiita.com/riku-shiru/items/ffba3448f3aff152b6c1)
 - [Crypto | Node.js v12.7.0 Documentation](https://nodejs.org/api/crypto.html)
 - [Node.jsで暗号化とハッシュ - Qiita](https://qiita.com/_daisuke/items/990513e89ca169e9c4ad)
+- [log4js-node/docs at master · log4js-node/log4js-node · GitHub](https://github.com/log4js-node/log4js-node/tree/master/docs)
+- [log4js-node/multiFile.md at master · log4js-node/log4js-node · GitHub](https://github.com/log4js-node/log4js-node/blob/master/docs/multiFile.md)
 ### JavaScript
 - [overview | options | API jsPanel](https://jspanel.de/api.html)
 - [JavaScriptのclass - Qiita](https://qiita.com/jooex/items/981824f9fb494b448a08)
