@@ -314,7 +314,7 @@ io.on('connection', (socket) => {
     }
 
     if (room.deleteUser(socket.id) < 1) {
-      delete roomMap.rooms[roomId];
+      roomMap.deleteRoom(roomId);
     }
 
     socket.leave(roomId);
