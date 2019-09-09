@@ -23,13 +23,13 @@ class Lounge {
    * 投稿数(postsの要素数)が1000より大きくなった時は、
    * partを1増加し古い投稿は削除される。
    *
-   * @param {String} ip   ユーザーのIPアドレス
+   * @param {String} ip   書き込みを行ったユーザーのIPアドレス
    * @param {Object} post ユーザー情報とメッセージが格納されたオブジェクト
    * @returns {void}
    */
   addPost(ip, post) {
     this.posts.push(post);
-    loungeLogger.info(post.name + '(' + ip + ')' + ': ' + post.message);
+    loungeLogger.info(post.name + '(' + ip + '): ' + post.message);
 
     this.power = utils.updatePower(this.created, this.posts.length);
 
