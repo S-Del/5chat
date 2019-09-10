@@ -1,28 +1,27 @@
-# nodejs_chat(仮)
-![nodejs_chat](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)
-Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
-のシンプルなチャットを作成中  
-つくりかけごはん:rice:  
-  
-並行してCentOSやnginx、GitやGitHubなどの操作なども覚えたい。
+# ５ちゃっと
+![５ちゃっとgif画像](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)  
 
-## Requirement
+## 概要
+Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
+のシンプルな掲示板風チャット  
+できたてごはん:rice:  
+今のところは、
+- 名前変更
+- トリップ機能
+- ラウンジチャット
+- 部屋チャット
+等々の基本的な機能のみ備えています
+  
+CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクトを作成しました。
+
+## 必要なソフトウェア
+以下のソフトウェアをインストールして実行する
 - [nginx ](https://nginx.org/)([リポジトリ](https://github.com/nginx/nginx))
 - [Node.js](https://nodejs.org/ja/)
 - [socket.io ](https://socket.io/)([リポジトリ](https://github.com/socketio/socket.io))
+- [log4js (リポジトリ)](https://github.com/log4js-node/log4js-node)
 
-## Setup / Install
-### CentOSにnvm(バージョンマネージャ)からNode.jsをインストールし、npm(パッケージマネージャ)も導入。
-- [npm ](https://www.npmjs.com/)([リポジトリ](https://github.com/npm/cli))
-- [nvm (リポジトリ)](https://github.com/nvm-sh/nvm)
-1. `$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/vx.x.x/install.sh | bash` <- vx.x.xはnvmのページにて確認
-2. `$ source ~/.bashrc`
-3. `$ nvm --version`
-4. `$ nvm ls-remote`
-5. `$ nvm install stable`
-6. `$ node -v`
-7. `$ npm update -g npm`
-8. `$ npm -v`
+## インストール手順
 ### CentOSにnginx(Webサーバ)をインストールし、ポートフォワード。
 1. `$ sudo vi /etc/yum.repos.d/nginx.repo`  
     以下の内容を書き込む  
@@ -39,6 +38,17 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 5. `$ sudo firewall-cmd --add-service=http --zone=public --permanent`
 6. `$ sudo firewall-cmd --list-all --zone=public`
 7. `$ sudo firewall-cmd --reload`
+### CentOSにnvm(バージョンマネージャ)からNode.jsをインストールし、npm(パッケージマネージャ)も導入。
+- [npm ](https://www.npmjs.com/)([リポジトリ](https://github.com/npm/cli))
+- [nvm (リポジトリ)](https://github.com/nvm-sh/nvm)
+1. `$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/vx.x.x/install.sh | bash` <- vx.x.xはnvmのリポジトリページにて確認
+2. `$ source ~/.bashrc`
+3. `$ nvm --version`
+4. `$ nvm ls-remote`
+5. `$ nvm install stable`
+6. `$ node -v`
+7. `$ npm update -g npm`
+8. `$ npm -v`
 ### リポジトリのクローンとファイルの配置
 1. `$ cd <このアプリケーションを配置するディレクトリ>`
 2. `$ git clone https://github.com/drrr-py/nodejs_chat.git`
@@ -49,15 +59,16 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 ### npmからsocket.ioをインストール
 1. `$ npm init`
 2. `$ npm install socket.io`
+3. `$ npm install log4js`
 
-## Usage
+## サーバーの起動
 ### Node.jsとnginxを起動
 1. `$ node app.js`
 2. `$ sudo systemctl start nginx`  
 nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(リバースプロキシ)。
 
-## References
-参考にしたサイト等を列挙しています  
+## 参考にしたサイト
+順不同で列挙しています  
 これら以外に色々と読んでいますが、自分の疑問にクリティカルな解答を得られたものだったり、
 "個人的"に役に立ったと感じた記事等を列挙しています。  
 ※記事のタイトルやURLは変更されている可能性があります
