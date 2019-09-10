@@ -10,6 +10,7 @@ Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creat
 - トリップ機能
 - ラウンジチャット
 - 部屋チャット  
+  
 等々のチャットサイトとしての基本的な機能のみ備えています  
 独自機能などは考え中:thinking:  
   
