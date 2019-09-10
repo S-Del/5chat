@@ -6,7 +6,7 @@
  * <footer class="body__footer">
  *   <small class="copyright">
  *     (C) 2019 
- *     <a href="https://github.com/S-Del" target="_blank" class="copyright__link-github">
+ *     <a href="https://github.com/S-Del/5chat" target="_blank" class="copyright__link-github">
  *       S-Del
  *     </a>
  *   </small>
@@ -24,7 +24,7 @@ window.addEventListener("load", () => {
   footer.appendChild(small);
 
   let github = document.createElement("a");
-  github.href = "https://github.com/S-Del";
+  github.href = "https://github.com/S-Del/5chat";
   github.target = "_blank";
   github.className = "copyright__link-github";
   github.textContent = "S-Del";
