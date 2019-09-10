@@ -3,4 +3,4 @@ Disallow:/css/
 Disallow:/html/
 Disallow:/js/
 Disallow:/img/
-Sitemap:/sitemap.xml
+Sitemap:http://5chat.site/sitemap.xml
