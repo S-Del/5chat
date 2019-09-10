@@ -2,9 +2,11 @@
 ![５ちゃっとgif画像](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)  
 
 ## 概要
-Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
+Node.jsのsocket.ioを利用した
+[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
 のシンプルな掲示板風チャット  
 できたてごはん:rice:  
+
 今のところ、
 - 名前変更
 - トリップ機能
