@@ -257,9 +257,19 @@ window.addEventListener("load", () => {
               "人数: " + room.usersCount;
 
           // 人数更新
-          socket.on("update_nop", (num_of_people) => {
+          socket.on("notification_enter_or_leave", (newNotification) => {
             panel.content.getElementsByClassName("room-window__num-of-people")[0].textContent =
-                "人数: " + num_of_people;
+                "人数: " + newNotification.memberCount;
+            
+            let room_chat_list = panel.content.getElementsByClassName("room-window__room-chat-list")[0];
+            let new_member_message = document.createElement("li");
+            new_member_message.className = "room-chat-list__item--new-member";
+            new_member_message.textContent = "----- "
+                                             + newNotification.newMemberName
+                                             + " が"
+                                             + newNotification.memberAction
+                                             + "しました -----";
+            room_chat_list.insertBefore(new_member_message, room_chat_list.firstChild);
           });
 
           // 勢い表示

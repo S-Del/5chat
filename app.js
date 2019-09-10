@@ -184,7 +184,7 @@ io.on('connection', (socket) => {
 
   /*
    * 入室イベント
-   * 部屋の存在の検証後、参加者の情報を保存し参加人数の更新を送信する。
+   * 部屋の存在の検証後、参加者の情報を保存し、入室者があったことを部屋に通知する。
    */
   socket.on('join_room', (roomId) => {
     const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
@@ -222,8 +222,13 @@ io.on('connection', (socket) => {
     socket.emit('accept_entry_room', roomId, room.getInfo());
     systemLogger.info(ip + ': 送信 ├ "accept_entry_room"');
 
-    io.to(roomId).emit('update_nop', room.users.length);
-    systemLogger.info(room.name + ': 送信 ─ "update_nop"');
+    const newNotification = {
+      memberCount: room.users.length,
+      memberAction: '入室',
+      newMemberName: user.name
+    };
+    io.to(roomId).emit('notification_enter_or_leave', newNotification);
+    systemLogger.info(room.name + ': 送信 ─ "notification_enter_or_leave"');
   });
 
 
@@ -295,8 +300,9 @@ io.on('connection', (socket) => {
 
   /*
    * 退室イベント
-   * 引数のroomIdで指定された部屋から退室し、
-   * 部屋一覧を更新する。
+   * 引数のroomIdで指定された部屋から退室し、部屋一覧を更新する。
+   * 参加していた部屋が空になった場合は部屋の削除を行う。
+   * 空でない場合は退室者の通知を行う。
    */
   socket.on('leave_room', (roomId) => {
     const ip = utils.formatIp(socket.handshake.headers['x-real-ip']);
@@ -313,13 +319,23 @@ io.on('connection', (socket) => {
       return;
     }
 
-    if (room.deleteUser(socket.id) < 1) {
-      roomMap.deleteRoom(roomId);
-    }
-
     socket.leave(roomId);
     socket.emit('update_room_list', roomMap.getAllRoomsInfo());
     systemLogger.info(ip + ': 送信 └ "update_room_list"');
+
+    if (room.deleteUser(socket.id) < 1) {
+      roomMap.deleteRoom(roomId);
+      return;
+    }
+
+    const user = userMap.users[socket.id];
+    const newNotification = {
+      memberCount: room.users.length,
+      memberAction: '退室',
+      newMemberName: user.name
+    };
+    io.to(roomId).emit('notification_enter_or_leave', newNotification);
+    systemLogger.info(room.name + ': 送信 ─ "notification_enter_or_leave"');
   });
 
 
