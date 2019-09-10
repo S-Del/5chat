@@ -69,6 +69,7 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 - [Nginx設定の肝 - がとらぼ](https://gato.intaa.net/freebsd/memo/nginx_settings)
 - [CentOS 7 firewalld よく使うコマンド - Qiita](https://qiita.com/kenjjiijjii/items/1057af2dddc34022b09e)
 - [[Sy] nginx（リバースプロキシ）+node.jsでクライアントのIPがすべて127.0.0.1になってしまう場合の対処 | Syntax Error.](https://utano.jp/entry/2015/07/nginx-proxy-get-remote-address/)
+- [nginxでIPアドレス指定でのアクセスを弾く - YoshinoriN's Memento](https://yoshinorin.net/2018/06/05/nginx-block-ip-access/)
 - [CentOS7でタイムゾーンの変更をしました。 - Qiita](https://qiita.com/pugiemonn/items/bfcbfaa3caae614bb076)
 - [CentOS7 に nvm で Node.js をインストールする - Qiita](https://qiita.com/tomy0610/items/6631a04c0e6ea8621b21)
 - [メモ：CentOS7にNode.jsをNVMでインストール - Qiita](https://qiita.com/ysti/items/0c79d0d5e998e5861be2)
