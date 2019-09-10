@@ -5,12 +5,13 @@
 Node.jsのsocket.ioを利用した[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
 のシンプルな掲示板風チャット  
 できたてごはん:rice:  
-今のところは、
+今のところ、
 - 名前変更
 - トリップ機能
 - ラウンジチャット
-- 部屋チャット
-等々の基本的な機能のみ備えています
+- 部屋チャット  
+等々のチャットサイトとしての基本的な機能のみ備えています  
+独自機能などは考え中:thinking:  
   
 CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクトを作成しました。
 
