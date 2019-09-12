@@ -1,11 +1,12 @@
-# ５ちゃっと
+# [５ちゃっと](http://5chat.site)
 ![５ちゃっとgif画像](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)  
 
 ## 概要
-Node.jsのsocket.ioを利用した
+Node.js の socket.io を利用した
 [SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
 のシンプルな掲示板風チャット  
 できたてごはん:rice:  
+[５ちゃっと](http://5chat.site)にアクセスすると利用できます  
 
 今のところ、
 - 名前変更
@@ -16,7 +17,8 @@ Node.jsのsocket.ioを利用した
 等々のチャットサイトとしての基本的な機能のみ備えています  
 独自機能などは考え中:thinking:  
   
-CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクトを作成しました。
+CentOS や nginx、Git や GitHub などの勉強を兼ねてこのプロジェクトを作成しました。  
+このリポジトリでは v1.0(初リリース時) を公開しています。(以降の新しいバージョンの公開予定はありません)
 
 ## 必要なソフトウェア
 以下のソフトウェアをインストールして実行する
@@ -26,7 +28,7 @@ CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクト
 - [log4js (リポジトリ)](https://github.com/log4js-node/log4js-node)
 
 ## インストール手順
-### CentOSにnginx(Webサーバ)をインストールし、ポートフォワード。
+### CentOS に nginx(Webサーバ) をインストールし、ポートフォワード。
 1. `$ sudo vi /etc/yum.repos.d/nginx.repo`  
     以下の内容を書き込む  
     ```repo:nginx.repo
@@ -42,7 +44,7 @@ CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクト
 5. `$ sudo firewall-cmd --add-service=http --zone=public --permanent`
 6. `$ sudo firewall-cmd --list-all --zone=public`
 7. `$ sudo firewall-cmd --reload`
-### CentOSにnvm(バージョンマネージャ)からNode.jsをインストールし、npm(パッケージマネージャ)も導入。
+### CentOS に nvm(バージョンマネージャ) から Node.js をインストールし、npm(パッケージマネージャ) も導入。
 - [npm ](https://www.npmjs.com/)([リポジトリ](https://github.com/npm/cli))
 - [nvm (リポジトリ)](https://github.com/nvm-sh/nvm)
 1. `$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/vx.x.x/install.sh | bash` <- vx.x.xはnvmのリポジトリページにて確認
@@ -53,6 +55,10 @@ CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクト
 6. `$ node -v`
 7. `$ npm update -g npm`
 8. `$ npm -v`
+### npm から socket.io と log4js をインストール
+1. `$ npm init`
+2. `$ npm install socket.io`
+3. `$ npm install log4js`
 ### リポジトリのクローンとファイルの配置
 1. `$ cd <このアプリケーションを配置するディレクトリ>`
 2. `$ git clone https://github.com/drrr-py/nodejs_chat.git`
@@ -60,13 +66,9 @@ CentOSやnginx、GitやGitHubなどの勉強を兼ねてこのプロジェクト
 4. `$ sudo mkdir /var/www/` <- wwwディレクトリが存在するならば不要
 5. `$ sudo cp -r public/ /var/www/`
 6. `$ sudo cp chat_node.conf /etc/nginx/conf.d/` <- /var/www/以外に配置したならばlocationのrootを編集する
-### npmからsocket.ioをインストール
-1. `$ npm init`
-2. `$ npm install socket.io`
-3. `$ npm install log4js`
 
 ## サーバーの起動
-### Node.jsとnginxを起動
+### Node.js と nginx を起動
 1. `$ node app.js`
 2. `$ sudo systemctl start nginx`  
 nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(リバースプロキシ)。
@@ -75,7 +77,7 @@ nginxは静的ファイルを提供し、socket.ioの処理はNode.jsへ流す(�
 順不同で列挙しています  
 これら以外に色々と読んでいますが、自分の疑問にクリティカルな解答を得られたものだったり、
 "個人的"に役に立ったと感じた記事等を列挙しています。  
-※記事のタイトルやURLは変更されている可能性があります
+※記事のタイトルや URL は変更されている可能性があります
 ### CentOS7 / nginx
 - [CentOS7 に nginx導入 - Qiita](https://qiita.com/MuuKojima/items/afc0ad8309ba9c5ed5ee)
 - [Using NGINX with Node.js and Socket.IO, the WebSocket API](https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/)
