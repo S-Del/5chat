@@ -2,9 +2,7 @@
 ![５ちゃっとgif画像](https://github.com/S-Del/github_imgs/blob/master/nodejs_chat/chat540.gif)  
 
 ## 概要
-Node.js の socket.io を利用した
-[SPA](https://digitalidentity.co.jp/blog/creative/about-single-page-application.html)
-のシンプルな掲示板風チャット  
+Node.js の socket.io を利用したシンプルな掲示板風チャット  
 できたてごはん:rice:  
 [５ちゃっと](http://5chat.site)にアクセスすると利用できます  
 
@@ -16,9 +14,13 @@ Node.js の socket.io を利用した
   
 等々のチャットサイトとしての基本的な機能のみ備えています  
 独自機能などは考え中:thinking:  
-  
-CentOS や nginx、Git や GitHub などの勉強を兼ねてこのプロジェクトを作成しました。  
-このリポジトリでは v1.0(初リリース時) を公開しています。(以降の新しいバージョンの公開予定はありません)
+
+## 作った経緯
+JavaScriptをあまり触ったことが無かったので勉強のために作成し、Node.jsを利用することでサーバーサイドもJavaScriptで記述できました。  
+また、CentOS や nginx、Git や GitHub などの勉強も兼ねてこのプロジェクトを作成しました。  
+
+## このリポジトリについて
+基本的には [GitLab](https://gitlab.com/) でリポジトリ管理しているため、この GitHub では v1.0時点のソースを公開しています。(今後このリポジトリでの新しいバージョンの公開予定はありません)
 
 ## 必要なソフトウェア
 以下のソフトウェアをインストールして実行する
